@@ -1,0 +1,101 @@
+|Aula1
+CLOCK_50 => ~NO_FANOUT~
+KEY[0] => registradorgenerico:REG1.CLK
+KEY[1] => registradorgenerico:REG1.RST
+KEY[1] => LEDR[7].DATAIN
+KEY[2] => registradorgenerico:REG1.ENABLE
+KEY[2] => LEDR[8].DATAIN
+KEY[3] => ~NO_FANOUT~
+SW[0] => muxgenerico2x1:MUX1.entradaA_MUX[0]
+SW[1] => muxgenerico2x1:MUX1.entradaA_MUX[1]
+SW[2] => muxgenerico2x1:MUX1.entradaA_MUX[2]
+SW[3] => muxgenerico2x1:MUX1.entradaA_MUX[3]
+SW[4] => ulasomasub:ULA1.seletor
+SW[4] => LEDR[6].DATAIN
+SW[5] => muxgenerico2x1:MUX1.seletor_MUX
+SW[5] => LEDR[9].DATAIN
+SW[6] => ulasomasub:ULA1.entradaB[0]
+SW[7] => ulasomasub:ULA1.entradaB[1]
+SW[8] => ulasomasub:ULA1.entradaB[2]
+SW[9] => ulasomasub:ULA1.entradaB[3]
+LEDR[0] << registradorgenerico:REG1.DOUT[0]
+LEDR[1] << registradorgenerico:REG1.DOUT[1]
+LEDR[2] << registradorgenerico:REG1.DOUT[2]
+LEDR[3] << registradorgenerico:REG1.DOUT[3]
+LEDR[4] << <GND>
+LEDR[5] << <GND>
+LEDR[6] << SW[4].DB_MAX_OUTPUT_PORT_TYPE
+LEDR[7] << KEY[1].DB_MAX_OUTPUT_PORT_TYPE
+LEDR[8] << KEY[2].DB_MAX_OUTPUT_PORT_TYPE
+LEDR[9] << SW[5].DB_MAX_OUTPUT_PORT_TYPE
+
+
+|Aula1|muxGenerico2x1:MUX1
+entradaA_MUX[0] => saida_MUX.DATAA
+entradaA_MUX[1] => saida_MUX.DATAA
+entradaA_MUX[2] => saida_MUX.DATAA
+entradaA_MUX[3] => saida_MUX.DATAA
+entradaB_MUX[0] => saida_MUX.DATAB
+entradaB_MUX[1] => saida_MUX.DATAB
+entradaB_MUX[2] => saida_MUX.DATAB
+entradaB_MUX[3] => saida_MUX.DATAB
+seletor_MUX => saida_MUX.OUTPUTSELECT
+seletor_MUX => saida_MUX.OUTPUTSELECT
+seletor_MUX => saida_MUX.OUTPUTSELECT
+seletor_MUX => saida_MUX.OUTPUTSELECT
+saida_MUX[0] <= saida_MUX.DB_MAX_OUTPUT_PORT_TYPE
+saida_MUX[1] <= saida_MUX.DB_MAX_OUTPUT_PORT_TYPE
+saida_MUX[2] <= saida_MUX.DB_MAX_OUTPUT_PORT_TYPE
+saida_MUX[3] <= saida_MUX.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|Aula1|registradorGenerico:REG1
+DIN[0] => DOUT[0]~reg0.DATAIN
+DIN[1] => DOUT[1]~reg0.DATAIN
+DIN[2] => DOUT[2]~reg0.DATAIN
+DIN[3] => DOUT[3]~reg0.DATAIN
+DOUT[0] <= DOUT[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+DOUT[1] <= DOUT[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+DOUT[2] <= DOUT[2]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+DOUT[3] <= DOUT[3]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+ENABLE => DOUT[3]~reg0.ENA
+ENABLE => DOUT[2]~reg0.ENA
+ENABLE => DOUT[1]~reg0.ENA
+ENABLE => DOUT[0]~reg0.ENA
+CLK => DOUT[0]~reg0.CLK
+CLK => DOUT[1]~reg0.CLK
+CLK => DOUT[2]~reg0.CLK
+CLK => DOUT[3]~reg0.CLK
+RST => DOUT[0]~reg0.ACLR
+RST => DOUT[1]~reg0.ACLR
+RST => DOUT[2]~reg0.ACLR
+RST => DOUT[3]~reg0.ACLR
+
+
+|Aula1|ULASomaSub:ULA1
+entradaA[0] => Add0.IN4
+entradaA[0] => Add1.IN8
+entradaA[1] => Add0.IN3
+entradaA[1] => Add1.IN7
+entradaA[2] => Add0.IN2
+entradaA[2] => Add1.IN6
+entradaA[3] => Add0.IN1
+entradaA[3] => Add1.IN5
+entradaB[0] => Add0.IN8
+entradaB[0] => Add1.IN4
+entradaB[1] => Add0.IN7
+entradaB[1] => Add1.IN3
+entradaB[2] => Add0.IN6
+entradaB[2] => Add1.IN2
+entradaB[3] => Add0.IN5
+entradaB[3] => Add1.IN1
+seletor => saida.OUTPUTSELECT
+seletor => saida.OUTPUTSELECT
+seletor => saida.OUTPUTSELECT
+seletor => saida.OUTPUTSELECT
+saida[0] <= saida.DB_MAX_OUTPUT_PORT_TYPE
+saida[1] <= saida.DB_MAX_OUTPUT_PORT_TYPE
+saida[2] <= saida.DB_MAX_OUTPUT_PORT_TYPE
+saida[3] <= saida.DB_MAX_OUTPUT_PORT_TYPE
+
+

@@ -1,0 +1,20 @@
+Fitter Status : Successful - Wed Aug 16 11:55:52 2023
+Quartus Prime Version : 20.1.0 Build 711 06/05/2020 SJ Lite Edition
+Revision Name : activity01
+Top-level Entity Name : Aula1
+Family : Cyclone V
+Device : 5CEBA4F23C7
+Timing Models : Final
+Logic utilization (in ALMs) : 3 / 18,480 ( < 1 % )
+Total registers : 4
+Total pins : 25 / 224 ( 11 % )
+Total virtual pins : 0
+Total block memory bits : 0 / 3,153,920 ( 0 % )
+Total RAM Blocks : 0 / 308 ( 0 % )
+Total DSP Blocks : 0 / 66 ( 0 % )
+Total HSSI RX PCSs : 0
+Total HSSI PMA RX Deserializers : 0
+Total HSSI TX PCSs : 0
+Total HSSI PMA TX Serializers : 0
+Total PLLs : 0 / 4 ( 0 % )
+Total DLLs : 0 / 4 ( 0 % )

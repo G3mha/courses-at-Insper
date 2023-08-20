@@ -1,0 +1,21 @@
+Quartus Prime Archive log --	C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class02/activity01 - data stream/activity01.qarlog
+
+Archive:	C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class02/activity01 - data stream/activity01.qar
+Date:		Fri Aug 18 14:53:14 2023
+Quartus Prime		20.1.0 Build 711 06/05/2020 SJ Lite Edition
+
+	=========== Files Selected: ===========
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class02/activity01 - data stream/Aula1.vhd
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class02/activity01 - data stream/ULASomaSub.vhd
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class02/activity01 - data stream/Waveform.vwf
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class02/activity01 - data stream/Waveform1.vwf
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class02/activity01 - data stream/activity01.qpf
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class02/activity01 - data stream/activity01.qsf
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class02/activity01 - data stream/edgeDetector.vhd
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class02/activity01 - data stream/muxGenerico2x1.vhd
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class02/activity01 - data stream/registradorGenerico.vhd
+c:/intelfpga_lite/20.1/quartus/bin64/assignment_defaults.qdf
+	======= Total: 10 files to archive =======
+
+	================ Status: ===============
+All files archived successfully.
