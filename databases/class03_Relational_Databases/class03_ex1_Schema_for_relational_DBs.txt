@@ -1,0 +1,15 @@
+# Esquema de banco de dados relacional
+				                                                  chave
+				                                                    |
+				                                                    v
+1. Bicho de estimação(Espécie, Raça, Gênero, Data_de_Nascimento, Nome, Is_Docile, , ID)
+
+				                 chave
+				                   |
+				                   v
+2. Aluno do curso(Nome, Idade, Gênero, Curso, Matrícula, Semestre)
+
+				 chave
+				   |
+				   v
+3. Cardápio do restaurante(Tipo, Nome, Descrição, Preço, Is_Vegan, Is_Veggie)
