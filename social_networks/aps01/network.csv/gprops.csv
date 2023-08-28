@@ -1,0 +1,73 @@
+# prop_name, value
+name,linux
+description,A network of Linux (v3.16) source code file inclusion. Nodes represent source files and a directed edge indicates if one file includes another.
+citation,"['J. Kunegis, “Linux.\" KONECT, the Koblenz Network Collection (2016), http://konect.cc/networks/linux']"
+url,http://konect.cc/networks/linux
+tags,"['Technological', 'Software', 'Unweighted']"
+konect_meta,"name:  Linux sources
+code:  LX
+url:  https://www.kernel.org/
+category:  Software
+description:  File–file inclusion
+long-description:  This is the network of Linux source code files, with directed edges denoting that they include each other.  The network is based on Linux version 3.16.  
+entity-names:  file
+relationship-names:  inclusion
+extr:  linux
+timeiso:  2014
+tags:  #regenerate #loop
+"
+konect_readme,"Linux sources network, part of the Koblenz Network Collection
+===========================================================================
+
+This directory contains the TSV and related files of the linux network: This is the network of Linux source code files, with directed edges denoting that they include each other.  The network is based on Linux version 3.16.  The network is acyclic. 
+
+
+More information about the network is provided here: 
+http://konect.cc/networks/linux
+
+Files: 
+    meta.linux -- Metadata about the network 
+    out.linux -- The adjacency matrix of the network in whitespace-separated values format, with one edge per line
+      The meaning of the columns in out.linux are: 
+        First column: ID of from node 
+        Second column: ID of to node
+        Third column (if present): weight or multiplicity of edge
+        Fourth column (if present):  timestamp of edges Unix time
+
+
+Use the following References for citation:
+
+@MISC{konect:2017:linux,
+    title = {Linux sources network dataset -- {KONECT}},
+    month = oct,
+    year = {2017},
+    url = {http://konect.cc/networks/linux}
+}
+
+
+@inproceedings{konect,
+	title = {{KONECT} -- {The} {Koblenz} {Network} {Collection}},
+	author = {Jérôme Kunegis},
+	year = {2013},
+	booktitle = {Proc. Int. Conf. on World Wide Web Companion},
+	pages = {1343--1350},
+	url = {http://dl.acm.org/citation.cfm?id=2488173},
+	url_presentation = {https://www.slideshare.net/kunegis/presentationwow},
+	url_web = {http://konect.cc/},
+	url_citations = {https://scholar.google.com/scholar?cites=7174338004474749050},
+}
+
+@inproceedings{konect,
+	title = {{KONECT} -- {The} {Koblenz} {Network} {Collection}},
+	author = {Jérôme Kunegis},
+	year = {2013},
+	booktitle = {Proc. Int. Conf. on World Wide Web Companion},
+	pages = {1343--1350},
+	url = {http://dl.acm.org/citation.cfm?id=2488173},
+	url_presentation = {https://www.slideshare.net/kunegis/presentationwow},
+	url_web = {http://konect.cc/},
+	url_citations = {https://scholar.google.com/scholar?cites=7174338004474749050},
+}
+
+
+"
