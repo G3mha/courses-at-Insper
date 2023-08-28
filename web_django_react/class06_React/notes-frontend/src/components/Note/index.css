@@ -1,0 +1,27 @@
+.card {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100px;
+    margin: 10px 5px;
+    padding: 10px;
+    box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);
+    border-radius: 5px;
+    font-family: "Permanent Marker", cursive;
+  }
+  
+  .card-title {
+    font-weight: bold;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+  
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    color: #4c4c4c;
+  }

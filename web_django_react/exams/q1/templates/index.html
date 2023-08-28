@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Get-it</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
+      integrity="sha512-NmLkDIU1C/C88wi324HBc+S2kLhi08PN5GDeUVVVC/BVt/9Izdsc9SVeVfA1UZbY3sHUlDSyRXhCzHfr6hmPPw=="
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&family=Permanent+Marker&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/getit.css" />
+  </head>
+  <body>
+    <div class="appbar">
+      <img src="img/logo-getit.png" class="logo" />
+      <span class="subtitle">Como o Post-it, mas com outro verbo</span>
+      <div class="note-quantity">{quantity}</div>
+    </div>
+    <main class="container">
+      <form class="form-card" method="post">
+        <input
+          class="form-card-title"
+          type="text"
+          name="titulo"
+          placeholder="Título"
+        />
+        <textarea
+          class="autoresize"
+          name="detalhes"
+          placeholder="Digite o conteúdo..."
+        ></textarea>
+        <button class="btn" type="submit">Criar</button>
+      </form>
+      <div class="card-container">{notes}</div>
+    </main>
+    <script type="text/javascript" src="js/getit.js"></script>
+  </body>
+</html>

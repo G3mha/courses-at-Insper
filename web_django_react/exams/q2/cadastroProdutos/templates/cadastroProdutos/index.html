@@ -1,0 +1,31 @@
+{% extends "cadastroProdutos/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<form method="post">
+  {% csrf_token %}
+  <label for="name">Nome</label>
+  <input id="name" type="text" name="name" />
+  <label for="quantity">Quantidade</label>
+  <input id="quantity" name="quantity" />
+  <input type="submit" name="cadastrar" value="Cadastrar" />
+</form>
+
+<ul>
+    {% for cadastro in cadastroProdutos %}
+        <li>
+            {{ cadastro.name }} - {{ cadastro.quantity }}
+            <form method="post" id="comprar">
+                {% csrf_token %}
+                <input type="hidden" name="name" value="{{ cadastro.name }}" />
+                <input type="hidden" name="quantity" value="{{ cadastro.quantity }}" />
+                <input type="submit" name="comprar" value="Comprar +" />
+            </form>
+        </li>
+        <br />
+    {% empty %}
+        <li>Nenhum produto disponível por enquanto.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
