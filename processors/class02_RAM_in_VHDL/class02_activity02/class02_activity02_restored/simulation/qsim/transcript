@@ -1,0 +1,11 @@
+# do class02_activity02.do
+# ** Warning: (vlib-34) Library already exists at "work".
+# Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 10:55:51 on Aug 29,2023
+# vcom -work work class02_activity02.vho 
+# ** Error: (vcom-7) Failed to open design unit file "class02_activity02.vho" in read mode.
+# No such file or directory. (errno = ENOENT)
+# End time: 10:55:51 on Aug 29,2023, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# ** Error: c:/intelfpga_lite/20.1/modelsim_ase/win32aloem/vcom failed.
+# Executing ONERROR command at macro ./class02_activity02.do line 3

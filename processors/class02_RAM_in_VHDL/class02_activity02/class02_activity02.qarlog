@@ -1,0 +1,22 @@
+Quartus Prime Archive log --	C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class02_RAM_in_VHDL/class02_activity02/class02_activity02.qarlog
+
+Archive:	C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class02_RAM_in_VHDL/class02_activity02/class02_activity02.qar
+Date:		Tue Aug 29 10:58:37 2023
+Quartus Prime		20.1.0 Build 711 06/05/2020 SJ Lite Edition
+
+	=========== Files Selected: ===========
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class02_RAM_in_VHDL/class02_activity02/ULASomaSub.vhd
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class02_RAM_in_VHDL/class02_activity02/Waveform.vwf
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class02_RAM_in_VHDL/class02_activity02/class02_activity02.qpf
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class02_RAM_in_VHDL/class02_activity02/class02_activity02.qsf
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class02_RAM_in_VHDL/class02_activity02/edgeDetector.vhd
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class02_RAM_in_VHDL/class02_activity02/memoriaROM.vhd
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class02_RAM_in_VHDL/class02_activity02/muxGenerico2x1.vhd
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class02_RAM_in_VHDL/class02_activity02/registradorGenerico.vhd
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class02_RAM_in_VHDL/class02_activity02/somaConstante.vhd
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class02_RAM_in_VHDL/class02_activity02/topLevel.vhd
+c:/intelfpga_lite/20.1/quartus/bin64/assignment_defaults.qdf
+	======= Total: 11 files to archive =======
+
+	================ Status: ===============
+All files archived successfully.

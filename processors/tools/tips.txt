@@ -1,0 +1,9 @@
+bit menos significativo está sempre a direita!
+               |
+               v 
+  (D3)(D2)(D1)(D0)
+
+
+Portanto, os sinais de controle serão:
+
+(Operação)(Reset A)(Habilita A)(Sel MUX)
