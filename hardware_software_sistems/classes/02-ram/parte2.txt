@@ -1,0 +1,10 @@
+Variáveis globais
+
+- global_array -> 4 * 5
+- *global_str -> 8
+- global_var -> 8
+- global_unused_array -> 8 * 100
+
+funções declaradas
+
+- main

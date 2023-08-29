@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>AF SisHard 23-1</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">AF SisHard 23-1</h1>
+</header>
+<!-- markdown_py README.md > README.html -->
+<!-- pandoc README.md -f markdown -t html -s -o README.html --metadata title="AF SisHard 23-1" -->
+<h1 id="prova-final---sistemas-hardware-software">Prova Final - Sistemas Hardware-Software</h1>
+<p>Neste prova iremos avaliar os objetivos de aprendizagem trabalhados na segunda metade do curso. Cada pasta contém os arquivos de uma questão da prova, incluindo arquivos <code>.c</code> para vocês colocarem suas soluções.</p>
+<h2 id="regras-da-prova">Regras da prova</h2>
+<ol type="1">
+<li>A prova é individual. São permitidas consultas a todos os materiais de aula, incluindo suas soluções a exercícios de aula e labs.</li>
+<li>Não é permitido consultar outras pessoas, sejam do Insper ou não, durante a prova.</li>
+<li>Esta prova também avalia fluência nos conceitos estudados.</li>
+<li>A prova terá duração de <code>três horas</code>, com início às <strong>13:30</strong> e término às <strong>16:30</strong>. Desconsidere o tempo do proctorio.</li>
+<li>A avaliação da sua prova deverá ser feita pelos testes no github. Além disso, é obrigatório enviar o zip da prova no Blackboard.</li>
+<li>O item de entrega permite múltiplas tentativas. Sempre que terminar uma questão faça uma entrega completa. Isto visa minimizar problemas com entregas atrasadas.</li>
+<li>Sua entrega consiste na pasta da prova inteira. Rezipe e entregue via Blackboard.</li>
+<li>A chamada na prova será pela inicialização do proctorio e assinatura. Não saia sem assinar a lista.</li>
+<li>Cada questão possui um arquivo específico para resposta. Não altere o nome destes arquivos.</li>
+<li>Não serão tiradas dúvidas do conteúdo durante a prova.</li>
+<li>Fica proibido o uso de ferramentas de geração de código como o copilot. Sujeito a código de ética.</li>
+</ol>
+<h2 id="antes-de-começar-a-resolver">Antes de começar a resolver</h2>
+<p>Cole os arquivos desta prova em seu repositório de entregas da disciplina, tendo estes caminhos a partir da raiz:</p>
+<ul>
+<li><code>provas/af/q1</code></li>
+<li><code>provas/af/q2</code></li>
+<li><code>provas/af/q3</code></li>
+<li><code>provas/af/q4</code></li>
+</ul>
+<p>Vamos utilizar o servidor para receber a nota em cada questão. Será necessário soltar releases! A correção será sequencial, ao primeiro problema, irá parar (ou seja, precisa resolver os problemas anteriores para que os próximos critérios sejam considerados).</p>
+<p>As issues já terão a sua nota no exercício. Como de costume, um <strong>pass</strong> significa que o servidor não encontrou problemas em sua solução (não que ela esteja correta!). Teremos uma fase de validação extra pelos professores, envolvendo, por exemplo:</p>
+<ul>
+<li>O uso de funções não permitidas poderá resultar na anulação da nota no exercício.</li>
+<li>Os testes pegam apenas alguns casos, garanta que sua solução funciona conforme o requisitado no enunciado.</li>
+<li>Tentativas de burlar os testes resultarão em zero na prova.</li>
+<li>Se passou mas está errado, a nota será desconsiderada.</li>
+</ul>
+<hr />
+<h2 id="questão-1-25">Questão 1 (2,5)</h2>
+<style scoped>section { font-size: 20px; }</style>
+<p>A figura <em>q1/sincronizacao.png</em> ilustra as relações de dependência entre as partes das funções <code>thread1, thread2, thread3</code> e <code>thread4</code>, mostrando que algumas delas poderiam ser feitas de maneira concorrente.</p>
+<p><img src="q1/sincronizacao.png" /></p>
+<p>Seu trabalho nesta questão será:</p>
+<ol type="1">
+<li>criar threads para execução concorrente das funções. (<strong>40% da nota</strong>).</li>
+<li>usar semáforos para que a ordem dos prints das partes das tarefas respeitem o diagrama da figura. (<strong>60% da nota</strong>).</li>
+</ol>
+<p><strong>OBS</strong>:</p>
+<ul>
+<li><p>Você não deve introduzir novas dependências. Ou seja, se seu programa criar relações de dependência além das da figura seu trabalho valerá no máximo 50%.</p></li>
+<li><p>Não altere os <code>printf</code> existentes, nem adicione novos.</p></li>
+</ul>
+<p><strong>Como descrubro minha nota?</strong>:</p>
+<p>Será pelo corretor automático. Suba as alterações para o git e solte uma release:</p>
+<pre><code>git tag -a afq1.x.y -m &quot;enviando a afq1.x.y&quot;
+git push origin afq1.x.y</code></pre>
+<hr />
+<h2 id="questão-2-25">Questão 2 (2,5)</h2>
+<p>Neste exercício, o programa <code>q2</code> recebe como argumento da linha de comando <strong>o nome de um arquivo de imagem</strong> e um <strong>preço</strong> por chamada de API. Sua tarefa é chamar outro programa, que simula um reconhecimento de textos contidos na imagem, e calcular o gasto total com as chamadas da API.</p>
+<p>Exemplo de como seu programa <code>q2</code> será chamado:</p>
+<pre><code>./q2 cnh_do_joao.png 0.1</code></pre>
+<p>Uma tarefa comum em programação de sistemas é <strong>integrar com outros programas</strong> instalados. Assim sendo, a <strong>imagem</strong> (no exemplo é <code>cnh_do_joao.png</code>) deverá ser examinada pelo programa <code>ocr</code>, disponível de forma compilada para x86 na pasta da questão.</p>
+<p>O executável <code>ocr</code> tem a chamada no padrão <code>./ocr arquivo 0</code> onde <code>arquivo</code> representa um arquivo de imagem e <code>0</code> representa quantas vezes você já tentou processar este arquivo. Assim sendo, na primeira vez que o <code>ocr</code> é chamado para processar o arquivo <code>jose.jpg</code> devemos utilizar <code>./ocr jose.jpg 0</code>. Caso o processo falhe, então tentamos novamente usando <code>./ocr jose.jpg 1</code>. Se falhar mais uma vez, o uso deve ser <code>./ocr jose.jpg 2</code> e assim sucessivamente até que ele saia com sucesso.</p>
+<p>O programa <code>ocr</code> retorna <code>0</code> quando a chamada é feita com sucesso, ou <code>-1</code> quando recebe uma chamada errada (quantidade incorreta de argumentos). Você não precisa se preocupar com o que de fato o programa <code>ocr</code> faz, apenas considere que a ele deve processar a imagem e retornar um resultado (a imagem sequer deve existir, é tudo simulado).</p>
+<p>Entretanto, um problema é que as vezes as chamadas ao programa <code>ocr</code> são interrompidas devido a sinais recebidos (ele foi programado por um péssimo programador). Assim, você deve trabalhar no arquivo <code>q2.c</code> para:</p>
+<ul>
+<li>Criar um processo filho e nele, executar o <code>ocr</code>, passando para o <code>ocr</code> o primeiro argumento recebido pelo executável <code>q2</code> (que é a imagem) e um inteiro com a quantidade de vezes que você já tentou processar esta imagem (na primeira vez, passe <code>0</code>, se tiver sinal, passe <code>1</code>).</li>
+<li>No proceso pai:
+<ul>
+<li>Caso o processo filho TENHA finalizado normalmente, exiba a mensagem <code>OCR TERMINOU NORMALMENTE!\n</code> (<strong>10% da nota</strong>).</li>
+<li>Caso o processo filho TENHA SIDO sinalizado, exiba a mensagem <code>OCR TERMINOU COM SINAL %s\n</code>, substituindo <code>%s</code> pelo texto que descreve o sinal. (<strong>40% da nota</strong>)</li>
+<li>Repita a chamada do <code>ocr</code> (primeiro passo) até que ele finalize normalmente. No final, imprima o gasto total (double) no padrão <code>TIVEMOS UM GASTO TOTAL DE %.2f\n</code>. Aqui, lembre de atualizar em mais um a quantidade de vezes que você já tentou processar esta imagem (<strong>50% da nota</strong>)</li>
+</ul></li>
+</ul>
+<p><strong>Atenção</strong>:</p>
+<ul>
+<li><p>Imprima EXATAMENTE conforme solicitado, sem deixar espaços antes ou depois das frases. Dê apenas um <code>\n</code> ao final. Por via das dúvidas, utilize <code>fflush(stdout)</code>.</p></li>
+<li><p>O gasto total é calculado pela <strong>quantidade de vezes que é preciso chamar</strong> o <code>ocr</code> multiplicada pelo <strong>preço</strong> por chamada de API.</p></li>
+<li><p>Trabalhe no arquivo <code>q2.c</code> e complete as partes faltantes</p></li>
+<li><p>Compile com <code>gcc -g q2.c -o q2</code></p></li>
+<li><p>Deixei um arquivo executável <code>q2_ref</code> que exemplifica o comportamento desejado do programa final (é um gabarito!). Teste, por exemplo, com <code>./q2_ref escrita.png 2.5</code> e utilize como referência!</p></li>
+<li><p>O executável <code>ocr</code> tem comportamento determinístico. Se você programar corretamente e passar os argumentos corretamente para o <code>ocr</code>, deve obter as mesmas saídas que o <code>q2_ref</code> para as mesmas entradas.</p></li>
+</ul>
+<p><strong>Nesta questão você deverá usar as funções de gerenciamento de processos e chamada de executáveis vistas em aula. Você não pode, por exemplo, usar <code>system</code>.</strong></p>
+<p><strong>Como descrubro minha nota?</strong>:</p>
+<p>Será pelo corretor automático. Suba as alterações para o git e solte uma release:</p>
+<pre><code>git tag -a afq2.x.y -m &quot;enviando a afq2.x.y&quot;
+git push origin afq2.x.y</code></pre>
+<hr />
+<h2 id="questão-3-25">Questão 3 (2,5)</h2>
+<p>Abra o arquivo <code>q3.c</code>!</p>
+<p>Esta aplicação simula o processamento sequencial de diversas linhas, onde cada linha representa uma tarefa.</p>
+<p>Uma nova funcionalidade foi requisitada nesta aplicação e você é o responsável por implementá-la: queremos poder guardar o status atual do processamento em algum arquivo para poder continuar o processamento uma outra hora.</p>
+<p>Seu objetivo neste exercício:</p>
+<ul>
+<li><p>Ao receber um sinal <strong>SIGTERM</strong> ou <strong>SIGINT</strong>, antes de finalizar, criar um arquivo <code>q3_status.txt</code> contendo em seu conteúdo informações sobre a última linha processada seguida de um <code>'\n'</code>. Ex de conteúdo do arquivo a ser gerado: <code>LINHA_PROC=15</code>. (<strong>60% da nota pelo registro do handler e pela mensagem no arquivo</strong>)</p></li>
+<li><p>O programa sai com o mesmo sinal que recebeu. (<strong>20% da nota</strong>)</p></li>
+<li><p>Se o arquivo já existir, ele deve ser sobrescrito. (<strong>20% da nota</strong>)</p></li>
+</ul>
+<p><strong>OBS</strong>:</p>
+<ul>
+<li><p>Você deve criar as funções para serem handlers dos sinais</p></li>
+<li><p>Os Handlers devem ser registrados na <code>main</code> e serem auto-contidos.</p></li>
+<li><p>Para os arquivos, utilize APENAS as chamadas vistas em aula: <code>open</code>, <code>close</code>, <code>read</code>, <code>write</code>. Não pode utilizar <code>fopen</code>, <code>fgets</code>, <code>fscanf</code> por exemplo. Se utilizar, a nota do ex será zero (mesmo que passe nos testes).</p></li>
+<li><p>Para testar, envie sinais pelo terminal e confira o arquivo de log gerado!</p></li>
+<li><p>O handler deve utilizar a variável global <code>linha_proc</code> para saber a última linha processada.</p></li>
+<li><p>Não iremos continuar a tarefa a próxima vez que rodarmos o executável, estamos apenas simulando! Queremos salvar onde paramos para poder continuar, mas na verdade não iremos continuar (uma coisa de cada vez!)</p></li>
+</ul>
+<p><strong>Como descrubro minha nota?</strong>:</p>
+<p>Será pelo corretor automático. Suba as alterações para o git e solte uma release:</p>
+<pre><code>git tag -a afq3.x.y -m &quot;enviando a afq3.x.y&quot;
+git push origin afq3.x.y</code></pre>
+<hr />
+<h2 id="questão-4-25">Questão 4 (2,5)</h2>
+<p>Neste exercício, vamos fazer o reconhecimento de CEPs em um arquivo de textos, dividindo a carga de trabalho entre threads!</p>
+<p>O programa <code>q4</code> recebe como argumento da linha de comando <strong>uma quantidade total de threads a serem criadas</strong> e o <strong>nome de um arquivo</strong>.</p>
+<p>Exemplo de como seu programa <code>q4</code> será chamado:</p>
+<pre><code>./q4 2 arquivo.txt</code></pre>
+<p>onde <code>2</code> é a quantidade de threads a serem criadas e <code>arquivo.txt</code> é o arquivo que contem em uma única linha palavras a serem processadas pelas threads.</p>
+<p>Exemplo de conteúdo do <code>arquivo.txt</code>:</p>
+<pre><code>eu moro no cep numero 70901-001 mas trabalho no 18900-199 longe demais</code></pre>
+<p>Perceba que na <code>main</code> já são criadas as <code>threads</code> da função <code>cep_validation_thread</code>. A thread recebe como argumento uma estrutura que contém o descritor de um arquivo (que é compartilhado entre todas as threads existentes). Cada thread executa o seguinte algoritmo em alto nível:</p>
+<ol type="1">
+<li>REPITA:
+<ol type="1">
+<li>Tenta ler uma palavra do arquivo compartilhado:
+<ol type="1">
+<li>SE não conseguiu ler:
+<ol type="1">
+<li>PARE</li>
+</ol></li>
+</ol></li>
+<li>SE a palavra lida for um CEP, ENTÃO:
+<ol type="1">
+<li>SOMA 1 na variável <code>count_ceps</code></li>
+</ol></li>
+</ol></li>
+</ol>
+<p>Boa parte do código já está desenvolvido. Sua primeira tarefa será programar a função <code>char *read_word(int fd)</code>, que tem por objetivo ler uma palavra de um arquivo.</p>
+<p>Assim que tiver feito esta etapa, você irá perceber que boa parte do código já irá funcionar.</p>
+<p>Tente compilar com:</p>
+<pre><code>gcc -g q4.c -o q4 -pthread</code></pre>
+<p>E executar com apenas uma thread:</p>
+<pre><code>./q4 1 in01.txt</code></pre>
+<p>Você verá que a resposta gerada estará correta. Entretanto, ao executar com arquivos maiores e mais threads, perceba que o resultado deixará de ser consistente. Tente rodar várias vezes o código:</p>
+<pre><code>./q4 8 in03.txt</code></pre>
+<p>Então, sua tarefa envolverá tratar corretamente as regiões críticas.</p>
+<p>Perceba que, diferente do lab de threads, aqui não existe uma pré-definição de quais palavras devem ser tratadas por quais threads!</p>
+<p>Suas tarefas:</p>
+<ul>
+<li><p>Programar a função <code>char *read_word(int fd)</code>. Considere que o arquivo já está aberto e deve ser fechado apenas na <code>main</code>. Para ler, é obrigatório utilizar apenas a chamada <code>read</code>. (<strong>40% da nota</strong>)</p></li>
+<li><p>Fazer alterações na main e na função <code>cep_validation_thread</code> para que as regiões críticas sejam tratadas adequadamente. O código deve ter sua funcionalidade geral mantida (continuar o mesmo número de threads, continuar a cada thread poder ler uma palavra indefinida do arquivo) e apenas estruturas de sincronização devem ser adicionadas para tratar as regiões críticas. Se usar variável global, haverá desconto. (<strong>40% da nota</strong>).</p></li>
+<li><p>Programa passa no valgrind sem erros. Aqui, também será necessário liberar memórias alocadas na main no código que receberam pronto! (<strong>20% da nota</strong>, apenas se resolveu corretamente os anteriores)</p></li>
+</ul>
+<p><strong>OBS</strong>:</p>
+<ul>
+<li><p>Trabalhe no arquivo <code>q4.c</code> e complete as partes faltantes</p></li>
+<li><p>Compile com <code>gcc -g q4.c -o q4 -pthread</code></p></li>
+<li><p>Faça seus próprios arquivos de teste personalizados!</p></li>
+<li><p>Se utilizar variáveis globais, haverá desconto.</p></li>
+</ul>
+<p><strong>Como descrubro minha nota?</strong>:</p>
+<p>Será pelo corretor automático. Suba as alterações para o git e solte uma release:</p>
+<pre><code>git tag -a afq4.x.y -m &quot;enviando a afq4.x.y&quot;
+git push origin afq4.x.y</code></pre>
+</body>
+</html>

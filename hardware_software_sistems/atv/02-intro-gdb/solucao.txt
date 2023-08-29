@@ -1,0 +1,8 @@
+livro
+Mochileiro
+idade
+42
+5
+32
+4
+40

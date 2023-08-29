@@ -1,0 +1,5 @@
+Conversei com os professores auxiliares 
+e ambos nao conseguiram identificar o motivo
+pelo qual meu arquivo solucao.txt nao esta funcionando,
+apesar de quando eu rodo e coloca as respostas, 
+estar funcionando. Provavelmente será necessário corrigir manualmente.

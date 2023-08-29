@@ -1,0 +1,4 @@
+16:43:40 ./q3 started
+16:43:44 ./q3 finished with signal sigterm
+16:45:17 ./q3 started
+16:45:24 ./q3 finished with signal sigterm

@@ -1,0 +1,20 @@
+Exercício 6
+
+Os endereços mostrados na saída de parte1 pertencem a um só struct declarado como struct player one. Quais são os tamanhos de cada campo?
+A descrição do struct player one é:
+Sizeof(struct player) = 48
+--------
+name:   nome nome nome
+level:  20
+icon:   2
+score:  1012312312
+---
+Endereços:
+name:   0x55aaf257f030
+level:  0x55aaf257f028
+icon:   0x55aaf257f020
+score:  0x55aaf257f048
+----
+&one:   0x55aaf257f020
+
+*Reposta*: icon = 8, level = 2, score = 20, name = 18

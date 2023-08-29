@@ -1,0 +1,4 @@
+aranha
+elefante
+gato
+zebra

@@ -1,0 +1,65 @@
+1) Converta o número abaixo para decimal:
+Q:  1100 0010
+    1*2^7 + 1*2^6 + 0*2^5 + 0*2^4 + 0*2^3 + 0*2^2 + 1*2^1 + 0*2^0
+    128 + 64 + 2
+R:  194 
+
+2) Converta o número abaixo para binario:
+Q:  75
+    75/2 = 37 resto 1
+    37/2 = 18 resto 1
+    18/2 = 9 resto 0
+    9/2 = 4 resto 1
+    4/2 = 2 resto 0
+    2/2 = 1 resto 0
+    1/2 = 0 resto 1
+    *Leia os restos de baixo para cima*
+R:  1001011
+
+Q:  165
+    165/2 = 82 resto 1
+    82/2 = 41 resto 0
+    41/2 = 20 resto 1
+    20/2 = 10 resto 0
+    10/2 = 5 resto 0
+    5/2 = 2 resto 1
+    2/2 = 1 resto 0
+    1/2 = 0 resto 1
+    *Leia os restos de baixo para cima*
+R:  10100101
+
+3) Converta o número abaixo para base 10 com e sem sinal:
+Q:  0100 0101
+    0*2^7 + 1*2^6 + 0*2^5 + 0*2^4 + 0*2^3 + 1*2^2 + 0*2^1 + 1*2^0
+    64 + 4 + 1
+R:  69
+    0*2^7 + 1*2^6 + 0*2^5 + 0*2^4 + 0*2^3 + 1*2^2 + 0*2^1 + 1*2^0
+    128 + 32 + 16 + 8 + 2
+R:  +69
+
+4) Converta o número abaixo para base 10 com e sem sinal:
+Q:  0101 1010
+    0*2^7 + 1*2^6 + 0*2^5 + 1*2^4 + 1*2^3 + 0*2^2 + 1*2^1 + 0*2^0
+    64 + 16 + 8 + 2
+R:  90
+    0*2^7 + 1*2^6 + 0*2^5 + 0*2^4 + 0*2^3 + 1*2^2 + 0*2^1 + 1*2^0
+    64 + 16 + 8 + 2
+R:  90
+
+5) Converta o número abaixo para base 10 com e sem sinal:
+Q:  11 0001
+    1*2^5 + 1*2^4 + 0*2^3 + 0*2^2 + 0*2^1 + 1*2^0
+    32 + 16 + 1
+R:  49
+    1*2^5 + 1*2^4 + 0*2^3 + 0*2^2 + 0*2^1 + 1*2^0
+    -32 + 16 + 1
+R:  -15
+
+6) Converta o número abaixo para base 10 com e sem sinal:
+Q:  1 0101 0001
+    1*2^8 + 0*2^7 + 1*2^6 + 0*2^5 + 1*2^4 + 0*2^3 + 0*2^2 + 0*2^1 + 1*2^0
+    256 + 64 + 16 + 1
+R:  337
+    1*2^8 + 0*2^7 + 1*2^6 + 0*2^5 + 1*2^4 + 0*2^3 + 0*2^2 + 0*2^1 + 1*2^0
+    -256 + 64 + 16 + 1
+R:  -175

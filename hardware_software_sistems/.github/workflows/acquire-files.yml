@@ -1,0 +1,27 @@
+name: Acquire files from Insper/SistemasHardwareSoftware repository
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  acquire-files:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Insper/SistemasHardwareSoftware repository
+      uses: actions/checkout@v2
+      with:
+        repository: Insper/SistemasHardwareSoftware
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Copy files to G3mha/Hardware-Software-Systems repository
+      run: |
+        mkdir -p G3mha/Hardware-Software-Systems/material/aulas
+        cp -r Insper/SistemasHardwareSoftware/material/aulas/* G3mha/Hardware-Software-Systems/classes/
+      working-directory: ${{ github.workspace }}
+    - name: Commit and push changes
+      run: |
+        git config --global user.email "actions@github.com"
+        git config --global user.name "GitHub Actions"
+        git add .
+        git commit -m "Acquired files from Insper/SistemasHardwareSoftware repository"
+        git push
+      working-directory: G3mha/Hardware-Software-Systems
