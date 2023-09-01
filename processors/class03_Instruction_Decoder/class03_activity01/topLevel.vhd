@@ -24,6 +24,7 @@ architecture arquitetura of topLevel is
   signal MUX_REG1 : std_logic_vector (larguraDados-1 downto 0);
   signal REG1_ULA_A : std_logic_vector (larguraDados-1 downto 0);
   signal Saida_ULA : std_logic_vector (larguraDados-1 downto 0);
+  signal Instrucoes : std_logic_vector (3 downto 0);
   signal Sinais_Controle : std_logic_vector (3 downto 0);
   signal Endereco : std_logic_vector (2 downto 0);
   signal proxPC : std_logic_vector (2 downto 0);
@@ -54,24 +55,26 @@ MUX1 :  entity work.muxGenerico2x1  generic map (larguraDados => larguraDados)
                  saida_MUX => MUX_REG1);
 
 -- O port map completo do Acumulador.
-REGA : entity work.registradorGenerico   generic map (larguraDados => larguraDados)
+REGA : entity work.registradorGenerico  generic map (larguraDados => larguraDados)
           port map (DIN => MUX_REG1, DOUT => REG1_ULA_A, ENABLE => Habilita_A, CLK => CLK, RST => Reset_A);
 
 -- O port map completo do Program Counter.
-PC : entity work.registradorGenerico   generic map (larguraDados => larguraEnderecos)
+PC : entity work.registradorGenerico  generic map (larguraDados => larguraEnderecos)
           port map (DIN => proxPC, DOUT => Endereco, ENABLE => '1', CLK => CLK, RST => '0');
 
 incrementaPC :  entity work.somaConstante  generic map (larguraDados => larguraEnderecos, constante => 1)
         port map( entrada => Endereco, saida => proxPC);
 
-
 -- O port map completo da ULA:
 ULA1 : entity work.ULASomaSub  generic map(larguraDados => larguraDados)
           port map (entradaA => REG1_ULA_A, entradaB => chavesX_ULA_B, saida => Saida_ULA, seletor => Operacao_ULA);
 
--- Falta acertar o conteudo da ROM (no arquivo memoriaROM.vhd)
-ROM1 : entity work.memoriaROM   generic map (dataWidth => larguraDados, addrWidth => larguraEnderecos)
-          port map (Endereco => Endereco, Dado => Sinais_Controle);
+-- O port map completo da memória:
+ROM1 : entity work.memoriaROM  generic map (dataWidth => larguraDados, addrWidth => larguraEnderecos)
+          port map (Endereco => Endereco, Dado => Instrucoes);
+
+-- O port map completo do Decoder:
+DEC : entity work.decoderGeneric  port map (entrada => Instrucoes, saida => Sinais_Controle);
 
 
 selMUX <= Sinais_Controle(3);

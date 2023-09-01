@@ -17,9 +17,9 @@ architecture comportamento of decoderGeneric is
 
   begin
 saida <= "0000" when entrada = NOP else
-         "0100" when entrada = LDA else
-         "1101" when entrada = SOMA else
-         "1100" when entrada = SUB else
-         "1011" when entrada = CLRA else
+         "XXXX" when entrada = LDA else
+         "XXXX" when entrada = SOMA else
+         "XXXX" when entrada = SUB else
+         "XXXX" when entrada = CLRA else
          "0000";  -- NOP para os entradas Indefinidas
 end architecture;

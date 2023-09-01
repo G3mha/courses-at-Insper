@@ -1,0 +1,107 @@
+m255
+K4
+z2
+!s11e vcom 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class03_Instruction_Decoder/class03_activity01/simulation/qsim
+Etoplevel
+Z1 w1693601306
+Z2 DPx8 cyclonev 18 cyclonev_atom_pack 0 22 ^K2eeK[IVbX]]MLcdOEI91
+Z3 DPx8 cyclonev 19 cyclonev_components 0 22 GFL[QAd@dAZF:`jjOGn9>2
+Z4 DPx12 altera_lnsim 23 altera_lnsim_components 0 22 3dzZ?YU_4FC5UU0cTXRET1
+Z5 DPx4 ieee 16 vital_primitives 0 22 G>kiXP8Q9dRClKfK1Zn7j1
+Z6 DPx6 altera 11 dffeas_pack 0 22 H5F:RRfLz82T3`4>@b7mS3
+Z7 DPx4 ieee 12 vital_timing 0 22 J>EBealN09f8GzldA[z2>3
+Z8 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z9 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
+Z10 DPx6 altera 28 altera_primitives_components 0 22 VSD=32;3391kSOd?PDZYj3
+!i122 2
+R0
+Z11 8class03_activity01.vho
+Z12 Fclass03_activity01.vho
+l0
+L39 1
+VbI[z^3KJk8H@9YzljQW?Q1
+!s100 GLFLR03M;emKGea@PS1Vo2
+Z13 OV;C;2020.1;71
+32
+Z14 !s110 1693601308
+!i10b 1
+Z15 !s108 1693601307.000000
+Z16 !s90 -work|work|class03_activity01.vho|
+Z17 !s107 class03_activity01.vho|
+!i113 1
+Z18 o-work work
+Z19 tExplicit 1 CvgOpt 0
+Astructure
+R2
+R3
+R4
+R5
+R6
+R7
+R8
+R9
+R10
+DEx4 work 8 toplevel 0 22 bI[z^3KJk8H@9YzljQW?Q1
+!i122 2
+l142
+L80 797
+VOfh68TNXR9_EUn53jo]Xo3
+!s100 9ASBO7YEUU>T77o@`n;5R3
+R13
+32
+R14
+!i10b 1
+R15
+R16
+R17
+!i113 1
+R18
+R19
+Etoplevel_vhd_vec_tst
+Z20 w1693601305
+R8
+R9
+!i122 3
+R0
+Z21 8Waveform.vwf.vht
+Z22 FWaveform.vwf.vht
+l0
+L32 1
+VCAlV?AoD7bVlQzVGdT0dk2
+!s100 _mlMOzJg]NbX6MGG_7hI]0
+R13
+32
+R14
+!i10b 1
+Z23 !s108 1693601308.000000
+Z24 !s90 -work|work|Waveform.vwf.vht|
+Z25 !s107 Waveform.vwf.vht|
+!i113 1
+R18
+R19
+Atoplevel_arch
+R8
+R9
+Z26 DEx4 work 20 toplevel_vhd_vec_tst 0 22 CAlV?AoD7bVlQzVGdT0dk2
+!i122 3
+l51
+Z27 L34 80
+Z28 VTUc9Lgl?PeS[1HjmWCJY73
+Z29 !s100 6FEAc5PS2_lf?gjz=jbH]3
+R13
+32
+R14
+!i10b 1
+R23
+R24
+R25
+!i113 1
+R18
+R19
