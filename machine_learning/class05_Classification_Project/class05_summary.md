@@ -32,7 +32,7 @@
 
 ### Validação cruzada
 
-![class05_crossval.drawio.png](class05_crossval.drawio.png)
+![asset1.drawio.png](asset1.drawio.png)
 
 - **vantagem**: temos "cv" medidas "honestas" de desempenho => comparamos modelos por teste de hipótese
 - **desvantagem**: custo computacional
@@ -52,3 +52,7 @@ _TNR = true negative ratio_;
 _N = total negatives_;
 _TN = true total negatives_;
 _FP = false total positives_.
+
+![asset2.drawio.png](asset2.drawio.png)
+
+$A \cup C = Prob(f(x_p)>f(x_n))$
