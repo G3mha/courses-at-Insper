@@ -1,3 +1,5 @@
+Código da FPGA: 5CEBA4F23C7
+
 bit menos significativo está sempre a direita!
                |
                v 
