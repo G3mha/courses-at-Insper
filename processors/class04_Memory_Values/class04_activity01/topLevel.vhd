@@ -3,35 +3,52 @@ use ieee.std_logic_1164.all;
 
 entity topLevel is
   -- Total de bits das entradas e saidas
-  generic ( larguraDados : natural := 4;
-        larguraEnderecos : natural := 3;
-        simulacao : boolean := TRUE -- para gravar na placa, altere de TRUE para FALSE
+  generic ( larguraDados     : natural := 8;
+            larguraEnderecos : natural := 3;
+					  simulacao        : boolean := TRUE -- para gravar na placa, altere de TRUE para FALSE
   );
   port   (
     CLOCK_50 : in std_logic;
-    KEY: in std_logic_vector(3 downto 0);
-    SW: in std_logic_vector(9 downto 0);
-   PC_OUT: out std_logic_vector(larguraEnderecos-1 downto 0);
-    LEDR  : out std_logic_vector(9 downto 0)
+    KEY      : in std_logic_vector(3 downto 0);
+    SW       : in std_logic_vector(9 downto 0);
+    PC_OUT   : out std_logic_vector(larguraEnderecos-1 downto 0);
+    LEDR     : out std_logic_vector(9 downto 0)
   );
 end entity;
 
 
 architecture arquitetura of topLevel is
 
+  -- Instruction
+  signal instruction      : std_logic_vector (12 downto 0);
+  alias opCode            : std_logic_vector (3 downto 0) is Instrucao(12 downto 9);
+  alias RAM_addr          : std_logic_vector (8 downto 0) is Instrucao(8 downto 0);
+  alias instruction_value : std_logic_vector (7 downto 0) is Instrucao(7 downto 0);
+
+  -- MUX
+  signal SelMUX  : std_logic;
+  signal MUX_out : std_logic_vector (larguraDados-1 downto 0);
+  
+  -- RAM
+  signal RAM_out : std_logic_vector (larguraDados-1 downto 0);
+
+  -- RegA
+  signal Habilita_A : std_logic;
+  signal CLK        : std_logic;
+  signal RegA_out   : std_logic_vector (larguraDados-1 downto 0);
+
+  -- PC
+  signal proxPC : std_logic_vector (2 downto 0);
+  signal Endereco : std_logic_vector (2 downto 0);
+
+  -- ULA
+  signal ULA_out : std_logic_vector (larguraDados-1 downto 0);
+
   signal chavesX_ULA_B : std_logic_vector (larguraDados-1 downto 0);
-  signal chavesY_MUX_A : std_logic_vector (larguraDados-1 downto 0);
-  signal MUX_REG1 : std_logic_vector (larguraDados-1 downto 0);
   signal REG1_ULA_A : std_logic_vector (larguraDados-1 downto 0);
   signal Saida_ULA : std_logic_vector (larguraDados-1 downto 0);
-  signal Instrucoes : std_logic_vector (3 downto 0);
   signal Sinais_Controle : std_logic_vector (3 downto 0);
-  signal Endereco : std_logic_vector (2 downto 0);
-  signal proxPC : std_logic_vector (2 downto 0);
   signal Chave_Operacao_ULA : std_logic;
-  signal CLK : std_logic;
-  signal SelMUX : std_logic;
-  signal Habilita_A : std_logic;
   signal Reset_A : std_logic;
   signal Operacao_ULA : std_logic;
 
@@ -49,21 +66,21 @@ end generate;
 
 -- O port map completo do MUX.
 MUX1 :  entity work.muxGenerico2x1  generic map (larguraDados => larguraDados)
-        port map( entradaA_MUX => chavesY_MUX_A,
-                 entradaB_MUX =>  Saida_ULA,
-                 seletor_MUX => SelMUX,
-                 saida_MUX => MUX_REG1);
+        port map(entradaA_MUX => RAM_out,
+                 entradaB_MUX => instruction_value,
+                 seletor_MUX  => SelMUX,
+                 saida_MUX    => MUX_out);
 
 -- O port map completo do Acumulador.
 REGA : entity work.registradorGenerico  generic map (larguraDados => larguraDados)
-          port map (DIN => MUX_REG1, DOUT => REG1_ULA_A, ENABLE => Habilita_A, CLK => CLK, RST => Reset_A);
+          port map (DIN => ULA_out, bDOUT => RegA_out, ENABLE => Habilita_A, CLK => CLK, RST => '0');
 
 -- O port map completo do Program Counter.
 PC : entity work.registradorGenerico  generic map (larguraDados => larguraEnderecos)
           port map (DIN => proxPC, DOUT => Endereco, ENABLE => '1', CLK => CLK, RST => '0');
 
 incrementaPC :  entity work.somaConstante  generic map (larguraDados => larguraEnderecos, constante => 1)
-        port map( entrada => Endereco, saida => proxPC);
+        port map (entrada => Endereco, saida => proxPC);
 
 -- O port map completo da ULA:
 ULA1 : entity work.ULASomaSub  generic map(larguraDados => larguraDados)
