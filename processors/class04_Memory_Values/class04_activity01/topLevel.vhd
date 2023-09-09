@@ -38,11 +38,12 @@ architecture arquitetura of topLevel is
   signal RegA_out   : std_logic_vector (larguraDados-1 downto 0);
 
   -- PC
-  signal proxPC : std_logic_vector (2 downto 0);
-  signal Endereco : std_logic_vector (2 downto 0);
+  signal proxPC   : std_logic_vector (8 downto 0);
+  signal Endereco : std_logic_vector (8 downto 0);
 
   -- ULA
-  signal ULA_out : std_logic_vector (larguraDados-1 downto 0);
+  signal ULA_out       : std_logic_vector (larguraDados-1 downto 0);
+  signal ULA_operation : std_logic_vector (1 downto 0);
 
   signal chavesX_ULA_B : std_logic_vector (larguraDados-1 downto 0);
   signal REG1_ULA_A : std_logic_vector (larguraDados-1 downto 0);
@@ -50,7 +51,6 @@ architecture arquitetura of topLevel is
   signal Sinais_Controle : std_logic_vector (3 downto 0);
   signal Chave_Operacao_ULA : std_logic;
   signal Reset_A : std_logic;
-  signal Operacao_ULA : std_logic;
 
 begin
 
@@ -84,11 +84,11 @@ incrementaPC :  entity work.somaConstante  generic map (larguraDados => larguraE
 
 -- O port map completo da ULA:
 ULA1 : entity work.ULASomaSub  generic map(larguraDados => larguraDados)
-          port map (entradaA => REG1_ULA_A, entradaB => chavesX_ULA_B, saida => Saida_ULA, seletor => Operacao_ULA);
+          port map (entradaA => RegA_out, entradaB => MUX_out, saida => ULA_out, seletor => ULA_operation);
 
 -- O port map completo da memória:
 ROM1 : entity work.memoriaROM  generic map (dataWidth => larguraDados, addrWidth => larguraEnderecos)
-          port map (Endereco => Endereco, Dado => Instrucoes);
+          port map (Endereco => Endereco, Dado => instruction);
 
 -- O port map completo do Decoder:
 DEC : entity work.decoderGeneric  port map (entrada => Instrucoes, saida => Sinais_Controle);
