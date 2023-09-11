@@ -3,9 +3,10 @@ use ieee.std_logic_1164.all;
 
 entity topLevel is
   -- Total de bits das entradas e saidas
-  generic ( larguraDados     : natural := 8;
-            larguraEnderecos : natural := 3;
-					  simulacao        : boolean := TRUE -- para gravar na placa, altere de TRUE para FALSE
+  generic ( larguraDados      : natural := 8; -- 2^8 = 256 valores
+            larguraEnderecos  : natural := 9; -- 2^9 = 512 enderecos
+            larguraInstrucoes : natural := 13; -- opCode | acessa memória? | endereço/valor
+					  simulacao         : boolean := TRUE -- para gravar na placa, altere de TRUE para FALSE
   );
   port   (
     CLOCK_50 : in std_logic;

@@ -28,7 +28,7 @@ architecture assincrona of memoriaROM is
   function initMemory
         return blocoMemoria is variable tmp : blocoMemoria := (others => (others => '0'));
   begin
-      -- mnemônico  |  acessa memória?  |  endereço/valor
+      -- opcode  |  acessa memória?  |  endereço/valor
       -- Inicializa os endereços:
         tmp(0)  := LDI  & '0' & '00000100'; -- LDI $4
         tmp(1)  := STA  & '1' & '00000001'; -- STA @257
