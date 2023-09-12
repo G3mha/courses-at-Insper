@@ -6,15 +6,16 @@ entity topLevel is
   generic ( larguraDados            : natural := 8; -- 2^8 = 256 valores
             larguraEnderecos        : natural := 9; -- 2^9 = 512 enderecos
             larguraInstrucoes       : natural := 13; -- opCode | acessa memória? | endereço/valor
-					  larguraSinaisDeControle : natural := 6; -- SelMux | Habilita_A | Operacao_ULA_2_bits | habLeituraMEM | habEscritaMEM
+				larguraSinaisDeControle : natural := 6; -- SelMux | Habilita_A | Operacao_ULA_2_bits | habLeituraMEM | habEscritaMEM
             simulacao               : boolean := TRUE -- para gravar na placa, altere de TRUE para FALSE
   );
   port   (
-    CLOCK_50 : in std_logic;
-    KEY      : in std_logic_vector(3 downto 0);
-    SW       : in std_logic_vector(9 downto 0);
-    PC_OUT   : out std_logic_vector(larguraEnderecos-1 downto 0);
-    LEDR     : out std_logic_vector(9 downto 0)
+    CLOCK_50         : in std_logic;
+    KEY              : in std_logic_vector(3 downto 0);
+    PC_OUT           : out std_logic_vector(larguraEnderecos-1 downto 0);
+    LEDR             : out std_logic_vector(9 downto 0);
+	 EntradaB_ULA     : out std_logic_vector(larguraDados-1 downto 0);
+	 Palavra_Controle : out std_logic_vector(larguraSinaisDeControle-1 downto 0)
   );
 end entity;
 
@@ -36,7 +37,7 @@ architecture arquitetura of topLevel is
   
   -- RAM
   signal RAM_out       : std_logic_vector (larguraDados-1 downto 0);
-  alias RAM_Habilita   : std_logic_vector is instruction(8);
+  alias RAM_Habilita   : std_logic is instruction(8);
   signal habEscritaMEM : std_logic;
   signal habLeituraMEM : std_logic;
 
@@ -68,7 +69,7 @@ end generate;
 -- O port map completo do MUX. (DONE)
 MUX1 :  entity work.muxGenerico2x1  generic map (larguraDados => larguraDados)
         port map(entradaA_MUX => RAM_out,
-                 entradaB_MUX => instruction_value,
+                 entradaB_MUX => imediato_value,
                  seletor_MUX  => SelMUX,
                  saida_MUX    => MUX_out);
 
@@ -84,7 +85,7 @@ incrementaPC :  entity work.somaConstante  generic map (larguraDados => larguraE
         port map (entrada => Endereco, saida => proxPC);
 
 -- o port map completo da memoria RAM (DONE)
-RAM1 : entity work.memoriaRAM   generic map (dataWidth => larguraDados, addrWidth => larguraEnderecos)
+RAM1 : entity work.memoriaRAM   generic map (dataWidth => larguraDados, addrWidth => larguraEnderecos-1)
           port map (addr => imediato_value, we => habEscritaMEM, re => habLeituraMEM, habilita  => RAM_Habilita, dado_in => RegA_out, dado_out => RAM_out, clk => CLK);
 
 -- O port map completo da ULA: (DONE)
@@ -106,14 +107,12 @@ Habilita_A <= Sinais_Controle(4);
 SelMUX <= Sinais_Controle(5);
 
 -- A ligacao dos LEDs: (DONE)
-LEDR (9) <= SelMUX;
-LEDR (8) <= Habilita_A;
-LEDR (7) <= ULA_operation(1);
-LEDR (6) <= ULA_operation(0);
-LEDR (5) <= habLeituraMEM;
-LEDR (4) <= habEscritaMEM;
-LEDR (3 downto 0) <= RegA_out;
+LEDR (9) <= ULA_operation(1);
+LEDR (8) <= ULA_operation(0);
+LEDR (7 downto 0) <= RegA_out;
 
 PC_OUT <= Endereco;
+EntradaB_ULA <= MUX_out;
+Palavra_Controle <= Sinais_Controle;
 
 end architecture;

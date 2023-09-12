@@ -30,14 +30,14 @@ architecture assincrona of memoriaROM is
   begin
       -- opcode  |  acessa memória?  |  endereço/valor
       -- Inicializa os endereços:
-        tmp(0)  := LDI  & '0' & '00000100'; -- LDI $4
-        tmp(1)  := STA  & '1' & '00000001'; -- STA @257
-        tmp(2)  := LDI  & '0' & '00000011'; -- LDI $3
-        tmp(3)  := STA  & '1' & '00000000'; -- STA @256
-        tmp(4)  := SOMA & '1' & '00000000'; -- SOMA @256
-        tmp(5)  := SOMA & '1' & '00000000'; -- SOMA @256
-        tmp(6)  := SUB  & '1' & '00000001'; -- SUB @257
-        tmp(7)  := NOP  & '0' & '00000000'; -- NOP
+        tmp(0)  := LDI  & '0' & "00000100"; -- LDI $4
+        tmp(1)  := STA  & '1' & "00000001"; -- STA @257
+        tmp(2)  := LDI  & '0' & "00000011"; -- LDI $3
+        tmp(3)  := STA  & '1' & "00000000"; -- STA @256
+        tmp(4)  := SOMA & '1' & "00000000"; -- SOMA @256
+        tmp(5)  := SOMA & '1' & "00000000"; -- SOMA @256
+        tmp(6)  := SUB  & '1' & "00000001"; -- SUB @257
+        tmp(7)  := NOP  & '0' & "00000000"; -- NOP
         return tmp;
     end initMemory;
 

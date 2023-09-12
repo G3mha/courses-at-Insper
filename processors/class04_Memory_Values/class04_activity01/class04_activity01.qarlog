@@ -1,0 +1,24 @@
+Quartus Prime Archive log --	C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class04_Memory_Values/class04_activity01/class04_activity01.qarlog
+
+Archive:	C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class04_Memory_Values/class04_activity01/class04_activity01.qar
+Date:		Tue Sep 12 12:17:22 2023
+Quartus Prime		20.1.0 Build 711 06/05/2020 SJ Lite Edition
+
+	=========== Files Selected: ===========
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class04_Memory_Values/class04_activity01/ULASomaSub.vhd
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class04_Memory_Values/class04_activity01/Waveform.vwf
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class04_Memory_Values/class04_activity01/class04_activity01.qpf
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class04_Memory_Values/class04_activity01/class04_activity01.qsf
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class04_Memory_Values/class04_activity01/decoderGeneric.vhd
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class04_Memory_Values/class04_activity01/edgeDetector.vhd
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class04_Memory_Values/class04_activity01/memoriaRAM.vhd
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class04_Memory_Values/class04_activity01/memoriaROM.vhd
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class04_Memory_Values/class04_activity01/muxGenerico2x1.vhd
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class04_Memory_Values/class04_activity01/registradorGenerico.vhd
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class04_Memory_Values/class04_activity01/somaConstante.vhd
+C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class04_Memory_Values/class04_activity01/topLevel.vhd
+c:/intelfpga_lite/20.1/quartus/bin64/assignment_defaults.qdf
+	======= Total: 13 files to archive =======
+
+	================ Status: ===============
+All files archived successfully.

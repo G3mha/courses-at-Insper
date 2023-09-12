@@ -1,0 +1,145 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "PC_OUT[0]",
+					"strict" : false
+				},
+				{
+					"name" : "PC_OUT[1]",
+					"strict" : false
+				},
+				{
+					"name" : "PC_OUT[2]",
+					"strict" : false
+				},
+				{
+					"name" : "PC_OUT[3]",
+					"strict" : false
+				},
+				{
+					"name" : "PC_OUT[4]",
+					"strict" : false
+				},
+				{
+					"name" : "PC_OUT[5]",
+					"strict" : false
+				},
+				{
+					"name" : "PC_OUT[6]",
+					"strict" : false
+				},
+				{
+					"name" : "PC_OUT[7]",
+					"strict" : false
+				},
+				{
+					"name" : "PC_OUT[8]",
+					"strict" : false
+				},
+				{
+					"name" : "LEDR[0]",
+					"strict" : false
+				},
+				{
+					"name" : "LEDR[1]",
+					"strict" : false
+				},
+				{
+					"name" : "LEDR[2]",
+					"strict" : false
+				},
+				{
+					"name" : "LEDR[3]",
+					"strict" : false
+				},
+				{
+					"name" : "LEDR[4]",
+					"strict" : false
+				},
+				{
+					"name" : "LEDR[5]",
+					"strict" : false
+				},
+				{
+					"name" : "LEDR[6]",
+					"strict" : false
+				},
+				{
+					"name" : "LEDR[7]",
+					"strict" : false
+				},
+				{
+					"name" : "LEDR[8]",
+					"strict" : false
+				},
+				{
+					"name" : "LEDR[9]",
+					"strict" : false
+				},
+				{
+					"name" : "EntradaB_ULA[0]",
+					"strict" : false
+				},
+				{
+					"name" : "EntradaB_ULA[1]",
+					"strict" : false
+				},
+				{
+					"name" : "EntradaB_ULA[2]",
+					"strict" : false
+				},
+				{
+					"name" : "EntradaB_ULA[3]",
+					"strict" : false
+				},
+				{
+					"name" : "EntradaB_ULA[4]",
+					"strict" : false
+				},
+				{
+					"name" : "EntradaB_ULA[5]",
+					"strict" : false
+				},
+				{
+					"name" : "EntradaB_ULA[6]",
+					"strict" : false
+				},
+				{
+					"name" : "EntradaB_ULA[7]",
+					"strict" : false
+				},
+				{
+					"name" : "Palavra_Controle[0]",
+					"strict" : false
+				},
+				{
+					"name" : "Palavra_Controle[1]",
+					"strict" : false
+				},
+				{
+					"name" : "Palavra_Controle[2]",
+					"strict" : false
+				},
+				{
+					"name" : "Palavra_Controle[3]",
+					"strict" : false
+				},
+				{
+					"name" : "Palavra_Controle[4]",
+					"strict" : false
+				},
+				{
+					"name" : "Palavra_Controle[5]",
+					"strict" : false
+				},
+				{
+					"name" : "KEY[0]",
+					"strict" : false
+				}
+			]
+		}
+	]
+}
