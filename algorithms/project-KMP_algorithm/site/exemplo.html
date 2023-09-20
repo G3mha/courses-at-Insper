@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Algoritmo Knuth-Morris-Pratt (KMP)</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Open+Sans+Condensed:ital,wght@0,300;1,300&family=Open+Sans:ital,wght@0,300;0,400;0,700;0,800;1,300;1,400;1,700;1,800&family=Oxygen+Mono&family=Josefin+Sans:ital,wght@0,200;0,600;1,200;1,600&display=swap">
+        <link rel="stylesheet" href="assets/css/reset.css">
+        <link rel="stylesheet" href="assets/css/highlight.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/css/color.css">
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+        <script src="assets/js/highlight.js"></script>
+        <script src="assets/js/script.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <a href="">abrir tudo</a>
+                <a href="">fechar tudo</a>
+            </header>
+            <main>
+
+<p><a href="https://ensino.hashi.pro.br/desprog/" target="_blank">Desafios de Programação</a></p>
+<h1>Algoritmo Knuth-Morris-Pratt (KMP)</h1>
+<details class="answer">
+<summary>Slides</summary>
+<div class="animation"><img class="frame" src="img/SLIDES/SLIDES00.png" alt="1"><img class="frame" src="img/SLIDES/SLIDES01.png" alt="2"><img class="frame" src="img/SLIDES/SLIDES02.png" alt="3"><img class="frame" src="img/SLIDES/SLIDES03.png" alt="4"><img class="frame" src="img/SLIDES/SLIDES04.png" alt="5"><img class="frame" src="img/SLIDES/SLIDES05.png" alt="6"><img class="frame" src="img/SLIDES/SLIDES06.png" alt="7"><img class="frame" src="img/SLIDES/SLIDES07.png" alt="8"><img class="frame" src="img/SLIDES/SLIDES08.png" alt="9"></div>
+</details>
+<hr>
+<h2>Algoritmo ingênuo</h2>
+<p>Antes de demonstrar o funcionamento do algoritmo KMP é importante apresentar primeiro um algoritmo ingenuo que consiste em dois loops: um externo para percorrer o texto e um interno para percorrer a palavra buscada.</p>
+<p>A complexidade deste algoritmo é O(nm), onde n é o tamanho do texto e m o tamanho da palavra buscada.</p>
+<blockquote class="warning">
+<p>Aviso</p>
+<p>Vale ressaltar que quanto maior o número de elementos do vetor, maior é a sua ineficiência.</p>
+</blockquote>
+<p>Esta é uma simulação do código ingênuo:</p>
+<div class="animation"><img class="frame" src="img/Naive/Naive00.png" alt="1"><img class="frame" src="img/Naive/Naive01.png" alt="2"><img class="frame" src="img/Naive/Naive02.png" alt="3"><img class="frame" src="img/Naive/Naive03.png" alt="4"><img class="frame" src="img/Naive/Naive04.png" alt="5"><img class="frame" src="img/Naive/Naive05.png" alt="6"><img class="frame" src="img/Naive/Naive06.png" alt="7"><img class="frame" src="img/Naive/Naive07.png" alt="8"><img class="frame" src="img/Naive/Naive08.png" alt="9"><img class="frame" src="img/Naive/Naive09.png" alt="10"><img class="frame" src="img/Naive/Naive10.png" alt="11"><img class="frame" src="img/Naive/Naive11.png" alt="12"><img class="frame" src="img/Naive/Naive12.png" alt="13"><img class="frame" src="img/Naive/Naive13.png" alt="14"><img class="frame" src="img/Naive/Naive14.png" alt="15"><img class="frame" src="img/Naive/Naive15.png" alt="16"><img class="frame" src="img/Naive/Naive16.png" alt="17"><img class="frame" src="img/Naive/Naive17.png" alt="18"><img class="frame" src="img/Naive/Naive18.png" alt="19"><img class="frame" src="img/Naive/Naive19.png" alt="20"><img class="frame" src="img/Naive/Naive20.png" alt="21"><img class="frame" src="img/Naive/Naive21.png" alt="22"><img class="frame" src="img/Naive/Naive22.png" alt="23"><img class="frame" src="img/Naive/Naive23.png" alt="24"><img class="frame" src="img/Naive/Naive24.png" alt="25"><img class="frame" src="img/Naive/Naive25.png" alt="26"><img class="frame" src="img/Naive/Naive26.png" alt="27"><img class="frame" src="img/Naive/Naive27.png" alt="28"><img class="frame" src="img/Naive/Naive28.png" alt="29"><img class="frame" src="img/Naive/Naive29.png" alt="30"><img class="frame" src="img/Naive/Naive30.png" alt="31"><img class="frame" src="img/Naive/Naive31.png" alt="32"></div>
+<blockquote class="question">
+<p>Exercício 0</p>
+<p>Qual a implementação, em pseudo-código, para o algoritmo de busca ingênuo?</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<pre><code class="language-pseudocode">começo algoritmo
+   para cada caractere do texto
+      se o caractere atual for igual ao primeiro caractere da string
+         para cada caractere da string
+            se o caractere atual do texto não for igual ao caractere atual da string
+               sai do loop interno
+            fim se
+            se todos os caracteres da string foram encontrados no texto
+               retorna a posição do primeiro caractere da string no texto
+            fim se
+         fim para
+      fim se
+   fim para
+   retorna -1
+fim algoritmo
+</code></pre>
+</details>
+</blockquote>
+<h2>Aprimorando o algorítmo</h2>
+<p>Agora vamos tentar encontrar uma maneira de reduzir o número de comparações redundantes realizadas no algoritmo, para isso vamos identificar quais comparações são realmente necessárias e quais podemos evitar.</p>
+<blockquote class="question">
+<p>Exercício 1</p>
+<div class="animation"><img class="frame" src="img/EX1/EX1.png" alt="1"></div>
+<p>Vamos supor que estamos buscando a string ABCD no texto e acabamos de realizar a comparação sinalizada na imagem acima. É necessário continuar a busca a partir de qual elemento do texto?</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<p>Podemos ver imediatamente que a string buscada não se repete em nenhum momento, se sabemos disso assim como o fato que tivemos comparações de sucesso dos elementos B e C, podemos deduzir com certeza que nenhum dos valores que foram comparados a eles é igual ao primeiro elemento. Assim podemos fazer um salto na comparação e retomá-la da seguinte forma:</p>
+<div class="animation"><img class="frame" src="img/GAB1/GAB1.png" alt="1"></div>
+</details>
+</blockquote>
+<blockquote class="question">
+<p>Exercício 2</p>
+<div class="animation"><img class="frame" src="img/EX2/EX2.png" alt="1"></div>
+<p>E neste caso, qual deve ser a próxima comparação necessária a se fazer?</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<p>Neste caso temos um raciocínio similar ao anterior, mas com condições opostas. Se sabemos que nossa string buscada se repete no segundo elemento e encontramos uma diferença ao compará-lo, sabemos que esta posição no texto não pode ser igual ao primeiro elemento da string buscada. Assim, podemos fazer um salto na comparação e retomá-la da seguinte forma:</p>
+<div class="animation"><img class="frame" src="img/GAB2/GAB2.png" alt="1"></div>
+</details>
+</blockquote>
+<blockquote class="question">
+<p>Exercício 3</p>
+<div class="animation"><img class="frame" src="img/EX3/EX3.png" alt="1"></div>
+<p>Vamos analisar um último caso para garantir que este raciocínio realmente funciona. Qual deve ser a próxima comparação necessária a se fazer?</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<p>Se você estava atento deve ter reparado que os elementos AB aparecem duas vezes juntos então, apesar da comparação ter falhado neste intervalo por causa do último termo, essa segunda aparição de AB pode ser ainda um outro começo para a string buscada. Assim o salto deve ser feito considerando essa repetição, da seguinte forma:</p>
+<div class="animation"><img class="frame" src="img/GAB3/GAB3.png" alt="1"></div>
+</details>
+</blockquote>
+<p>Certo, agora que temos uma ideia de como podemos reduzir o número de comparações, vamos tentar generalizar este raciocínio para criar um algoritmo que faça isso automaticamente.</p>
+<p>Para isso vamos precisar entender os conceitos de prefixo e sufixo.</p>
+<h2>Prefixos e sufixos</h2>
+<p>Utilizando o padrão buscado podemos construir vários prefixos, isto é, qualquer sequência de elementos encontrada no início da string buscada. Por exemplo, para a string ABCD temos os seguintes prefixos:</p>
+<div class="animation"><img class="frame" src="img/Prefixos1/PREF1.png" alt="1"></div>
+<p>Da mesma forma podemos pegar cada um desses prefixos e construir seus sufixos, isto é, qualquer sequência de elementos encontrada no final de cada um dos prefixos. Para o caso anterior temos os seguintes sufixos:</p>
+<div class="animation"><img class="frame" src="img/Prefixos2/Prefixos2.drawio.png" alt="1"></div>
+<blockquote class="question">
+<p>Exercício 4</p>
+<div class="animation"><img class="frame" src="img/EX4/EX4.png" alt="1"></div>
+<p>Antes de prosseguirmos com o uso destes conceitos, vamos praticar um pouco. Quais são os prefixos e sufixos da string acima?</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<div class="animation"><img class="frame" src="img/GAB4/GAB4.png" alt="1"></div>
+</details>
+</blockquote>
+<p>Agora que sabemos criar os prefixos e sufixos precisamos descobrir como utilizá-los para reduzir o número de comparações.</p>
+<p>Vamos voltar ao caso anterior:</p>
+<div class="animation"><img class="frame" src="img/EX3/EX3.png" alt="1"></div>
+<blockquote class="question">
+<p>Exercício 5</p>
+<p>Neste caso a última comparação foi feita com o prefixo ABCAB, qual o sufixo deste prefixo que também é um prefixo da string buscada?</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<p>Consultando a tabela de prefixos e sufixos podemos ver que o sufixo que também é um prefixo da string buscada é AB.</p>
+<div class="animation"><img class="frame" src="img/GAB5/GAB5.png" alt="1"></div>
+</details>
+</blockquote>
+<blockquote class="question">
+<p>Exercício 6</p>
+<p>Que tipo de operação podemos fazer com este prefixo e sufixo para determinar o tamanho salto que deve ser feito na comparação?</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<p>A última comparação realizada, foi com um prefixo de tamanho 5. O sufixo encontrado que também é um prefixo da string buscada tem tamanho 2. Assim, podemos fazer um salto de 5 - 2 = 3 posições na comparação. Resultando na mesma comparação exibida anteriormente:</p>
+<div class="animation"><img class="frame" src="img/GAB3/GAB3.png" alt="1"></div>
+</details>
+</blockquote>
+<p>Se você entendeu tudo isso <strong>PARABÉNS!</strong> você aprendeu a lógica do algorítmo de Knuth-Morris-Pratt. A implementação é um pouco mais difícil e utiliza um vetor de repetições (também chamado de tabela de falhas), mas não se preocupe, vamos ver como ele funciona exatamente e como implementá-lo depois. Por enquanto, só aceite que o número embaixo da substring representa o tamanho do maior sufixo que também é um prefixo da string buscada e por consequência o tamanho do salto que deve ser feito na comparação, como mostrado nos exercícios que você acabou de fazer.</p>
+<figure class="img"><img src="img/salto.png" alt="image" title="o salto"></figure>
+<h2>Implementando o KMP</h2>
+<p>Com o vetor de repetições criado, estamos livres para implementar o algoritmo KMP. Para isso, basta percorrer o texto e a string buscada simultaneamente, comparando os caracteres. Caso os caracteres sejam iguais, incrementamos o índice do texto e o índice da string buscada. Caso contrário, incrementamos apenas o índice do texto.</p>
+<p>Os números embaixo da substring mostram qual é o índice do próximo caractere que deve ser comparado no texto, olhando sempre o índice do último caractere que deu match. Por exemplo, se você comparou “ACAA” com a substring “ACAC”, você deve olhar o índice em baixo do último caractere que deu match (o segundo A) e comparar o caractere do texto que está na posição indicada (o primeiro C) com o char que deu mismatch (o segundo C).</p>
+<p>Essa explicação pode ser confusa à primeira vista, por isso preste atenção na simulação visual algoritmo.</p>
+<blockquote class="warning">
+<p>Aviso</p>
+<p>Vale-se notar que cada imagem não se trata de uma iteração, visto que as comparações e incremento de i e j acontecem dentro de uma única iteração.</p>
+</blockquote>
+<div class="animation"><img class="frame" src="img/KMP/KMP01.png" alt="1"><img class="frame" src="img/KMP/KMP02.png" alt="2"><img class="frame" src="img/KMP/KMP03.png" alt="3"><img class="frame" src="img/KMP/KMP04.png" alt="4"><img class="frame" src="img/KMP/KMP05.png" alt="5"><img class="frame" src="img/KMP/KMP06.png" alt="6"><img class="frame" src="img/KMP/KMP07.png" alt="7"><img class="frame" src="img/KMP/KMP08.png" alt="8"><img class="frame" src="img/KMP/KMP09.png" alt="9"><img class="frame" src="img/KMP/KMP10.png" alt="10"><img class="frame" src="img/KMP/KMP11.png" alt="11"><img class="frame" src="img/KMP/KMP12.png" alt="12"><img class="frame" src="img/KMP/KMP13.png" alt="13"><img class="frame" src="img/KMP/KMP14.png" alt="14"><img class="frame" src="img/KMP/KMP15.png" alt="15"><img class="frame" src="img/KMP/KMP16.png" alt="16"><img class="frame" src="img/KMP/KMP17.png" alt="17"><img class="frame" src="img/KMP/KMP18.png" alt="18"><img class="frame" src="img/KMP/KMP19.png" alt="19"><img class="frame" src="img/KMP/KMP20.png" alt="20"><img class="frame" src="img/KMP/KMP21.png" alt="21"><img class="frame" src="img/KMP/KMP22.png" alt="22"><img class="frame" src="img/KMP/KMP23.png" alt="23"><img class="frame" src="img/KMP/KMP24.png" alt="24"><img class="frame" src="img/KMP/KMP25.png" alt="25"><img class="frame" src="img/KMP/KMP26.png" alt="26"><img class="frame" src="img/KMP/KMP27.png" alt="27"><img class="frame" src="img/KMP/KMP28.png" alt="28"><img class="frame" src="img/KMP/KMP29.png" alt="29"><img class="frame" src="img/KMP/KMP30.png" alt="30"><img class="frame" src="img/KMP/KMP31.png" alt="31"><img class="frame" src="img/KMP/KMP32.png" alt="32"><img class="frame" src="img/KMP/KMP33.png" alt="33"><img class="frame" src="img/KMP/KMP34.png" alt="34"></div>
+<p>Complementando a explicaçao visual, temos a implementação em C do algoritmo KMP:</p>
+<pre><code class="language-C">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+void busca_KMP(char* texto, char* string) {
+   int M = strlen(string);
+   int N = strlen(texto);
+   int pps[M];
+   cria_vetor_repeticoes(string, M, pps);
+   int i = 0;
+   int j = 0;
+   while (i &lt; N) {
+      if (string[j] == texto[i]) {
+         j++;
+         i++;
+      }
+      if (j == M) {
+         printf("Found string at index %d\n", i - j);
+         j = pps[j - 1];
+      }
+      else if (i &lt; N &amp;&amp; string[j] != texto[i]) {
+         if (j != 0)
+         j = pps[j - 1];
+         else
+         i = i + 1;
+      }
+   
+   }
+}
+
+int main() {
+   char texto[] = "AACTGGACGACACTAA";
+   char string[] = "ACAC";
+   busca_KMP(texto, string);
+   return 0;
+}
+</code></pre>
+<h2>Aplicações reais</h2>
+<p>O algoritmo KMP é utilizado em diversas aplicações, como:</p>
+<ul>
+<li>Busca de padrões em textos</li>
+<li>Busca de padrões em DNA</li>
+</ul>
+<p>No “mundo real”, o algoritmo KMP é utilizado principalmente na busca de padrões em DNA, uma vez que a sequência genética é composta por 4 letras (A, C, G e T) e, portanto, a probabilidade de encontrar padrões é muito maior do que em textos comuns.</p>
+<h2>Desafio: pensando na tabela de falhas</h2>
+<p>Agora que você já entendeu como funciona o algoritmo KMP e a sua tabela de falhas em alto nível, pense em como essa tabela funciona do ponto de vista matemático, ou seja, como ela é construída. Se precisar, volte e revise a seção sobre a tabela de falhas. (COLOCAR LINK PARA A SEÇÃO)<br>
+Ainda, se quiser se desafiar, tente implementar a tabela de falhas em C.</p>
+<h2>Gabarito</h2>
+<p>A implementação matemática da tabela de falhas funciona ao atribuir a cada posição do vetor de falhas o tamanho do maior prefixo que também é sufixo para a substring que vai do primeiro caractere até o caractere atual. Ou seja, deve-se “numerar” cada caractere da substring caso ele seja parte de um trecho que se repete no início da substring.</p>
+<p>Tudo bem se não ficou claro, pois a explicação é um pouco confusa. Por isso, vamos ver um exemplo visual para a string “ABCABCD”:</p>
+<div class="animation"><img class="frame" src="img/Vetor/Vetor1.png" alt="1"><img class="frame" src="img/Vetor/Vetor2.png" alt="2"><img class="frame" src="img/Vetor/Vetor3.png" alt="3"><img class="frame" src="img/Vetor/Vetor4.png" alt="4"><img class="frame" src="img/Vetor/Vetor5.png" alt="5"><img class="frame" src="img/Vetor/Vetor6.png" alt="6"><img class="frame" src="img/Vetor/Vetor7.png" alt="7"></div>
+<p>No caso acima, as letras tem índices maiores que 0 porque elas repetem o primeiro caractere, o primeiro e o segundo caractere, o primeiro, o segundo e o terceiro caractere, e assim por diante. Porém, se a substring não se repetir, o índice é 0, como no caso da letra “D”.</p>
+<p>Implementando isso em C, temos:</p>
+<pre><code class="language-C">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+void cria_vetor_repeticoes(char* pattern, int M, int* pps) {
+   // pattern é a string buscada
+   // M é a quantidade de caracteres da string buscada
+   // pps é o vetor de repetições
+   int length = 0;
+   pps[0] = 0;
+   int i = 1;
+   while (i &lt; M) {
+      if (pattern[i] == pattern[length]) {
+         length++;
+         pps[i] = length;
+         i++;
+      } else {
+         if (length != 0)
+         length = pps[length - 1];
+         else {
+            pps[i] = 0;
+            i++;
+         }
+      }
+   }
+}
+</code></pre>
+
+
+            </main>
+            <footer>
+                <a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">
+                    <img alt="CC BY-SA 4.0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" title="Creative Commons Attribution-ShareAlike 4.0 International License"/>
+                </a>
+                © 2022 Marcelo Hashimoto
+            </footer>
+        </div>
+    </body>
+</html>

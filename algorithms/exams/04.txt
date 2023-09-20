@@ -1,0 +1,122 @@
+Questão 5
+---------
+
+Não é necessário estimar a quantidade de iterações do loop externo (x).
+
+
+Quantidade de iterações do loop interno (y):
+-------------------------------------------
+Contador começa de 4 e aumenta em 3 enquanto for menor que 5*i.
+
+Depois de y-1 iterações, a condição ainda vale.
+4 + 3(y-1) < 5i
+4 + 3y - 3 < 5i
+3y + 1 < 5i
+3y < 5i - 1
+y < (5i-1)/3
+
+y = O(i), ou seja, y <= c_y i
+
+
+Valor de i ao longo do loop externo:
+-----------------------------------
+i = 2n, 2n / 4, 2n / 16, ..., 2n / 4^(x-1)
+
+Limitante para as iterações de todas as execuções do loop interno:
+-----------------------------------------------------------------
+  c_y (2n + (2n/4) + (2n/16) + ... + (2n/4^(x-1)))
+
+Soma infinita de PG
+- primeiro elemento 2n
+- razão 1/4
+
+< 2n / (1 - 1/4)
+= 2n / (3/4)
+= 8n / 3
+
+Podemos concluir que a complexidade é O(n).
+
+
+Questão 6
+---------
+
+Quantidade de iterações do loop externo (x):
+-------------------------------------------
+Contador começa de 2 e aumenta em 2 enquanto for menor que 2n.
+
+Depois de x-1 iterações, a condição ainda vale.
+2 + 2(x-1) < 2n
+2 + 2x - 2 < 2n
+2x < 2n
+x < n
+
+x = O(n), ou seja, x <= c_x n
+
+
+Quantidade de iterações do loop interno (y):
+-------------------------------------------
+Contador começa de 4 e aumenta em 5 enquanto for menor que 3i.
+
+Depois de y-1 iterações, a condição ainda vale.
+4 + 5(y-1) < 3i
+4 + 5y - 5 < 3i
+5y - 1 < 3i
+5y < 3i + 1
+y < (3i+1)/5
+
+y = O(i), ou seja, y <= c_y i
+
+
+Valor de i ao longo do loop externo:
+-----------------------------------
+i = 2, 4, 6, ..., 2x
+
+
+Limitante para as iterações de todas as execuções do loop interno:
+-----------------------------------------------------------------
+  c_y (2 + 4 + 6 + ... + 2x)
+
+Soma de PA
+- primeiro elemento 2
+- último elemento 2x+2
+- número de elementos x
+
+= c_y (2 + 2x + 2) (x / 2)
+= c_y (2x + 4) (x / 2)
+= c_y (x + 2) x
+
+Como x <= c_x n, pelas regras de simplificação
+podemos concluir que a complexidade é O(n^2).
+
+
+Questão 7
+---------
+
+Como o consumo de memória é importante, vamos considerar a tabela de recomendação 
+de memória na prática. Essa tabela recomenda a TABELA DE ESPALHAMENTO como a melhor opção.
+
+Como é importante que essas ações estejam armazenadas em uma fila de prioridade, onde só
+existem as operações de inserção ou remoção, vamos considerar a tabela de complexidade de
+tempo de inserção na teoria e a tabela de complexidade de tempo de remoção na teoria.
+
+A tabela de complexidade de tempo de inserção na teoria recomenda, para o melhor caso e
+para o caso médio, a TABELA DE ESPALHAMENTO como a melhor opção. Porém ela tem a desvantagem
+de ser mais lenta que as outras para o pior caso.
+
+A tabela de complexidade de tempo de remoção na teoria recomenda, para todos os casos, a
+TABELA DE ESPALHAMENTO como a melhor opção.
+
+
+Questão 8
+---------
+
+Como a velocidade da sequência de operações é importante, vamos considerar a tabela de 
+recomendação de tempo na prática. Independente das operações, essa tabela recomenda a 
+TABELA DE ESPALHAMENTO como a melhor opção.
+
+Como o consumo de memória é importante, vamos considerar a tabela de recomendação 
+de memória na prática. Essa tabela recomenda a TABELA DE ESPALHAMENTO como a melhor opção.
+
+Ela é lenta para operações relativas a ordem, mas o contexto não destaca isso
+como importante.
+

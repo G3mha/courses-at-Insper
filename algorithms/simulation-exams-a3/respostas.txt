@@ -1,0 +1,46 @@
+aquecimento Q1
+
+    LISTA LIGADA
+
+aquecimento Q2
+
+    LISTA LIGADA
+
+aquecimento Q3
+
+    VETOR DINÂMICO
+
+aquecimento Q4
+
+    all options considered
+
+simulado Q1a
+
+    ? ? ?
+    6 ? ?
+    ? ? ?
+    2 ? ?
+    ? ? ?
+    5 ? ?
+    5 3 ?
+    5 3 4
+    5 3 ?
+
+simulado Q1b
+
+    ? ? ?
+    6 ? ?
+    ? ? ?
+    2 ? ?
+    ? ? ?
+    5 ? ?
+    3 5 ?
+    4 3 5
+    4 3 ?
+
+
+Q7
+
+Ordenações rápidas
+Diferentes critérios de ordenação
+Milhares de apostas

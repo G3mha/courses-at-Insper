@@ -1,0 +1,84 @@
+Questão 1a
+----------
+
+depois de new(3):   ? ? ?
+depois de push(5):  5 ? ?
+depois de pop():    ? ? ?
+depois de push(1):  1 ? ?
+depois de push(4):  1 4 ?
+depois de push(2):  1 4 2
+depois de pop():    1 4 ?
+depois de push(3):  1 4 3
+
+
+Questão 1b
+----------
+
+depois de new(3):  ? ? ?
+depois de put(5):  5 ? ?
+depois de get():   ? ? ?
+depois de put(1):  ? 1 ?
+depois de put(4):  ? 1 4
+depois de put(2):  2 1 4
+depois de get():   2 ? 4
+depois de put(3):  2 3 4
+
+
+Questão 3
+---------
+
+int queue_int_maxget(queue_int *q) {
+    int max = q->data[q->begin];
+    int index = q->begin;
+    for (int i = q->begin; i <= q->end; i++) {
+        if (q->data[i] > max) {
+            max = q->data[i];
+            index = i;
+        }
+    }
+    q->size--;
+    if (q->begin == index) {
+        if (q->begin == q->capacity - 1) {
+            q->begin = 0;
+        } else {
+            q->begin++;
+        }
+    } else if (q->end == index) {
+        if (q->end == 0) {
+            q->end = q->capacity - 1;
+        } else {
+            q->end--;
+        }
+    } else {
+        q->begin = q->end;
+        q->end = index;
+    }
+    return max;
+}
+
+
+Questão 4
+---------
+
+int queue_int_maxget(queue_int *q) {
+    /* Escreva seu código aqui. */
+}
+
+
+Questão 5
+---------
+
+*Escreva a resposta aqui, no mesmo formato do handout da Aula 9.*
+
+
+Questão 6
+---------
+
+Podemos usar a tabela de recomendação de tempo na prática, visto que operações muito rápidas 
+foi um pedido da equipe. Essa tabela indica o VETOR ESTÁTICO.
+
+Como a equipe não fez uma exigência em relação a memória, 
+não é necessário levar em conta o impacto dela.
+
+Apesar de não oferecer segurança contra estouro, isso não é relevante
+visto que as dimensões do salão são conhecidas.

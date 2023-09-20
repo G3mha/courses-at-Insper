@@ -1,0 +1,38 @@
+{
+  "name": "orfalius",
+  "version": "1.0.0",
+  "description": "",
+  "main": "orfalius.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hashiprobr-classroom/desprog-orfalius.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hashiprobr-classroom/desprog-orfalius/issues"
+  },
+  "homepage": "https://github.com/hashiprobr-classroom/desprog-orfalius#readme",
+  "dependencies": {
+    "del": "^6.0.0",
+    "gulp-cached": "^1.1.1",
+    "handlebars": "^4.7.6",
+    "jsdom": "^16.6.0",
+    "markdown-it": "^12.1.0",
+    "markdown-it-color": "^2.1.1",
+    "markdown-it-include": "^2.0.0",
+    "markdown-it-kbd": "^2.2.2",
+    "markdown-it-mathjax": "^2.0.0",
+    "markdown-it-multimd-table": "^4.1.0",
+    "plugin-error": "^1.0.1"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.27.4",
+    "eslint": "^7.31.0",
+    "gulp": "^4.0.2"
+  },
+  "type": "module"
+}

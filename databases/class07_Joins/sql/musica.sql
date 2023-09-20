@@ -8,7 +8,7 @@ CREATE TABLE AUTOR (
 );
 
 CREATE TABLE CD (
-    Codigo_CD INTEGER NOT NULL,
+    Codigo_CD INTEGER NOcT NULL,
     Codigo_Gravadora INTEGER NULL,
     Nome_CD VARCHAR(60) NULL,
     Preco_Venda INTEGER NULL,

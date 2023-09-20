@@ -1,0 +1,130 @@
+QuestÃ£o 1
+---------
+
+iteracao 1: 7 = (0+15)/2
+iteracao 2: 3 = (0+6)/2
+iteracao 3: 1 = (0+2)/2
+iteracao 4: 2 = (2+2)/2
+
+QuestÃ£o 2
+---------
+
+bubble sort
+3 1 2 4 5
+1 2 3 4 5
+1 2 3 4 5
+selection sort
+1 3 5 2 4
+1 2 5 3 4
+1 2 3 5 4
+1 2 3 4 5
+insertion sort
+3 5 1 2 4
+1 3 5 2 4
+1 2 3 5 4
+1 2 3 4 5
+
+QuestÃ£o 3a
+----------
+
+final da iteração 1: i = 0, j = 4
+final da iteração 2: i = 1, j = 4
+final da iteração 3: i = 2, j = 4
+final da iteração 4: i = 2, j = 5
+final da iteração 5: i = 3, j = 5
+final da iteração 6: i = 3, j = 6
+
+QuestÃ£o 3b
+----------
+
+final da iteração 1: p = 1, v = 3 5 6 2 1 4
+final da iteração 2: p = 1, v = 3 5 6 2 1 4
+final da iteração 3: p = 1, v = 3 5 6 2 1 4
+final da iteração 4: p = 2, v = 3 2 6 5 1 4
+final da iteração 5: p = 3, v = 3 2 1 5 6 4
+
+
+QuestÃ£o 4
+---------
+
+Quantidade de iterações do loop externo (x):
+-------------------------------------------
+Contador começa de 4 e aumenta em 4 enquanto for menor que 5*n.
+
+Depois de x-1 iterações, a condição ainda vale.
+4 + 4(x-1) < 5*n
+4 + 4x - 4 < 5*n
+4x < 5*n
+x < n*1.25
+
+x = O(n), ou seja, x <= c_x n
+
+
+Quantidade de iterações do loop interno (y):
+-------------------------------------------
+Contador começa de 3 e multiplica por 3 enquanto for menor ou igual a 5*i.
+
+Depois de y-1 iterações, a condição ainda vale.
+3 * 3^(y-1) < 5*i
+3^(y) < 5*i
+y < log3(5*i)
+
+y = O(log 5*i), ou seja, y <= c_y log 5*i
+
+
+Valor de i ao longo do loop externo:
+-----------------------------------
+i = 4, 8, 12, ..., 4 + 4(x-1)
+
+
+Limitante para as iterações de todas as execuções do loop interno:
+-----------------------------------------------------------------
+   c_y (log 4 + log 5 + log 8 + log 5 + log 12 + log 5 + ... + log 5 + log (4+4(x-1))
+
+Soma de logaritmos de PA
+
+<= c_y c (x log x + 5 log 5)
+
+Como x <= c_x n, pelas regras de simplificação
+podemos concluir que a complexidade é O(n log n).
+
+
+QuestÃ£o 5
+---------
+
+*Escreva a resposta aqui, no mesmo formato da Lista de Complexidade.*
+
+
+QuestÃ£o 6
+---------
+
+*Escreva a resposta aqui, no mesmo formato da Lista de Complexidade.*
+
+
+QuestÃ£o 7
+---------
+
+Como a velocidade é importante, vamos considerar uma das tabelas de tempo. Como
+os vetores são imprevisíveis, não podemos usar a recomendação na prática, pois o
+algoritmo indicado depende do padrão do vetor.
+
+Vamos então considerar a complexidade de tempo. Como há milhares de cadastros, o
+vetor é grande o suficiente para a complexidade ser um critério confiável.
+
+Como é exigido que a média do tempo seja baixa, o MERGE SORT e o QUICK SORT
+são melhores que os outros três.
+
+Como também é exigido que a variância da velocidade seja baixa, o MERGE SORT é
+melhor que o QUICK SORT, pois o segundo tem maior complexidade no pior caso.
+
+Portanto, o algoritmo mais indicado é o MERGE SORT, seguido pelo QUICK SORT.
+
+Ele também garante estabilidade, embora esse critério não tenha sido fortemente exigido.
+
+Ele é o pior em relação ao consumo de memória adicional, mas a empresa aceita
+aumentar a memória caso seja necessário.
+
+QuestÃ£o 8
+---------
+
+*Escreva a resposta aqui, no mesmo formato do handout da Aula 9.*

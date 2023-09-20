@@ -1,0 +1,117 @@
+Questão 1
+---------
+
+int queue_int_proxget(queue_int *q, int n) {
+    int index_of_prox = q->begin + 1;
+    int prox = (q->data)[q->begin + 1];
+    int i = q->begin + 1;
+    while (i < q->capacity) {
+        if ((q->data[i] - n) < (prox - n)) {
+            prox = q->data[i];
+            index_of_prox = i;
+        }
+        i++;
+    }
+    i = index_of_prox;
+    while (i != q->begin) {
+        int next_index = i > 0 ? i-- : q->capacity - 1;
+        q->data[i] = q->data[next_index];
+        i = next_index;
+    }
+    q->begin++;
+    if (q->begin >= q->capacity) {
+        q = 0;
+    }
+    q->size--;
+
+    return prox;
+}
+
+
+Questão 2
+---------
+
+int queue_int_proxget(queue_int *q, int n) {
+    node *previous_to_prox_node = NULL;
+    node *prox_node = q->first;
+    node *previous_to_current_node = q->first;
+    node *current_node = previous_to_current_node->next;
+    int retval;
+    while (current_node->next != NULL) {
+        if (abs(current_node->value - n) < abs(prox_node->value - n)) {
+            previous_to_prox_node = previous_to_current_node;
+            prox_node = current_node;
+        }
+		previous_to_current_node = current_node;
+        current_node = current_node->next;
+	}
+    if (abs(current_node->value - n) < abs(prox_node->value - n)) {
+        // é o last node
+        retval = current_node->value;
+        q->last = previous_to_current_node;
+        free(current_node);
+    } else if (previous_to_prox_node != NULL) {
+        retval = prox_node->value;
+        previous_to_prox_node->next = prox_node->next;
+        free(prox_node);
+    } else {
+        // é o first node
+        retval = (q->first)->value;
+        q->first = (q->first)->next;
+        free(q->first);
+    }
+    return retval;
+}
+
+
+Questão 3
+---------
+
+Como a velocidade é importante, vamos considerar a recomendação de tempo na
+prática. Como há centenas de pacientes, vamos especificamente considerar a
+recomendação para vetores grandes.
+
+Por fim, como a lista de pacientes está ordenada pela data de chegada do paciente
+e sugere um vetor quase ou totalmente crescente, porém dado o contexto exigido pelo cliente,
+de que deve ser colocado a maior prioridade no paciente mais recente no hospital, podemos 
+invertê-lo para obter um vetor quase ou totalmente decrescente.
+
+Segundo a recomendação para esse tipo de vetor, o algoritmo mais indicado é o MERGE SORT.
+
+Ele também garante estabilidade, mas tem alto consumo de memória adicional, embora
+esses critérios não tenham sido exigidos pelo contexto.
+
+
+Questão 4
+---------
+
+Como a velocidade é importante, vamos considerar a recomendação de tempo na
+prática. Como há pouco mais de 25 cachorros, vamos especificamente considerar a
+recomendação para vetores pequenos.
+
+Por fim, como a lista a ser ordenada é dada aleatoriamente e, portanto, sem uma ordem aparente, 
+o algoritmo mais indicado é o INSERTION SORT.
+
+Ele garante baixo consumo de memória adicional, já que foi exigido pelo contexto que ele performe 
+bem em celulares e/ou computadores mais antigos e lentos.
+
+Ele também garante estabilidade, embora esse critério não tenham sido exigido.
+
+
+
+Questão 5
+---------
+
+É sugerido que se aplique um algoritmo com a maior velocidade MÉDIA possível, por isso devemos
+considerar a tabela de complexidade de tempo na teoria, que indica para casos médios o QUICK SORT e o MERGE SORT.
+
+Como a velocidade é importante, vamos considerar a recomendação de tempo na prática. Como há 
+potencialmente milhões de perfis, vamos especificamente considerar a recomendação para 
+vetores grandes. Como o contexto sugere que não há uma ordem aparente inicial para a ordem 
+dos perfis, ela indica o QUICK SORT em 1o lugar e em 2o o MERGE SORT.
+
+Como a estabilidade é um critério essencial para o cliente, não se pode usar o QUICK SORT.
+
+Por fim, o algoritmo mais indicado é o MERGE SORT.
+
+Ele é o pior em consumo de memória adicional, mas esse critério não foi exigido.
