@@ -10,3 +10,5 @@ REVOKE INSERT ON tranqueira.perigo FROM 'ana'@'localhost';
 
 CREATE USER 'joao'@'%' IDENTIFIED BY 'abc123';
 GRANT ALL PRIVILEGES ON tranqueira.* TO 'joao'@'%';
+
+CREATE USER 'u_ingest_multa'@'%' IDENTIFIED BY 'e7854285319f1c83fcd1';
