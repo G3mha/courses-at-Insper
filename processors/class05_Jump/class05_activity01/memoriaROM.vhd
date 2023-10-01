@@ -17,26 +17,26 @@ architecture assincrona of memoriaROM is
 
   type blocoMemoria is array(0 TO 2**addrWidth - 1) of std_logic_vector(dataWidth-1 DOWNTO 0);
   
-  -- Definindo as variáveis para o conjunto de instruções
   constant NOP  : std_logic_vector(3 downto 0) := "0000";
   constant LDA  : std_logic_vector(3 downto 0) := "0001";
   constant SOMA : std_logic_vector(3 downto 0) := "0010";
   constant SUB  : std_logic_vector(3 downto 0) := "0011";
   constant LDI  : std_logic_vector(3 downto 0) := "0100";
   constant STA  : std_logic_vector(3 downto 0) := "0101";
+  constant JMP  : std_logic_vector(3 downto 0) := "0110";
   
   function initMemory
         return blocoMemoria is variable tmp : blocoMemoria := (others => (others => '0'));
   begin
       -- opcode  |  acessa memória?  |  endereço/valor
       -- Inicializa os endereços:
-        tmp(0)  := LDI  & '0' & "00000100"; -- LDI $4
-        tmp(1)  := STA  & '1' & "00000001"; -- STA @257
-        tmp(2)  := LDI  & '0' & "00000011"; -- LDI $3
-        tmp(3)  := STA  & '1' & "00000000"; -- STA @256
-        tmp(4)  := SOMA & '1' & "00000000"; -- SOMA @256
-        tmp(5)  := SOMA & '1' & "00000000"; -- SOMA @256
-        tmp(6)  := SUB  & '1' & "00000001"; -- SUB @257
+        tmp(0)  := JMP  & '0' & "00000100"; -- JMP @4
+        tmp(1)  := JMP  & '1' & "00000101"; -- JMP @5
+        tmp(2)  := NOP  & '0' & "00000000"; -- NOP
+        tmp(3)  := NOP  & '0' & "00000000"; -- NOP
+        tmp(4)  := JMP  & '1' & "00000001"; -- JMP @1
+        tmp(5)  := NOP  & '0' & "00000000"; -- NOP
+        tmp(6)  := JMP  & '1' & "00000110"; -- JMP @6
         tmp(7)  := NOP  & '0' & "00000000"; -- NOP
         return tmp;
     end initMemory;

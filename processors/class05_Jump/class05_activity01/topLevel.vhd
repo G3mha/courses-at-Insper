@@ -63,10 +63,24 @@ gravar:  if simulacao generate
 CLK <= KEY(0);
 else generate
 detectorSub0: work.edgeDetector(bordaSubida)
-        port map (clk => CLOCK_50, entrada => (not KEY(0)), saida => CLK);
+port map (clk => CLOCK_50, entrada => (not KEY(0)), saida => CLK);
 end generate;
 
--- O port map completo do MUX. (DONE)
+PC : entity work.registradorGenerico  generic map (larguraDados => larguraEnderecos)
+          port map (DIN => proxPC, DOUT => Endereco, ENABLE => '1', CLK => CLK, RST => '0');
+
+incrementaPC :  entity work.somaConstante  generic map (larguraDados => larguraEnderecos, constante => 1)
+        port map (entrada => Endereco, saida => proxPC);
+
+MUX_PC : entity work.muxGenerico2x1  generic map (larguraDados => larguraEnderecos)
+        port map(entradaA_MUX => proxPC,
+                 entradaB_MUX => imediato_addr,
+                 seletor_MUX  => JMP_Habilita,
+                 saida_MUX    => proxPC);
+
+ROM1 : entity work.memoriaROM  generic map (dataWidth => larguraInstrucoes, addrWidth => larguraEnderecos)
+          port map (Endereco => Endereco, Dado => instruction);
+
 MUX1 :  entity work.muxGenerico2x1  generic map (larguraDados => larguraDados)
         port map(entradaA_MUX => RAM_out,
                  entradaB_MUX => imediato_value,
@@ -78,11 +92,6 @@ REGA : entity work.registradorGenerico  generic map (larguraDados => larguraDado
           port map (DIN => ULA_out, DOUT => RegA_out, ENABLE => Habilita_A, CLK => CLK, RST => '0');
 
 -- O port map completo do Program Counter. (DONE)
-PC : entity work.registradorGenerico  generic map (larguraDados => larguraEnderecos)
-          port map (DIN => proxPC, DOUT => Endereco, ENABLE => '1', CLK => CLK, RST => '0');
-
-incrementaPC :  entity work.somaConstante  generic map (larguraDados => larguraEnderecos, constante => 1)
-        port map (entrada => Endereco, saida => proxPC);
 
 -- o port map completo da memoria RAM (DONE)
 RAM1 : entity work.memoriaRAM   generic map (dataWidth => larguraDados, addrWidth => larguraEnderecos-1)
@@ -91,10 +100,6 @@ RAM1 : entity work.memoriaRAM   generic map (dataWidth => larguraDados, addrWidt
 -- O port map completo da ULA: (DONE)
 ULA1 : entity work.ULASomaSub  generic map(larguraDados => larguraDados)
           port map (entradaA => RegA_out, entradaB => MUX_out, saida => ULA_out, seletor => ULA_operation);
-
--- O port map completo da memória: (DONE)
-ROM1 : entity work.memoriaROM  generic map (dataWidth => larguraInstrucoes, addrWidth => larguraEnderecos)
-          port map (Endereco => Endereco, Dado => instruction);
 
 -- O port map completo do Decoder: (DONE)
 DEC : entity work.decoderGeneric  port map (entrada => opCode, saida => Sinais_Controle);
