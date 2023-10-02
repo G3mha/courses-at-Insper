@@ -6,7 +6,7 @@ entity topLevel is
   generic ( larguraDados            : natural := 8; -- 2^8 = 256 valores
             larguraEnderecos        : natural := 9; -- 2^9 = 512 enderecos
             larguraInstrucoes       : natural := 13; -- opCode | acessa memória? | endereço/valor
-				larguraSinaisDeControle : natural := 6; -- SelMux | Habilita_A | Operacao_ULA_2_bits | habLeituraMEM | habEscritaMEM
+				    larguraSinaisDeControle : natural := 7; -- habEscritaMEM | habLeituraMEM | Operacao_ULA_2_bits | Habilita_A | SelMUX | SelMUX_JMP
             simulacao               : boolean := TRUE -- para gravar na placa, altere de TRUE para FALSE
   );
   port   (
@@ -34,10 +34,13 @@ architecture arquitetura of topLevel is
   -- MUX
   signal SelMUX  : std_logic;
   signal MUX_out : std_logic_vector (larguraDados-1 downto 0);
+
+  -- MUX JMP
+  signal SelMUX_JMP : std_logic;
   
   -- RAM
   signal RAM_out       : std_logic_vector (larguraDados-1 downto 0);
-  alias RAM_Habilita   : std_logic is instruction(8);
+  alias  RAM_Habilita  : std_logic is instruction(8);
   signal habEscritaMEM : std_logic;
   signal habLeituraMEM : std_logic;
 
@@ -72,16 +75,16 @@ PC : entity work.registradorGenerico  generic map (larguraDados => larguraEndere
 incrementaPC :  entity work.somaConstante  generic map (larguraDados => larguraEnderecos, constante => 1)
         port map (entrada => Endereco, saida => proxPC);
 
-MUX_PC : entity work.muxGenerico2x1  generic map (larguraDados => larguraEnderecos)
+MUX_JMP : entity work.muxGenerico2x1  generic map (larguraDados => larguraEnderecos)
         port map(entradaA_MUX => proxPC,
                  entradaB_MUX => imediato_addr,
-                 seletor_MUX  => JMP_Habilita,
+                 seletor_MUX  => SelMUX_JMP,
                  saida_MUX    => proxPC);
 
-ROM1 : entity work.memoriaROM  generic map (dataWidth => larguraInstrucoes, addrWidth => larguraEnderecos)
+ROM : entity work.memoriaROM  generic map (dataWidth => larguraInstrucoes, addrWidth => larguraEnderecos)
           port map (Endereco => Endereco, Dado => instruction);
 
-MUX1 :  entity work.muxGenerico2x1  generic map (larguraDados => larguraDados)
+MUX_ULA :  entity work.muxGenerico2x1  generic map (larguraDados => larguraDados)
         port map(entradaA_MUX => RAM_out,
                  entradaB_MUX => imediato_value,
                  seletor_MUX  => SelMUX,
@@ -91,8 +94,6 @@ MUX1 :  entity work.muxGenerico2x1  generic map (larguraDados => larguraDados)
 REGA : entity work.registradorGenerico  generic map (larguraDados => larguraDados)
           port map (DIN => ULA_out, DOUT => RegA_out, ENABLE => Habilita_A, CLK => CLK, RST => '0');
 
--- O port map completo do Program Counter. (DONE)
-
 -- o port map completo da memoria RAM (DONE)
 RAM1 : entity work.memoriaRAM   generic map (dataWidth => larguraDados, addrWidth => larguraEnderecos-1)
           port map (addr => imediato_value, we => habEscritaMEM, re => habLeituraMEM, habilita  => RAM_Habilita, dado_in => RegA_out, dado_out => RAM_out, clk => CLK);
@@ -101,15 +102,15 @@ RAM1 : entity work.memoriaRAM   generic map (dataWidth => larguraDados, addrWidt
 ULA1 : entity work.ULASomaSub  generic map(larguraDados => larguraDados)
           port map (entradaA => RegA_out, entradaB => MUX_out, saida => ULA_out, seletor => ULA_operation);
 
--- O port map completo do Decoder: (DONE)
 DEC : entity work.decoderGeneric  port map (entrada => opCode, saida => Sinais_Controle);
 
--- (DONE)
+
 habEscritaMEM <= Sinais_Controle(0);
 habLeituraMEM <= Sinais_Controle(1);
 ULA_operation <= Sinais_Controle(3 downto 2);
 Habilita_A <= Sinais_Controle(4);
 SelMUX <= Sinais_Controle(5);
+SelMUX_JMP <= Sinais_Controle(6);
 
 -- A ligacao dos LEDs: (DONE)
 LEDR (9) <= ULA_operation(1);
