@@ -37,6 +37,7 @@ architecture arquitetura of topLevel is
 
   -- MUX JMP
   signal SelMUX_JMP : std_logic;
+  signal MUX_out_JMP : std_logic_vector (larguraEnderecos-1 downto 0);
   
   -- RAM
   signal RAM_out       : std_logic_vector (larguraDados-1 downto 0);
@@ -70,7 +71,7 @@ port map (clk => CLOCK_50, entrada => (not KEY(0)), saida => CLK);
 end generate;
 
 PC : entity work.registradorGenerico  generic map (larguraDados => larguraEnderecos)
-          port map (DIN => proxPC, DOUT => Endereco, ENABLE => '1', CLK => CLK, RST => '0');
+          port map (DIN => MUX_out_JMP, DOUT => Endereco, ENABLE => '1', CLK => CLK, RST => '0');
 
 incrementaPC :  entity work.somaConstante  generic map (larguraDados => larguraEnderecos, constante => 1)
         port map (entrada => Endereco, saida => proxPC);
@@ -79,7 +80,7 @@ MUX_JMP : entity work.muxGenerico2x1  generic map (larguraDados => larguraEndere
         port map(entradaA_MUX => proxPC,
                  entradaB_MUX => imediato_addr,
                  seletor_MUX  => SelMUX_JMP,
-                 saida_MUX    => proxPC);
+                 saida_MUX    => MUX_out_JMP);
 
 ROM : entity work.memoriaROM  generic map (dataWidth => larguraInstrucoes, addrWidth => larguraEnderecos)
           port map (Endereco => Endereco, Dado => instruction);
@@ -90,15 +91,12 @@ MUX_ULA :  entity work.muxGenerico2x1  generic map (larguraDados => larguraDados
                  seletor_MUX  => SelMUX,
                  saida_MUX    => MUX_out);
 
--- O port map completo do Acumulador. (DONE)
 REGA : entity work.registradorGenerico  generic map (larguraDados => larguraDados)
           port map (DIN => ULA_out, DOUT => RegA_out, ENABLE => Habilita_A, CLK => CLK, RST => '0');
 
--- o port map completo da memoria RAM (DONE)
 RAM1 : entity work.memoriaRAM   generic map (dataWidth => larguraDados, addrWidth => larguraEnderecos-1)
           port map (addr => imediato_value, we => habEscritaMEM, re => habLeituraMEM, habilita  => RAM_Habilita, dado_in => RegA_out, dado_out => RAM_out, clk => CLK);
 
--- O port map completo da ULA: (DONE)
 ULA1 : entity work.ULASomaSub  generic map(larguraDados => larguraDados)
           port map (entradaA => RegA_out, entradaB => MUX_out, saida => ULA_out, seletor => ULA_operation);
 
