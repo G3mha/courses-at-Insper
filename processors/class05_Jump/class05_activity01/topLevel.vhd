@@ -52,7 +52,7 @@ architecture arquitetura of topLevel is
 
   -- PC
   signal proxPC   : std_logic_vector (larguraEnderecos-1 downto 0);
-  signal Endereco : std_logic_vector (larguraEnderecos-1 downto 0);
+  signal outPC : std_logic_vector (larguraEnderecos-1 downto 0);
 
   -- ULA
   signal ULA_out       : std_logic_vector (larguraDados-1 downto 0);
@@ -71,10 +71,10 @@ port map (clk => CLOCK_50, entrada => (not KEY(0)), saida => CLK);
 end generate;
 
 PC : entity work.registradorGenerico  generic map (larguraDados => larguraEnderecos)
-          port map (DIN => MUX_out_JMP, DOUT => Endereco, ENABLE => '1', CLK => CLK, RST => '0');
+          port map (DIN => MUX_out_JMP, DOUT => outPC, ENABLE => '1', CLK => CLK, RST => '0');
 
 incrementaPC :  entity work.somaConstante  generic map (larguraDados => larguraEnderecos, constante => 1)
-        port map (entrada => Endereco, saida => proxPC);
+        port map (entrada => outPC, saida => proxPC);
 
 MUX_JMP : entity work.muxGenerico2x1  generic map (larguraDados => larguraEnderecos)
         port map(entradaA_MUX => proxPC,
@@ -83,7 +83,7 @@ MUX_JMP : entity work.muxGenerico2x1  generic map (larguraDados => larguraEndere
                  saida_MUX    => MUX_out_JMP);
 
 ROM : entity work.memoriaROM  generic map (dataWidth => larguraInstrucoes, addrWidth => larguraEnderecos)
-          port map (Endereco => Endereco, Dado => instruction);
+          port map (Endereco => outPC, Dado => instruction);
 
 MUX_ULA :  entity work.muxGenerico2x1  generic map (larguraDados => larguraDados)
         port map(entradaA_MUX => RAM_out,
@@ -115,7 +115,7 @@ LEDR (9) <= ULA_operation(1);
 LEDR (8) <= ULA_operation(0);
 LEDR (7 downto 0) <= RegA_out;
 
-PC_OUT <= Endereco;
+PC_OUT <= outPC;
 EntradaB_ULA <= MUX_out;
 Palavra_Controle <= Sinais_Controle;
 
