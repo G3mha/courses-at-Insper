@@ -1,3 +1,0 @@
--- Coloque no terminal:
-
-ssh cloud@roteador
