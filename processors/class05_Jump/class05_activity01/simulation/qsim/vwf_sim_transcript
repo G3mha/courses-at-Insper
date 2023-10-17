@@ -26,9 +26,13 @@ Info: Running Quartus Prime EDA Netlist Writer
     Info: Intel and sold by Intel or its authorized distributors.  Please
     Info: refer to the applicable agreement for further details, at
     Info: https://fpgasoftware.intel.com/eula.
-    Info: Processing started: Mon Oct 09 14:15:46 2023
+    Info: Processing started: Sun Oct 15 10:40:37 2023
 Info: Command: quartus_eda --gen_testbench --tool=modelsim_oem --format=vhdl --write_settings_files=off class05_activity01 -c class05_activity01 --vector_source="C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/Waveform.vwf" --testbench_file="C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/simulation/qsim/Waveform.vwf.vht"
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+
+n Oct 15 10:40:37 2023
+    Info: Elapsed time: 00:00:00
+    Info: Total CPU time (on all processors): 00:00:01
 
 Completed successfully. 
 
@@ -53,13 +57,13 @@ Info: Running Quartus Prime EDA Netlist Writer
     Info: Intel and sold by Intel or its authorized distributors.  Please
     Info: refer to the applicable agreement for further details, at
     Info: https://fpgasoftware.intel.com/eula.
-    Info: Processing started: Mon Oct 09 14:15:47 2023
+    Info: Processing started: Sun Oct 15 10:40:38 2023
 Info: Command: quartus_eda --write_settings_files=off --simulation=on --functional=on --flatten_buses=off --tool=modelsim_oem --format=vhdl --output_directory="C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/simulation/qsim/" class05_activity01 -c class05_activity01
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (204019): Generated file class05_activity01.vho in folder "C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/simulation/qsim//" for EDA simulation tool
 Info: Quartus Prime EDA Netlist Writer was successful. 0 errors, 1 warning
     Info: Peak virtual memory: 4721 megabytes
-    Info: Processing ended: Mon Oct 09 14:15:48 2023
+    Info: Processing ended: Sun Oct 15 10:40:39 2023
     Info: Elapsed time: 00:00:01
     Info: Total CPU time (on all processors): 00:00:00
 
@@ -81,11 +85,13 @@ Reading pref.tcl
 
 
 # do class05_activity01.do
+# ** Warning: (vlib-34) Library already exists at "work".
 
 # Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
-# Start time: 14:15:49 on Oct 09,2023
+# Start time: 10:40:40 on Oct 15,2023
 # vcom -work work class05_activity01.vho 
 # -- Loading package STANDARD
+
 # -- Loading package TEXTIO
 # -- Loading package std_logic_1164
 # -- Loading package VITAL_Timing
@@ -97,22 +103,22 @@ Reading pref.tcl
 # -- Loading package cyclonev_components
 # -- Compiling entity topLevel
 # -- Compiling architecture structure of topLevel
-# End time: 14:15:49 on Oct 09,2023, Elapsed time: 0:00:00
+# End time: 10:40:40 on Oct 15,2023, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-
 # Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
-# Start time: 14:15:49 on Oct 09,2023
+# Start time: 10:40:40 on Oct 15,2023
 # vcom -work work Waveform.vwf.vht 
+
 # -- Loading package STANDARD
 # -- Loading package TEXTIO
 # -- Loading package std_logic_1164
 # -- Compiling entity topLevel_vhd_vec_tst
 # -- Compiling architecture topLevel_arch of topLevel_vhd_vec_tst
-# End time: 14:15:49 on Oct 09,2023, Elapsed time: 0:00:00
+# End time: 10:40:40 on Oct 15,2023, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 
 # vsim -c -t 1ps -L cyclonev -L altera -L altera_mf -L 220model -L sgate -L altera_lnsim work.topLevel_vhd_vec_tst 
-# Start time: 14:15:49 on Oct 09,2023
+# Start time: 10:40:40 on Oct 15,2023
 # Loading std.standard
 # Loading std.textio(body)
 # Loading ieee.std_logic_1164(body)
@@ -131,9 +137,9 @@ Reading pref.tcl
 # Loading cyclonev.cyclonev_clkena(behavior)
 # Loading cyclonev.cyclonev_lcell_comb(vital_lcell_comb)
 # Loading altera.dffeas(vital_dffeas)
-# after#32
+# after#34
 
-# End time: 14:15:50 on Oct 09,2023, Elapsed time: 0:00:01
+# End time: 10:40:41 on Oct 15,2023, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 
 Completed successfully. 
@@ -146,7 +152,7 @@ Reading C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Ju
 
 Processing channel transitions... 
 
-Writing the resulting VWF to C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/simulation/qsim/class05_activity01_20231009141550.sim.vwf
+Writing the resulting VWF to C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/simulation/qsim/class05_activity01_20231015104041.sim.vwf
 
 Finished VCD to VWF conversion.
 

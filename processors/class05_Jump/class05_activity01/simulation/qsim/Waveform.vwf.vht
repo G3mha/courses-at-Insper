@@ -19,7 +19,7 @@
 -- the top level entity of the current Quartus project .The user can use this   
 -- testbench to simulate his design using a third-party simulation tool .       
 -- *****************************************************************************
--- Generated on "10/09/2023 14:15:47"
+-- Generated on "10/15/2023 10:40:37"
                                                              
 -- Vhdl Test Bench(with test vectors) for design  :          topLevel
 -- 
@@ -35,17 +35,13 @@ ARCHITECTURE topLevel_arch OF topLevel_vhd_vec_tst IS
 -- constants                                                 
 -- signals                                                   
 SIGNAL CLOCK_50 : STD_LOGIC;
-SIGNAL EntradaB_ULA : STD_LOGIC_VECTOR(7 DOWNTO 0);
 SIGNAL KEY : STD_LOGIC_VECTOR(3 DOWNTO 0);
-SIGNAL LEDR : STD_LOGIC_VECTOR(9 DOWNTO 0);
 SIGNAL Palavra_Controle : STD_LOGIC_VECTOR(6 DOWNTO 0);
 SIGNAL PC_OUT : STD_LOGIC_VECTOR(8 DOWNTO 0);
 COMPONENT topLevel
 	PORT (
 	CLOCK_50 : IN STD_LOGIC;
-	EntradaB_ULA : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
 	KEY : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-	LEDR : OUT STD_LOGIC_VECTOR(9 DOWNTO 0);
 	Palavra_Controle : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
 	PC_OUT : OUT STD_LOGIC_VECTOR(8 DOWNTO 0)
 	);
@@ -55,9 +51,7 @@ BEGIN
 	PORT MAP (
 -- list connections between master ports and signals
 	CLOCK_50 => CLOCK_50,
-	EntradaB_ULA => EntradaB_ULA,
 	KEY => KEY,
-	LEDR => LEDR,
 	Palavra_Controle => Palavra_Controle,
 	PC_OUT => PC_OUT
 	);

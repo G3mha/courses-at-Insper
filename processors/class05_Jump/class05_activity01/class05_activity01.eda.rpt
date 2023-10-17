@@ -1,5 +1,5 @@
 EDA Netlist Writer report for class05_activity01
-Mon Oct 09 14:15:48 2023
+Sun Oct 15 10:40:39 2023
 Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
 
 
@@ -37,7 +37,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------------------+
 ; EDA Netlist Writer Summary                                        ;
 +---------------------------+---------------------------------------+
-; EDA Netlist Writer Status ; Successful - Mon Oct 09 14:15:48 2023 ;
+; EDA Netlist Writer Status ; Successful - Sun Oct 15 10:40:39 2023 ;
 ; Revision Name             ; class05_activity01                    ;
 ; Top-level Entity Name     ; topLevel                              ;
 ; Family                    ; Cyclone V                             ;
@@ -95,13 +95,13 @@ Info: Running Quartus Prime EDA Netlist Writer
     Info: Intel and sold by Intel or its authorized distributors.  Please
     Info: refer to the applicable agreement for further details, at
     Info: https://fpgasoftware.intel.com/eula.
-    Info: Processing started: Mon Oct 09 14:15:47 2023
+    Info: Processing started: Sun Oct 15 10:40:38 2023
 Info: Command: quartus_eda --write_settings_files=off --simulation=on --functional=on --flatten_buses=off --tool=modelsim_oem --format=vhdl --output_directory="C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/simulation/qsim/" class05_activity01 -c class05_activity01
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (204019): Generated file class05_activity01.vho in folder "C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/simulation/qsim//" for EDA simulation tool
 Info: Quartus Prime EDA Netlist Writer was successful. 0 errors, 1 warning
     Info: Peak virtual memory: 4721 megabytes
-    Info: Processing ended: Mon Oct 09 14:15:48 2023
+    Info: Processing ended: Sun Oct 15 10:40:39 2023
     Info: Elapsed time: 00:00:01
     Info: Total CPU time (on all processors): 00:00:00
 

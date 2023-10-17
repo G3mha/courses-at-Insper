@@ -1,5 +1,5 @@
 Analysis & Synthesis report for class05_activity01
-Mon Oct 09 14:10:10 2023
+Sun Oct 15 10:30:49 2023
 Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
 
 
@@ -13,22 +13,21 @@ Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
   5. Analysis & Synthesis Source Files Read
   6. Analysis & Synthesis Resource Usage Summary
   7. Analysis & Synthesis Resource Utilization by Entity
-  8. Registers Removed During Synthesis
-  9. General Register Statistics
- 10. Parameter Settings for User Entity Instance: Top-level Entity: |topLevel
- 11. Parameter Settings for User Entity Instance: registradorGenerico:PC
- 12. Parameter Settings for User Entity Instance: somaConstante:incrementaPC
- 13. Parameter Settings for User Entity Instance: muxGenerico2x1:MUX_JMP
- 14. Parameter Settings for User Entity Instance: memoriaROM:ROM
- 15. Parameter Settings for User Entity Instance: muxGenerico2x1:MUX_ULA
- 16. Parameter Settings for User Entity Instance: registradorGenerico:REGA
- 17. Parameter Settings for User Entity Instance: memoriaRAM:RAM1
- 18. Parameter Settings for User Entity Instance: ULASomaSub:ULA1
- 19. Port Connectivity Checks: "registradorGenerico:REGA"
- 20. Port Connectivity Checks: "registradorGenerico:PC"
- 21. Post-Synthesis Netlist Statistics for Top Partition
- 22. Elapsed Time Per Partition
- 23. Analysis & Synthesis Messages
+  8. General Register Statistics
+  9. Parameter Settings for User Entity Instance: Top-level Entity: |topLevel
+ 10. Parameter Settings for User Entity Instance: registradorGenerico:PC
+ 11. Parameter Settings for User Entity Instance: somaConstante:incrementaPC
+ 12. Parameter Settings for User Entity Instance: muxGenerico2x1:MUX_JMP
+ 13. Parameter Settings for User Entity Instance: memoriaROM:ROM
+ 14. Parameter Settings for User Entity Instance: muxGenerico2x1:MUX_ULA
+ 15. Parameter Settings for User Entity Instance: registradorGenerico:REGA
+ 16. Parameter Settings for User Entity Instance: memoriaRAM:RAM1
+ 17. Parameter Settings for User Entity Instance: ULASomaSub:ULA1
+ 18. Port Connectivity Checks: "registradorGenerico:REGA"
+ 19. Port Connectivity Checks: "registradorGenerico:PC"
+ 20. Post-Synthesis Netlist Statistics for Top Partition
+ 21. Elapsed Time Per Partition
+ 22. Analysis & Synthesis Messages
 
 
 
@@ -55,14 +54,14 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Mon Oct 09 14:10:10 2023       ;
+; Analysis & Synthesis Status     ; Successful - Sun Oct 15 10:30:49 2023       ;
 ; Quartus Prime Version           ; 20.1.0 Build 711 06/05/2020 SJ Lite Edition ;
 ; Revision Name                   ; class05_activity01                          ;
 ; Top-level Entity Name           ; topLevel                                    ;
 ; Family                          ; Cyclone V                                   ;
 ; Logic utilization (in ALMs)     ; N/A                                         ;
 ; Total registers                 ; 9                                           ;
-; Total pins                      ; 39                                          ;
+; Total pins                      ; 21                                          ;
 ; Total virtual pins              ; 0                                           ;
 ; Total block memory bits         ; 0                                           ;
 ; Total DSP Blocks                ; 0                                           ;
@@ -212,14 +211,14 @@ https://fpgasoftware.intel.com/eula.
 ;                                             ;                         ;
 ; Dedicated logic registers                   ; 9                       ;
 ;                                             ;                         ;
-; I/O pins                                    ; 39                      ;
+; I/O pins                                    ; 21                      ;
 ;                                             ;                         ;
 ; Total DSP Blocks                            ; 0                       ;
 ;                                             ;                         ;
 ; Maximum fan-out node                        ; memoriaROM:ROM|memROM~1 ;
 ; Maximum fan-out                             ; 10                      ;
-; Total fan-out                               ; 138                     ;
-; Average fan-out                             ; 1.33                    ;
+; Total fan-out                               ; 120                     ;
+; Average fan-out                             ; 1.76                    ;
 +---------------------------------------------+-------------------------+
 
 
@@ -228,22 +227,12 @@ https://fpgasoftware.intel.com/eula.
 +---------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------+---------------------+--------------+
 ; Compilation Hierarchy Node      ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                  ; Entity Name         ; Library Name ;
 +---------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------+---------------------+--------------+
-; |topLevel                       ; 17 (1)              ; 9 (0)                     ; 0                 ; 0          ; 39   ; 0            ; |topLevel                            ; topLevel            ; work         ;
+; |topLevel                       ; 17 (1)              ; 9 (0)                     ; 0                 ; 0          ; 21   ; 0            ; |topLevel                            ; topLevel            ; work         ;
 ;    |memoriaROM:ROM|             ; 7 (7)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |topLevel|memoriaROM:ROM             ; memoriaROM          ; work         ;
 ;    |registradorGenerico:PC|     ; 0 (0)               ; 9 (9)                     ; 0                 ; 0          ; 0    ; 0            ; |topLevel|registradorGenerico:PC     ; registradorGenerico ; work         ;
 ;    |somaConstante:incrementaPC| ; 9 (9)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |topLevel|somaConstante:incrementaPC ; somaConstante       ; work         ;
 +---------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------+---------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
-
-
-+-------------------------------------------------------------------------------------+
-; Registers Removed During Synthesis                                                  ;
-+---------------------------------------+---------------------------------------------+
-; Register name                         ; Reason for Removal                          ;
-+---------------------------------------+---------------------------------------------+
-; registradorGenerico:REGA|DOUT[0..7]   ; Stuck at GND due to stuck port clock_enable ;
-; Total Number of Removed Registers = 8 ;                                             ;
-+---------------------------------------+---------------------------------------------+
 
 
 +------------------------------------------------------+
@@ -391,7 +380,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;         0 data inputs ; 1                           ;
 ;         5 data inputs ; 6                           ;
 ;         6 data inputs ; 1                           ;
-; boundary_port         ; 39                          ;
+; boundary_port         ; 21                          ;
 ;                       ;                             ;
 ; Max LUT depth         ; 2.00                        ;
 ; Average LUT depth     ; 1.67                        ;
@@ -403,7 +392,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:00     ;
+; Top            ; 00:00:06     ;
 +----------------+--------------+
 
 
@@ -413,7 +402,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
-    Info: Processing started: Mon Oct 09 14:10:04 2023
+    Info: Processing started: Sun Oct 15 10:30:34 2023
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off class05_activity01 -c class05_activity01
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 14 of the 14 processors detected
@@ -455,36 +444,7 @@ Info (12128): Elaborating entity "registradorGenerico" for hierarchy "registrado
 Info (12128): Elaborating entity "memoriaRAM" for hierarchy "memoriaRAM:RAM1" File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 97
 Info (12128): Elaborating entity "ULASomaSub" for hierarchy "ULASomaSub:ULA1" File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 100
 Info (12128): Elaborating entity "decoderGeneric" for hierarchy "decoderGeneric:DEC" File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 103
-Info (276014): Found 1 instances of uninferred RAM logic
-    Info (276007): RAM logic "memoriaRAM:RAM1|ram" is uninferred due to asynchronous read logic File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/memoriaRAM.vhd Line: 27
-Warning (13046): Tri-state node(s) do not directly drive top-level pin(s)
-    Warning (13049): Converted tri-state buffer "memoriaRAM:RAM1|dado_out[0]" feeding internal logic into a wire File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/memoriaRAM.vhd Line: 17
-    Warning (13049): Converted tri-state buffer "memoriaRAM:RAM1|dado_out[1]" feeding internal logic into a wire File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/memoriaRAM.vhd Line: 17
-    Warning (13049): Converted tri-state buffer "memoriaRAM:RAM1|dado_out[2]" feeding internal logic into a wire File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/memoriaRAM.vhd Line: 17
-    Warning (13049): Converted tri-state buffer "memoriaRAM:RAM1|dado_out[3]" feeding internal logic into a wire File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/memoriaRAM.vhd Line: 17
-    Warning (13049): Converted tri-state buffer "memoriaRAM:RAM1|dado_out[4]" feeding internal logic into a wire File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/memoriaRAM.vhd Line: 17
-    Warning (13049): Converted tri-state buffer "memoriaRAM:RAM1|dado_out[5]" feeding internal logic into a wire File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/memoriaRAM.vhd Line: 17
-    Warning (13049): Converted tri-state buffer "memoriaRAM:RAM1|dado_out[6]" feeding internal logic into a wire File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/memoriaRAM.vhd Line: 17
-    Warning (13049): Converted tri-state buffer "memoriaRAM:RAM1|dado_out[7]" feeding internal logic into a wire File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/memoriaRAM.vhd Line: 17
 Warning (13024): Output pins are stuck at VCC or GND
-    Warning (13410): Pin "LEDR[0]" is stuck at GND File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 16
-    Warning (13410): Pin "LEDR[1]" is stuck at GND File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 16
-    Warning (13410): Pin "LEDR[2]" is stuck at GND File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 16
-    Warning (13410): Pin "LEDR[3]" is stuck at GND File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 16
-    Warning (13410): Pin "LEDR[4]" is stuck at GND File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 16
-    Warning (13410): Pin "LEDR[5]" is stuck at GND File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 16
-    Warning (13410): Pin "LEDR[6]" is stuck at GND File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 16
-    Warning (13410): Pin "LEDR[7]" is stuck at GND File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 16
-    Warning (13410): Pin "LEDR[8]" is stuck at GND File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 16
-    Warning (13410): Pin "LEDR[9]" is stuck at GND File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 16
-    Warning (13410): Pin "EntradaB_ULA[0]" is stuck at GND File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 17
-    Warning (13410): Pin "EntradaB_ULA[1]" is stuck at GND File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 17
-    Warning (13410): Pin "EntradaB_ULA[2]" is stuck at GND File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 17
-    Warning (13410): Pin "EntradaB_ULA[3]" is stuck at GND File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 17
-    Warning (13410): Pin "EntradaB_ULA[4]" is stuck at GND File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 17
-    Warning (13410): Pin "EntradaB_ULA[5]" is stuck at GND File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 17
-    Warning (13410): Pin "EntradaB_ULA[6]" is stuck at GND File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 17
-    Warning (13410): Pin "EntradaB_ULA[7]" is stuck at GND File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 17
     Warning (13410): Pin "Palavra_Controle[0]" is stuck at GND File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 18
     Warning (13410): Pin "Palavra_Controle[1]" is stuck at GND File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 18
     Warning (13410): Pin "Palavra_Controle[2]" is stuck at GND File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 18
@@ -499,14 +459,14 @@ Warning (21074): Design contains 4 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "KEY[1]" File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 14
     Warning (15610): No output dependent on input pin "KEY[2]" File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 14
     Warning (15610): No output dependent on input pin "KEY[3]" File: C:/Users/Enricco Gemha/Developer/courses-at-Insper/processors/class05_Jump/class05_activity01/topLevel.vhd Line: 14
-Info (21057): Implemented 56 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 38 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 5 input pins
-    Info (21059): Implemented 34 output pins
+    Info (21059): Implemented 16 output pins
     Info (21061): Implemented 17 logic cells
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 40 warnings
-    Info: Peak virtual memory: 4886 megabytes
-    Info: Processing ended: Mon Oct 09 14:10:10 2023
-    Info: Elapsed time: 00:00:06
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 13 warnings
+    Info: Peak virtual memory: 4905 megabytes
+    Info: Processing ended: Sun Oct 15 10:30:49 2023
+    Info: Elapsed time: 00:00:15
     Info: Total CPU time (on all processors): 00:00:04
 
 
