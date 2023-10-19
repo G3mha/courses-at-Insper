@@ -37,3 +37,11 @@ O NAT foi criado para resolver o problema da escassez de endereços IPv4. O IPv4
 ### Como funciona o processo de tradução?
 
 O processo de tradução de endereços de rede é feito em 4 etapas:
+
+1. Um dispositivo na rede interna, que possui um endereço IP privado, inicia uma comunicação com um destino na rede externa, como um servidor web na internet.
+2. O roteador, que atua como uma fronteira entre a rede interna e a rede externa, traduz o endereço IP privado e a porta do dispositivo interno para um endereço IP público e uma porta específica.
+3. O roteador mantém um registro da tradução na tabela de tradução NAT. Este registro inclui o endereço IP e a porta originais do dispositivo interno, o endereço IP público do roteador e a porta correspondente.
+4. O roteador encaminha o pacote para o destino na rede externa usando o endereço IP público e a porta correspondente como remetente.
+5. O destino externo recebe a comunicação, processa-a e envia uma resposta de volta para o endereço IP público e porta do roteador.
+6. Quando a resposta chega ao roteador, ele consulta a tabela de tradução NAT para determinar a qual dispositivo interno a resposta deve ser encaminhada.
+7. O roteador encaminha a resposta para o dispositivo interno com base nas informações de tradução na tabela. O dispositivo interno recebe a resposta como se estivesse se comunicando diretamente com o destino externo.
