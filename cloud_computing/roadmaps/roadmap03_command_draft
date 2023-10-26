@@ -1,0 +1,25 @@
+https://docs.openstack.org/charm-guide/latest/admin/ops-cloud-admin-access.html
+
+openstack flavor create --ram 1024 --vcpus 1 --disk 20 m1.tiny
+openstack flavor create --ram 2048 --vcpus 1 --disk 20 m1.small
+openstack flavor create --ram 4096 --vcpus 2 --disk 20 m1.medium
+openstack flavor create --ram 8192 --vcpus 4 --disk 20 m1.large
+
+m1.tiny: 1 vcpu/1Gb RAM/20Gb disk
+m1.small: 1 vcpus/2Gb RAM/20Gb disk
+m1.medium: 2 vcpus/4Gb RAM/20Gb disk
+m1.large: 4 vcpus/8Gb RAM/20Gb disk
+**SEM ephemeral disk**
+
+openstack keypair create --public-key ~/cloud-keys/id_rsa.pub id_rsa
+
+openstack server create --image jammy-amd64 --flavor m1.tiny \
+   --key-name maas_key --network int_net \
+    client
+
+FLOATING_IP=$(openstack floating ip create -f value -c floating_ip_address ext_net)
+openstack server add floating ip client $FLOATING_IP
+
+ssh -i ~/cloud-keys/id_rsa cloud@$FLOATING_IP
+
+ssh ubuntu@$FLOATING_IP
