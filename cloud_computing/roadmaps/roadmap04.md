@@ -32,7 +32,7 @@ openstack server create --image jammy-amd64 --flavor m1.tiny \
 Em seguida, criamos a instância de banco de dados:
 
 ```bash
-openstack server create --image jammy-amd64 --flavor m1.tiny \
+openstack server create --image jammy-amd64 --flavor m1.medium \
    --key-name maas_key --network int_net \
     db
 ```
