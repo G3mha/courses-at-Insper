@@ -23,3 +23,24 @@ openstack server add floating ip client $FLOATING_IP
 ssh -i ~/cloud-keys/id_rsa cloud@$FLOATING_IP
 
 ssh ubuntu@$FLOATING_IP
+
+# Allowing access to dashboard
+
+vault operator unseal <key>
+vault operator unseal <key>
+vault operator unseal <key>
+export VAULT_TOKEN=<token>
+vault token create -ttl=3h
+juju run-action --wait vault/leader authorize-charm token=<InitialRootToken>
+juju run-action --wait vault/leader generate-root-ca
+export OS_PASSWORD=$(juju exec --unit keystone/leader 'leader-get admin_passwd')
+IP_ADDRESS=$(juju exec --unit keystone/leader -- 'network-get --bind-address public')
+export OS_AUTH_URL=https://${IP_ADDRESS}:5000/v3
+export OS_CACERT=/home/cloud/snap/openstackclients/common/root-ca.crt
+export OS_USERNAME=admin
+export OS_PROJECT_NAME=admin
+export OS_PROJECT_DOMAIN_NAME=admin_domain
+export OS_USER_DOMAIN_NAME=admin_domain
+env | grep OS_
+juju exec --unit vault/leader 'leader-get root-ca' > $OS_CACERT
+openstack service list
