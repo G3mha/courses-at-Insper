@@ -36,9 +36,9 @@ function initMemory
         return memoria_t is variable tmp : memoria_t := (others => (others => '0'));
   begin
         -- Inicializa os endereços:
-        tmp(0) := x"AAAAAAAA";  -- Nao deve ter efeito.
-        tmp(8)  := 32x"00";  -- $t0 = 0x00
-        tmp(9)  := 32x"0A";  -- $t1 = 0x0A
+        tmp(0)  := x"AAAAAAAA";  -- Nao deve ter efeito.
+        tmp(8)  := 32x"04";  -- $t0 = 0x02
+        tmp(9)  := 32x"02";  -- $t1 = 0x04
         tmp(10) := 32x"0B";  -- $t2 = 0x0B
         tmp(11) := 32x"0C";  -- $t3 = 0x0C
         tmp(12) := 32x"0D";  -- $t4 = 0x0D
@@ -48,8 +48,7 @@ function initMemory
 
     -- Declaracao dos registradores:
     shared variable registrador : memoria_t := initMemory;
-    signal bypassA, bypassB, zeroA, zeroB : std_logic;
-    signal selectA, selectB : std_logic_vector(1 downto 0);
+    signal zeroA, zeroB : std_logic;
     constant zero : std_logic_vector(larguraDados-1 downto 0) := (others => '0');
 begin
     process(clk) is
@@ -61,22 +60,12 @@ begin
         end if;
     end process;
 
-    -- para resolver problemas de leitura e escrita no mesmo clock
-    bypassA <= '1' when (enderecoA = enderecoC) else '0';
-    bypassB <= '1' when (enderecoB = enderecoC) else '0';
     -- IF endereco = 0 : retorna ZERO
     zeroA <= '1' when to_integer(unsigned(enderecoA)) = to_integer(unsigned(zero)) else '0';
     zeroB <= '1' when to_integer(unsigned(enderecoB)) = to_integer(unsigned(zero)) else '0';
-    selectA <= zeroA & bypassA;
-    selectB <= zeroB & bypassB;
 
-    saidaA <= dadoEscritaC when selectA = "01" else
-                   zero when selectA = "10" else
-                   zero  when selectA = "11" else
-                   registrador(to_integer(unsigned(enderecoA)));
-
-    saidaB <= dadoEscritaC when selectB = "01" else
-                   zero when selectB = "10" else
-                   zero  when selectB = "11" else
-                   registrador(to_integer(unsigned(enderecoB)));
+    saidaA <= registrador(to_integer(unsigned(enderecoA))) when zeroA = '0' else zero;
+	 
+    saidaB <= registrador(to_integer(unsigned(enderecoB))) when zeroB = '0' else zero;
+	 
 end architecture;

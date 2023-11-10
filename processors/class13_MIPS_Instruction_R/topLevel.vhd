@@ -12,15 +12,14 @@ entity topLevel is
 	port   (
 		-- Input ports
 		clock_50_i : in  std_logic;
-		sel_alu_i    : in  std_logic;
-		wr_i        : in  std_logic;
 		-- Output ports
 		pc_out_o	  : out std_logic_vector(addr_width - 1 downto 0);
 		opcode_o   : out std_logic_vector(5 downto 0);
-		rs_o	  : out std_logic_vector(4 downto 0);
-		rt_o    : out std_logic_vector(4 downto 0);
-		rd_o	  : out std_logic_vector(4 downto 0);
-		funct_o	  : out std_logic_vector(5 downto 0);
+		rs_o	     : out std_logic_vector(4 downto 0);
+		rt_o       : out std_logic_vector(4 downto 0);
+		rd_o	     : out std_logic_vector(4 downto 0);
+		wr_o	     : out std_logic;
+		sel_alu_o  : out std_logic;
 		rs_out_o	  : out std_logic_vector(data_width - 1 downto 0);
 		rt_out_o	  : out std_logic_vector(data_width - 1 downto 0);
 		alu_out_o  : out std_logic_vector(data_width - 1 downto 0)
@@ -29,17 +28,20 @@ end entity;
 
 
 architecture arch_name of topLevel is
-	signal pc_out_s 	  : std_logic_vector(data_width - 1 downto 0);
+	signal pc_out_s 	      : std_logic_vector(data_width - 1 downto 0);
 	signal pc_out_plus_4_s  : std_logic_vector(data_width - 1 downto 0);
-	signal rom_out_s		  : std_logic_vector(data_width - 1 downto 0);
-		alias  opcode_s				  : std_logic_vector(5 downto 0) is rom_out_s(31 downto 26);
-		alias  rs_s				  : std_logic_vector(4 downto 0) is rom_out_s(25 downto 21);
-		alias  rt_s				  : std_logic_vector(4 downto 0) is rom_out_s(20 downto 16);
-		alias  rd_s				  : std_logic_vector(4 downto 0) is rom_out_s(15 downto 11);
-		alias  funct_s		  : std_logic_vector(5 downto 0) is rom_out_s(5  downto  0);
-	signal rs_alu_A_s		  : std_logic_vector(data_width - 1 downto 0);
-	signal rt_alu_B_s		  : std_logic_vector(data_width - 1 downto 0); 
-	signal alu_out_s		  : std_logic_vector(data_width - 1 downto 0); 
+	signal rom_out_s		   : std_logic_vector(data_width - 1 downto 0);
+		alias  opcode_s	   : std_logic_vector(5 downto 0) is rom_out_s(31 downto 26);
+		alias  rs_s			   : std_logic_vector(4 downto 0) is rom_out_s(25 downto 21);
+		alias  rt_s	         : std_logic_vector(4 downto 0) is rom_out_s(20 downto 16);
+		alias  rd_s		      : std_logic_vector(4 downto 0) is rom_out_s(15 downto 11);
+		alias  funct_s		   : std_logic_vector(5 downto 0) is rom_out_s(5  downto  0);
+	signal rs_alu_A_s		   : std_logic_vector(data_width - 1 downto 0);
+	signal rt_alu_B_s		   : std_logic_vector(data_width - 1 downto 0); 
+	signal alu_out_s		   : std_logic_vector(data_width - 1 downto 0);
+	signal control_s        : std_logic_vector(1 downto 0);
+		alias wr_s           : std_logic is control_s(1);
+		alias sel_alu_s      : std_logic is control_s(0);
 
 	begin
 
@@ -55,17 +57,21 @@ architecture arch_name of topLevel is
 						port map (Endereco => pc_out_s, Dado => rom_out_s);
 
 	REG_BANK : entity work.registerBank generic map (larguraDados => addr_width)
-						port map (clk => clock_50_i, enderecoA => rs_s, enderecoB => rt_s, enderecoC => rd_s, dadoEscritaC => alu_out_s, escreveC => wr_i, saidaA => rs_alu_A_s, saidaB => rt_alu_B_s);
+						port map (clk => clock_50_i, enderecoA => rs_s, enderecoB => rt_s, enderecoC => rd_s, dadoEscritaC => alu_out_s, escreveC => wr_s, saidaA => rs_alu_A_s, saidaB => rt_alu_B_s);
 
 	ALU 			: entity work.ALUSumSub generic map(larguraDados => addr_width)
-						port map (entradaA => rs_alu_A_s, entradaB =>  rt_alu_B_s, saida => alu_out_s, seletor => sel_alu_i);
+						port map (entradaA => rs_alu_A_s, entradaB =>  rt_alu_B_s, saida => alu_out_s, seletor => sel_alu_s);
+   
+	DECODER :  entity work.instructionDecoder
+                 port map(input => funct_s, output => control_s);
 
 	pc_out_o  <= pc_out_s;
 	opcode_o  <= opcode_s;
 	rs_o   <= rs_s;
 	rt_o   <= rt_s;
 	rd_o	  <= rd_s;
-	funct_o	  <= funct_s;
+	wr_o	  <= wr_s;
+	sel_alu_o <= sel_alu_s;
 	rs_out_o  <= rs_alu_A_s;
 	rt_out_o  <= rt_alu_B_s;
 	alu_out_o <= alu_out_s;

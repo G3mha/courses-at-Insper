@@ -40,9 +40,11 @@ architecture assincrona OF ROMmemory IS
 		  -- funct (sum operation):  0b10_0000 (0x20).
 		  
 		  --         opcode	     Rs	       Rt        Rd       shamt     funct
-		  tmp(0) := "000000" & "00001" & "00010" & "00010" & "00000" & "100000"; 
-		  tmp(1) := "000000" & "00011" & "00010" & "00010" & "00000" & "100010";
-		  
+		  tmp(0) := "000000" & "01000" & "01001" & "00010" & "00000" & "100000";
+		  -- result: $v0 = $t0 + $t1
+		  tmp(1) := "000000" & "01000" & "01001" & "00010" & "00000" & "100010";
+		  -- result: $v0 = $t0 - $t1
+
         return tmp;
     end initMemory;
 
