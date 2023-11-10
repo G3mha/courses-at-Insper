@@ -6,32 +6,31 @@ use ieee.numeric_std.all;
 entity topLevel is
 	generic   (
 		data_width  : natural :=  32;
-		addr_width  : natural :=  32
+		addr_width  : natural :=  32;
+		simulacao   : boolean := FALSE -- para gravar na placa, altere de TRUE para FALSE
 	);
 
 	port   (
 		-- Input ports
-		clock_50_i : in  std_logic;
+		CLOCK_50   : in std_logic;
+      KEY        : in std_logic_vector(3 downto 0);
+		SW         : in std_logic_vector(9 downto 0);
+
 		-- Output ports
-		pc_out_o	  : out std_logic_vector(addr_width - 1 downto 0);
-		opcode_o   : out std_logic_vector(5 downto 0);
-		rs_o	     : out std_logic_vector(4 downto 0);
-		rt_o       : out std_logic_vector(4 downto 0);
-		rd_o	     : out std_logic_vector(4 downto 0);
-		wr_o	     : out std_logic;
-		sel_alu_o  : out std_logic;
-		rs_out_o	  : out std_logic_vector(data_width - 1 downto 0);
-		rt_out_o	  : out std_logic_vector(data_width - 1 downto 0);
-		alu_out_o  : out std_logic_vector(data_width - 1 downto 0)
+      LEDR       : out std_logic_vector(9 downto 0);
+      HEX0       : out std_logic_vector(6 downto 0);
+      HEX1       : out std_logic_vector(6 downto 0);
+      HEX2       : out std_logic_vector(6 downto 0);
+      HEX3       : out std_logic_vector(6 downto 0)
 	);
 end entity;
 
 
 architecture arch_name of topLevel is
+	signal CLK              : std_logic;
 	signal pc_out_s 	      : std_logic_vector(data_width - 1 downto 0);
 	signal pc_out_plus_4_s  : std_logic_vector(data_width - 1 downto 0);
 	signal rom_out_s		   : std_logic_vector(data_width - 1 downto 0);
-		alias  opcode_s	   : std_logic_vector(5 downto 0) is rom_out_s(31 downto 26);
 		alias  rs_s			   : std_logic_vector(4 downto 0) is rom_out_s(25 downto 21);
 		alias  rt_s	         : std_logic_vector(4 downto 0) is rom_out_s(20 downto 16);
 		alias  rd_s		      : std_logic_vector(4 downto 0) is rom_out_s(15 downto 11);
@@ -39,14 +38,23 @@ architecture arch_name of topLevel is
 	signal rs_alu_A_s		   : std_logic_vector(data_width - 1 downto 0);
 	signal rt_alu_B_s		   : std_logic_vector(data_width - 1 downto 0); 
 	signal alu_out_s		   : std_logic_vector(data_width - 1 downto 0);
-	signal control_s        : std_logic_vector(1 downto 0);
-		alias wr_s           : std_logic is control_s(1);
-		alias sel_alu_s      : std_logic is control_s(0);
-
+	signal DisplayHEX0      : std_logic_vector(6 downto 0);
+	signal DisplayHEX1      : std_logic_vector(6 downto 0);
+	signal DisplayHEX2      : std_logic_vector(6 downto 0);
+	signal DisplayHEX3      : std_logic_vector(6 downto 0);
+	
+	
 	begin
 
+	gravar:  if simulacao generate
+	CLK <= KEY(0);
+	else generate
+	EDGE_DETECT : work.edgeDetector(bordaSubida)
+			           port map (clk => CLOCK_50, entrada => (not KEY(0)), saida => CLK);
+	end generate;
+
 	PC : entity work.genericRegister  generic map (larguraDados => addr_width)
-			port map (DIN => pc_out_plus_4_s, DOUT => pc_out_s, ENABLE => '1', CLK => clock_50_i, RST => '0');
+		            port map (DIN => pc_out_plus_4_s, DOUT => pc_out_s, ENABLE => '1', CLK => CLK, RST => '0');
 
 	-- We use 4 bytes address, so we need to multiply the address by 4 to get the correct address in PC
 	INC_PC_4 :  entity work.constantSum generic map (larguraDados => addr_width, constante => 4)
@@ -57,23 +65,27 @@ architecture arch_name of topLevel is
 						port map (Endereco => pc_out_s, Dado => rom_out_s);
 
 	REG_BANK : entity work.registerBank generic map (larguraDados => addr_width)
-						port map (clk => clock_50_i, enderecoA => rs_s, enderecoB => rt_s, enderecoC => rd_s, dadoEscritaC => alu_out_s, escreveC => wr_s, saidaA => rs_alu_A_s, saidaB => rt_alu_B_s);
+						port map (clk => CLK, enderecoA => rs_s, enderecoB => rt_s, enderecoC => rd_s, dadoEscritaC => alu_out_s, escreveC => SW(1), saidaA => rs_alu_A_s, saidaB => rt_alu_B_s);
 
 	ALU 			: entity work.ALUSumSub generic map(larguraDados => addr_width)
-						port map (entradaA => rs_alu_A_s, entradaB =>  rt_alu_B_s, saida => alu_out_s, seletor => sel_alu_s);
-   
-	DECODER :  entity work.instructionDecoder
-                 port map(input => funct_s, output => control_s);
+					    port map (entradaA => rs_alu_A_s, entradaB =>  rt_alu_B_s, saida => alu_out_s, seletor => SW(0));
 
-	pc_out_o  <= pc_out_s;
-	opcode_o  <= opcode_s;
-	rs_o   <= rs_s;
-	rt_o   <= rt_s;
-	rd_o	  <= rd_s;
-	wr_o	  <= wr_s;
-	sel_alu_o <= sel_alu_s;
-	rs_out_o  <= rs_alu_A_s;
-	rt_out_o  <= rt_alu_B_s;
-	alu_out_o <= alu_out_s;
+   DecoderHEX0 : entity work.hexTo7seg
+                   port map(dadoHex =>alu_out_s(3 downto 0), apaga => '0', negativo => '0', overFlow => '0', saida7seg => DisplayHEX0);
+
+   DecoderHEX1 : entity work.hexTo7seg
+                   port map(dadoHex =>alu_out_s(7 downto 4), apaga => '0', negativo => '0', overFlow => '0', saida7seg => DisplayHEX1);
+
+   DecoderHEX2 : entity work.hexTo7seg
+                   port map(dadoHex =>alu_out_s(11 downto 8), apaga => '0', negativo => '0', overFlow => '0', saida7seg => DisplayHEX2);
+
+   DecoderHEX3 : entity work.hexTo7seg
+                   port map(dadoHex =>alu_out_s(15 downto 12), apaga => '0', negativo => '0', overFlow => '0', saida7seg => DisplayHEX3);
+
+   LEDR(7 downto 0) <= "00" & funct_s(5 downto 0);
+	HEX0 <= DisplayHEX0;
+   HEX1 <= DisplayHEX1;
+   HEX2 <= DisplayHEX2;
+   HEX3 <= DisplayHEX3;
 
 end architecture;
