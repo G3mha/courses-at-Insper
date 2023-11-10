@@ -37,8 +37,8 @@ function initMemory
   begin
         -- Inicializa os endereços:
         tmp(0)  := x"AAAAAAAA";  -- Nao deve ter efeito.
-        tmp(8)  := 32x"04";  -- $t0 = 0x02
-        tmp(9)  := 32x"02";  -- $t1 = 0x04
+        tmp(8)  := 32x"02";  -- $t0 = 0x02
+        tmp(9)  := 32x"04";  -- $t1 = 0x04
         tmp(10) := 32x"0B";  -- $t2 = 0x0B
         tmp(11) := 32x"0C";  -- $t3 = 0x0C
         tmp(12) := 32x"0D";  -- $t4 = 0x0D
