@@ -38,12 +38,15 @@ architecture arch_name of topLevel is
 	    alias  rt_s	      : std_logic_vector(4  downto 0) is rom_out_s(20 downto 16);
 	    alias  immediate_s	: std_logic_vector(15 downto 0) is rom_out_s(15 downto  0);
 	signal im_extend_s      : std_logic_vector(data_width - 1 downto 0);
+	signal im_ext_sl2_s     : std_logic_vector(data_width - 1 downto 0);
 	signal and_out_s        : std_logic;
-	signal mux_out_s        : std_logic_vector(data_width - 1 downto 0);
+	signal mux_pc_out_s     : std_logic_vector(data_width - 1 downto 0);
 	signal rs_alu_A_s		   : std_logic_vector(data_width - 1 downto 0);
 	signal rt_alu_B_s		   : std_logic_vector(data_width - 1 downto 0);
+	signal ram_out_s        : std_logic_vector(data_width - 1 downto 0);
+	signal mux_alu_out_s    : std_logic_vector(data_width - 1 downto 0);
 	signal alu_out_s		   : std_logic_vector(data_width - 1 downto 0);
-	signal ceq_s            : std_logic;
+	signal flag_zero_s      : std_logic;
 	signal control_s        : std_logic_vector(5 downto 0);
 	    alias write_reg_s   : std_logic is control_s(5);
 	    alias sel_mux_s     : std_logic is control_s(4);
@@ -67,19 +70,24 @@ architecture arch_name of topLevel is
 	end generate;
 
 	PC : entity work.genericRegister  generic map (larguraDados => addr_width)
-		            port map (DIN => mux_out_s, DOUT => pc_out_s, ENABLE => '1', CLK => CLK, RST => (NOT FPGA_RESET_N));
+		            port map (DIN => mux_pc_out_s, DOUT => pc_out_s, ENABLE => '1', CLK => CL 2 K, RST => (NOT FPGA_RESET_N));
 
 	-- We use 4 bytes address, so we need to multiply the address stepping by 4 to get the correct address in PC
 	INC_PC4 :  entity work.constantSum generic map (larguraDados => addr_width, constante => 4)
 						port map(entrada => pc_out_s, saida => pc_out_plus_4_s);
 
-	ADD_IM_PC4 :  entity work.genericAdder  generic map (larguraDados => addr_width)
-                  port map(entradaA => pc_out_plus_4_s, entradaB => im_extend_s, saida => adder_out_s);
+	EXT_SIGNAL  : entity work.extendGenericSignal   generic map (larguraDadoEntrada => 16, larguraDadoSaida => addr_width)
+          port map (input => immediate_s, output => im_extend_s);
 
-	GATE_AND : entity work.gateAND port map (A => ceq_s, B => beq_s, output => control_s);
+	SHIFT_LEFT2 : entity work.shiftLeft2 port map (input => im_extend_s, output => im_ext_sl2_s);
+						
+	ADD_IM_PC4  : entity work.genericAdder  generic map (larguraDados => addr_width)
+                  port map(entradaA => pc_out_plus_4_s, entradaB => im_ext_sl2_s, saida => adder_out_s);
+
+	GATE_AND : entity work.gateAND port map (A => flag_zero_s, B => beq_s, output => and_out_s);
    
 	MUX_PC   :  entity work.muxGenerico2x1 generic map (larguraDados => addr_width)
- 					   port map(entradaA_MUX => pc_out_plus_4_s, entradaB_MUX => adder_out_s, seletor_MUX => and_out_s, saida_MUX => mux_out_s);
+ 					   port map(entradaA_MUX => pc_out_plus_4_s, entradaB_MUX => adder_out_s, seletor_MUX => and_out_s, saida_MUX => mux_pc_out_s);
 
 	-- We only need 64 (2^6) positions in ROM, so we use the 6 bits of the address
 	ROM 		  : entity work.ROMMIPS generic map (dataWidth => data_width, addrWidth => addr_width, memoryAddrWidth => 6)
@@ -88,13 +96,19 @@ architecture arch_name of topLevel is
 	CONTROL_UNIT : entity work.instructionDecoder port map (input => opcode_s, output => control_s);
 
 	REG_BANK : entity work.registerBank generic map (larguraDados => addr_width)
-						port map (clk => CLK, enderecoA => rs_s, enderecoB => rt_s, enderecoC => rd_s, dadoEscritaC => alu_out_s, escreveC => SW(1), saidaA => rs_alu_A_s, saidaB => rt_alu_B_s);
+						port map (clk => CLK, enderecoA => rs_s, enderecoB => rt_s, enderecoC => rt_s, dadoEscritaC => ram_out_s, escreveC => write_reg_s, saidaA => rs_alu_A_s, saidaB => rt_alu_B_s);
+
+	MUX_ALU  : entity work.muxGenerico2x1 generic map (larguraDados => addr_width)
+ 					   port map(entradaA_MUX => rt_alu_B_s, entradaB_MUX => im_extend_s, seletor_MUX => sel_mux_s, saida_MUX => mux_alu_out_s);
 
 	ALU 		: entity work.ALUSumSub generic map(larguraDados => addr_width)
-					    port map (entradaA => rs_alu_A_s, entradaB =>  rt_alu_B_s, saida => alu_out_s, seletor => SW(0));
+					    port map (entradaA => rs_alu_A_s, entradaB => mux_alu_out_s, saida => alu_out_s, flag_zero => flag_zero_s, seletor => sel_alu_s);
 
+	RAM      : entity work.RAMMIPS generic map (dataWidth => data_width, addrWidth => addr_width, memoryAddrWidth => 6)
+                   port map (addr => sinalLocal, we => sinalLocal, re => sinalLocal, habilita  => sinalLocal, dado_in => sinalLocal, dado_out => sinalLocal, clk => sinalLocal);
+						 
    DEC_HEX0 : entity work.hexTo7seg
-                   port map(dadoHex =>alu_out_s(3 downto 0), apaga => '0', negativo => '0', overFlow => '0', saida7seg => DisplayHEX0);
+                   port map(dadoHex => alu_out_s(3 downto 0), apaga => '0', negativo => '0', overFlow => '0', saida7seg => DisplayHEX0);
 
    DEC_HEX1 : entity work.hexTo7seg
                    port map(dadoHex =>alu_out_s(7 downto 4), apaga => '0', negativo => '0', overFlow => '0', saida7seg => DisplayHEX1);
