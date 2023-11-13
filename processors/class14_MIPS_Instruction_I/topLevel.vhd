@@ -22,13 +22,15 @@ entity topLevel is
       HEX0       : out std_logic_vector(6 downto 0);
       HEX1       : out std_logic_vector(6 downto 0);
       HEX2       : out std_logic_vector(6 downto 0);
-      HEX3       : out std_logic_vector(6 downto 0)
+      HEX3       : out std_logic_vector(6 downto 0);
+		MUX_OUT    : out std_logic_vector(data_width - 1 downto 0)
 	);
 end entity;
 
 
 architecture arch_name of topLevel is
 	signal CLK              : std_logic;
+	signal RESET            : std_logic;
 	signal pc_out_s 	      : std_logic_vector(data_width - 1 downto 0);
 	signal pc_out_plus_4_s  : std_logic_vector(data_width - 1 downto 0);
 	signal adder_out_s      : std_logic_vector(data_width - 1 downto 0);
@@ -54,23 +56,28 @@ architecture arch_name of topLevel is
 	    alias beq_s         : std_logic is control_s(2);
 	    alias read_ram_s    : std_logic is control_s(1);
 	    alias write_ram_s   : std_logic is control_s(0);
-	signal DisplayHEX0      : std_logic_vector(6 downto 0);
-	signal DisplayHEX1      : std_logic_vector(6 downto 0);
-	signal DisplayHEX2      : std_logic_vector(6 downto 0);
-	signal DisplayHEX3      : std_logic_vector(6 downto 0);
+   signal mux_hex_out_s    : std_logic_vector(data_width - 1 downto 0);
+	signal display_HEX_0    : std_logic_vector(6 downto 0);
+	signal display_HEX_1    : std_logic_vector(6 downto 0);
+	signal display_HEX_2    : std_logic_vector(6 downto 0);
+	signal display_HEX_3    : std_logic_vector(6 downto 0);
 	
 	
 	begin
 
 	gravar:  if simulacao generate
 	CLK <= KEY(0);
+	RESET <= '0';
 	else generate
-	EDGE_DETECT : work.edgeDetector(bordaSubida)
-			           port map (clk => CLOCK_50, entrada => (not KEY(0)), saida => CLK);
+	EDGE_DETECT_CLK   : work.edgeDetector(bordaSubida)
+			                  port map (clk => CLOCK_50, entrada => (not KEY(0)), saida => CLK);
+	
+	EDGE_DETECT_RESET : work.edgeDetector(bordaSubida)
+			                  port map (clk => CLOCK_50, entrada => (NOT FPGA_RESET_N), saida => RESET);
 	end generate;
 
 	PC : entity work.genericRegister  generic map (larguraDados => addr_width)
-		            port map (DIN => mux_pc_out_s, DOUT => pc_out_s, ENABLE => '1', CLK => CL 2 K, RST => (NOT FPGA_RESET_N));
+		            port map (DIN => mux_pc_out_s, DOUT => pc_out_s, ENABLE => '1', CLK => CLK, RST => RESET);
 
 	-- We use 4 bytes address, so we need to multiply the address stepping by 4 to get the correct address in PC
 	INC_PC4 :  entity work.constantSum generic map (larguraDados => addr_width, constante => 4)
@@ -86,7 +93,7 @@ architecture arch_name of topLevel is
 
 	GATE_AND : entity work.gateAND port map (A => flag_zero_s, B => beq_s, output => and_out_s);
    
-	MUX_PC   :  entity work.muxGenerico2x1 generic map (larguraDados => addr_width)
+	MUX_PC   :  entity work.mux2x1 generic map (larguraDados => addr_width)
  					   port map(entradaA_MUX => pc_out_plus_4_s, entradaB_MUX => adder_out_s, seletor_MUX => and_out_s, saida_MUX => mux_pc_out_s);
 
 	-- We only need 64 (2^6) positions in ROM, so we use the 6 bits of the address
@@ -98,31 +105,36 @@ architecture arch_name of topLevel is
 	REG_BANK : entity work.registerBank generic map (larguraDados => addr_width)
 						port map (clk => CLK, enderecoA => rs_s, enderecoB => rt_s, enderecoC => rt_s, dadoEscritaC => ram_out_s, escreveC => write_reg_s, saidaA => rs_alu_A_s, saidaB => rt_alu_B_s);
 
-	MUX_ALU  : entity work.muxGenerico2x1 generic map (larguraDados => addr_width)
+	MUX_ALU  : entity work.mux2x1 generic map (larguraDados => addr_width)
  					   port map(entradaA_MUX => rt_alu_B_s, entradaB_MUX => im_extend_s, seletor_MUX => sel_mux_s, saida_MUX => mux_alu_out_s);
 
 	ALU 		: entity work.ALUSumSub generic map(larguraDados => addr_width)
 					    port map (entradaA => rs_alu_A_s, entradaB => mux_alu_out_s, saida => alu_out_s, flag_zero => flag_zero_s, seletor => sel_alu_s);
 
+	-- Why is it 6?
 	RAM      : entity work.RAMMIPS generic map (dataWidth => data_width, addrWidth => addr_width, memoryAddrWidth => 6)
-                   port map (addr => sinalLocal, we => sinalLocal, re => sinalLocal, habilita  => sinalLocal, dado_in => sinalLocal, dado_out => sinalLocal, clk => sinalLocal);
-						 
+                   port map (addr => alu_out_s, we => write_ram_s, re => read_ram_s, habilita  => '1', input => rt_alu_B_s, output => ram_out_s, clk => CLK);
+	
+	MUX_HEX  : entity work.mux3x1 generic map (larguraDados => addr_width)
+ 					   port map(input_A => alu_out_s, input_B => rt_alu_B_s, input_C => ram_out_s, sel => (SW(1) & SW(0)), output => mux_hex_out_s);	
+
    DEC_HEX0 : entity work.hexTo7seg
-                   port map(dadoHex => alu_out_s(3 downto 0), apaga => '0', negativo => '0', overFlow => '0', saida7seg => DisplayHEX0);
+                   port map(dadoHex => mux_hex_out_s(3 downto 0), apaga => '0', negativo => '0', overFlow => '0', saida7seg => display_HEX_0);
 
    DEC_HEX1 : entity work.hexTo7seg
-                   port map(dadoHex =>alu_out_s(7 downto 4), apaga => '0', negativo => '0', overFlow => '0', saida7seg => DisplayHEX1);
+                   port map(dadoHex => mux_hex_out_s(7 downto 4), apaga => '0', negativo => '0', overFlow => '0', saida7seg => display_HEX_1);
 
    DEC_HEX2 : entity work.hexTo7seg
-                   port map(dadoHex =>alu_out_s(11 downto 8), apaga => '0', negativo => '0', overFlow => '0', saida7seg => DisplayHEX2);
+                   port map(dadoHex => mux_hex_out_s(11 downto 8), apaga => '0', negativo => '0', overFlow => '0', saida7seg => display_HEX_2);
 
    DEC_HEX3 : entity work.hexTo7seg
-                   port map(dadoHex =>alu_out_s(15 downto 12), apaga => '0', negativo => '0', overFlow => '0', saida7seg => DisplayHEX3);
+                   port map(dadoHex => mux_hex_out_s(15 downto 12), apaga => '0', negativo => '0', overFlow => '0', saida7seg => display_HEX_3);
 
-   LEDR(7 downto 0) <= "00" & funct_s(5 downto 0);
-	HEX0 <= DisplayHEX0;
-   HEX1 <= DisplayHEX1;
-   HEX2 <= DisplayHEX2;
-   HEX3 <= DisplayHEX3;
+   LEDR(9 downto 0) <= pc_out_s(9 downto 0);
+	HEX0 <= display_HEX_0;
+   HEX1 <= display_HEX_1;
+   HEX2 <= display_HEX_2;
+   HEX3 <= display_HEX_3;
+	MUX_OUT <= mux_hex_out_s;
 
 end architecture;

@@ -7,8 +7,8 @@ entity ALUSumSub is
     port (
       entradaA, entradaB:  in STD_LOGIC_VECTOR((larguraDados-1) downto 0);
       seletor:  in STD_LOGIC;
-      saida     : out STD_LOGIC_VECTOR((larguraDados-1) downto 0)
-		flag_zero : out std_logic;
+      saida     : out STD_LOGIC_VECTOR((larguraDados-1) downto 0);
+		flag_zero : out std_logic
     );
 end entity;
 
