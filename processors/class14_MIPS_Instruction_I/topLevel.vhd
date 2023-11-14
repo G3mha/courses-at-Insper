@@ -7,7 +7,7 @@ entity topLevel is
 	generic   (
 		data_width  : natural :=  32;
 		addr_width  : natural :=  32;
-		simulacao   : boolean := FALSE -- para gravar na placa, altere de TRUE para FALSE
+		simulacao   : boolean := FALSE -- to record on board, use FALSE
 	);
 
 	port   (

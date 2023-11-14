@@ -40,13 +40,13 @@ architecture assincrona OF ROMMIPS IS
 		  -- funct (sum operation):  0b10_0000 (0x20).
 		  
 		  --         opcode	     Rs	     Rt          immediate
-		  tmp(0) := "011001" & "01001" & "01000" & "0000000000000100"; -- sw $rt, immediate($rs) => sw $t0, 4($t1)
-		  tmp(1) := "111010" & "01000" & "01010" & "0000000000000110"; -- lw $rt, immediate($rs) => lw $t2, 6($t0)
-		  tmp(2) := "000100" & "01000" & "01010" & "0000000000000101"; -- beq $rs, $rt, immediate => beq $t0, $t2, 5
-		  tmp(3) := "011001" & "01000" & "01001" & "0000000000000110"; -- sw $rt, immediate($rs) => sw $t1, 6($t0)
-		  tmp(4) := "111010" & "01000" & "01010" & "0000000000000110"; -- lw $rt, immediate($rs) => lw $t2, 6($t0)
-		  tmp(5) := "000100" & "01000" & "01010" & "0000000000000011"; -- beq $rs, $rt, immediate => beq $t0, $t2, 3
-		  tmp(6) := "000000" & "00000" & "00000" & "0000000000000000"; -- nop
+		  tmp(0) := x"AD280004"; -- sw $rt, immediate($rs) => sw $t0, 4($t1)
+		  tmp(1) := x"8D290004"; -- lw $rt, immediate($rs) => lw $t1, 4($t1)
+		  tmp(2) := x"11090002"; -- beq $rs, $rt, immediate => beq $t0, $t1, 2
+		  tmp(3) := x"00000000"; -- nop
+		  tmp(4) := x"00000000"; -- nop
+		  tmp(5) := x"110AFFFE"; -- beq $rs, $rt, immediate => beq $t0, $t2, -2
+		  tmp(6) := x"00000000"; -- nop
 		  
         return tmp;
     end initMemory;
