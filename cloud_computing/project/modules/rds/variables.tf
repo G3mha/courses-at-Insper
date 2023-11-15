@@ -54,6 +54,24 @@ variable "password" {
   sensitive   = true
 }
 
+variable "maintenance_window" {
+  description = "The window to perform backup in"
+  type        = string
+  default     = "Mon:03:00-Mon:04:00"
+}
+
+variable "backup_window" {
+  description = "The daily time range during which automated backups are created"
+  type        = string
+  default     = "03:00-04:00"
+}
+
+variable "backup_retention_period" {
+  description = "The number of days to retain backups for"
+  type        = number
+  default     = 7
+}
+
 # variable "db_subnet_group_name" {
 #   description = "Name of DB subnet group"
 # }
