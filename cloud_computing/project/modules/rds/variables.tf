@@ -9,7 +9,7 @@ variable "region" {
 variable "db_instance_identifier" {
   description = "Identifier for the RDS instance"
   type        = string
-  default     = "my_rds_db"
+  default     = "myrdsdb"
 }
 
 variable "allocated_storage" {
@@ -21,7 +21,7 @@ variable "allocated_storage" {
 variable "storage_type" {
   description = "The storage type for the DB instance"
   type        = string
-  default     = "io1" // Designed for applications that require high and consistent I/O performance, such as databases (e.g., MySQL, PostgreSQL) or applications with high-performance requirements.
+  default     = "gp2"
 }
 
 variable "engine" {
@@ -33,13 +33,13 @@ variable "engine" {
 variable "engine_version" {
   description = "The version number of the database engine to be used"
   type        = string
-  default     = "8.0.27"
+  default     = "8.0.33"
 }
 
 variable "instance_class" {
   description = "The instance class of the RDS instance"
   type        = string
-  default     = "db.t3.micro"
+  default     = "db.t2.micro"
 }
 
 variable "username" {
