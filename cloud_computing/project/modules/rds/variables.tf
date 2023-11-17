@@ -76,6 +76,8 @@ variable "backup_retention_period" {
 #   description = "Name of DB subnet group"
 # }
 
-# variable "security_group_ids" {
-#   description = "List of security group IDs for the RDS instance"
-# }
+variable "db_name" {
+  description = "Name of the database to create when the DB instance is created"
+  type        = string
+  default     = "mydb"
+}

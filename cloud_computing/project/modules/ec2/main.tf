@@ -4,6 +4,11 @@ provider "aws" {
   region = var.region
 }
 
+module "security_group" {
+  source = "./security_group"
+  # Parâmetros do módulo Security Group
+}
+
 resource "aws_launch_configuration" "my_launch_config" {
   name_prefix                 = var.launch_config_name
   image_id                    = var.ami_id
