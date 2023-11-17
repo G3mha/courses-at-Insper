@@ -4,22 +4,6 @@ provider "aws" {
   region = var.region
 }
 
-# # Defina o Security Group para o RDS
-# resource "aws_security_group" "rds_security_group" {
-#   name        = "rds_security_group"
-#   description = "Security Group for RDS instances"
-
-#   ingress {
-#     from_port       = 3306  # O número da porta para MySQL
-#     to_port         = 3306
-#     protocol        = "tcp"
-#     security_groups = [aws_security_group.ec2_security_group.id]
-#   }
-
-#   # Adicione outras regras de ingress conforme necessário
-# }
-
-
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
   enable_dns_support   = true
@@ -38,23 +22,24 @@ data "aws_vpc" "main" {
   }
 }
 
-# Create a security group for the RDS instance that allows access from all EC2 instance within the same VPC
-resource "aws_security_group" "rds_sg" {
-  name        = "rds_sg"
-  description = "Security group for RDS instance to allow access from EC2 instances"
-  vpc_id      = data.aws_vpc.main.id
+resource "tls_private_key" "ssh_key" {
+  algorithm = "RSA"
+  rsa_bits  = 2048
+}
+
+resource "aws_key_pair" "deployer_key" {
+  key_name   = "ssh_key"
+  public_key = tls_private_key.ssh_key.public_key_openssh
+}
+
+resource "aws_security_group" "sec" {
+  name        = "sec"
+  description = "Allow SSH inbound traffic"
 
   ingress {
-    from_port   = 3306
-    to_port     = 3306
+    from_port   = 22
+    to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = [aws_vpc.main.cidr_block]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
