@@ -63,7 +63,7 @@ variable "maintenance_window" {
 variable "backup_window" {
   description = "The daily time range during which automated backups are created"
   type        = string
-  default     = "03:00-04:00"
+  default     = "04:00-05:00"
 }
 
 variable "backup_retention_period" {
