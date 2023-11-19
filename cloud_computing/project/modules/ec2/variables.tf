@@ -31,16 +31,24 @@ variable "user_data" {
 
 variable "desired_capacity" {
   description = "Desired number of instances in the Auto Scaling Group"
+  type        = number
+  default     = 2
 }
 
 variable "min_size" {
   description = "Minimum number of instances in the Auto Scaling Group"
+  type        = number
+  default     = 1
 }
 
 variable "max_size" {
   description = "Maximum number of instances in the Auto Scaling Group"
+  type        = number
+  default     = 4
 }
 
 variable "subnets" {
   description = "List of subnet IDs for the Auto Scaling Group"
+  type        = list(string)
+  default     = []
 }
