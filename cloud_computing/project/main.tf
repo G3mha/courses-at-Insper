@@ -21,11 +21,6 @@ provider "aws" {
 #   }
 # }
 
-module "ec2" {
-  source = "./modules/ec2"
-  # Parâmetros do módulo EC2
-  user_data = base64encode(var.user_data)
-}
 
 module "rds" {
   source = "./modules/rds"
@@ -34,7 +29,15 @@ module "rds" {
   password = var.password
 }
 
-# module "alb" {
-#   source = "./modules/alb"
-#   # Parâmetros do módulo ALB
-# }
+module "ec2" {
+  source = "./modules/ec2"
+  # Parâmetros do módulo EC2
+  user_data = base64encode(var.user_data)
+}
+
+module "alb" {
+  source = "./modules/alb"
+  # Parâmetros do módulo ALB
+  listener_port = 80
+  # Parâmetros do módulo ALB
+}

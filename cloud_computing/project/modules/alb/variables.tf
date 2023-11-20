@@ -2,46 +2,62 @@
 
 variable "region" {
   description = "AWS region"
+  type        = string
+  default     = "us-east-1"
 }
 
 variable "alb_name" {
   description = "Name for the Application Load Balancer"
+  type        = string
+  default     = "enricco_alb"
 }
 
 variable "internal" {
   description = "Set to true if the ALB should be internal"
+  type        = bool
   default     = false
 }
 
 variable "lb_type" {
   description = "Type of the load balancer (application, network, etc.)"
+  type        = string
   default     = "application"
-}
-
-variable "security_groups" {
-  description = "List of security group IDs for the ALB"
-}
-
-variable "subnets" {
-  description = "List of subnet IDs for the ALB"
 }
 
 variable "target_group_name" {
   description = "Name for the target group"
+  type        = string
+  default     = "enricco_target_group"
 }
 
 variable "target_group_port" {
   description = "Port for the target group"
+  type        = number
+  default     = 80
 }
 
 variable "target_group_protocol" {
   description = "Protocol for the target group"
+  type        = string
   default     = "HTTP"
 }
 
-variable "health_check_path" {
-  description = "Path for the health check"
-  default     = "/"
+variable "timeout" {
+  description = "Timeout for the health check"
+  type        = number
+  default     = 5
+}
+
+variable "healthy_threshold" {
+  description = "Healthy threshold for the health check"
+  type        = number
+  default     = 2
+}
+
+variable "unhealthy_threshold" {
+  description = "Unhealthy threshold for the health check"
+  type        = number
+  default     = 2
 }
 
 variable "listener_port" {

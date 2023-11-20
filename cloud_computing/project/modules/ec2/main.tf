@@ -4,10 +4,6 @@ provider "aws" {
   region = var.region
 }
 
-module "security_group" {
-  source = "./security_group"
-}
-
 resource "tls_private_key" "enricco_key_pair" {
   algorithm = "RSA"
 }
@@ -23,7 +19,6 @@ resource "aws_launch_template" "enricco_launch_template" {
   image_id                    = var.ami_id
   instance_type               = var.instance_type
   key_name                    = aws_key_pair.enricco_aws_key_pair.key_name
-  vpc_security_group_ids      = [module.security_group.OW_security_group_id]
   user_data                   = base64encode(var.user_data)
   tag_specifications {
     resource_type = "instance"
