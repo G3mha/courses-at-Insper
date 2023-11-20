@@ -12,9 +12,9 @@ entity topLevel is
 
 	port   (
 		-- Input ports
-		CLOCK_50   : in std_logic;
-      KEY        : in std_logic_vector(3 downto 0);
-		SW         : in std_logic_vector(9 downto 0);
+		CLOCK_50     : in std_logic;
+      KEY          : in std_logic_vector(3 downto 0);
+		SW           : in std_logic_vector(9 downto 0);
 		FPGA_RESET_N : in std_logic;
 		
 		-- Output ports
@@ -29,44 +29,44 @@ end entity;
 
 
 architecture arch_name of topLevel is
-	signal CLK              : std_logic;
-	signal RESET            : std_logic;
-	signal pc_out_s 	      : std_logic_vector(data_width - 1 downto 0);
-	signal pc_out_plus_4_s  : std_logic_vector(data_width - 1 downto 0);
-	signal mux_rt_rd_out_s  : std_logic_vector(4 downto 0);
-	signal adder_out_s      : std_logic_vector(data_width - 1 downto 0);
-	signal rom_out_s        : std_logic_vector(data_width - 1 downto 0);
-	    alias  opcode_s     : std_logic_vector(5  downto 0) is rom_out_s(31 downto 26);
-	    alias  rs_s		    : std_logic_vector(4  downto 0) is rom_out_s(25 downto 21);
-	    alias  rt_s	        : std_logic_vector(4  downto 0) is rom_out_s(20 downto 16);
-		alias  rd_s         : std_logic_vector(4  downto 0) is rom_out_s(15 downto 11);
-	    alias  immediate_s	: std_logic_vector(15 downto 0) is rom_out_s(15 downto  0);
-		alias  funct_s      : std_logic_vector(5  downto 0) is rom_out_s(5  downto  0);
-	signal im_extend_s      : std_logic_vector(data_width - 1 downto 0);
-	signal im_ext_sl2_s     : std_logic_vector(data_width - 1 downto 0);
-	signal and_out_s        : std_logic;
-	signal mux_pc_out_s     : std_logic_vector(data_width - 1 downto 0);
-	signal rs_alu_A_s		   : std_logic_vector(data_width - 1 downto 0);
-	signal rt_alu_B_s		   : std_logic_vector(data_width - 1 downto 0);
-	signal ram_out_s        : std_logic_vector(data_width - 1 downto 0);
-	signal mux_rt_imm_out_s    : std_logic_vector(data_width - 1 downto 0);
-	signal alu_out_s		   : std_logic_vector(data_width - 1 downto 0);
-	signal mux_alu_ram_out_s   : std_logic_vector(data_width - 1 downto 0);
-	signal flag_zero_s      : std_logic;
-	signal control_s        : std_logic_vector(10 downto 0);
-		alias sel_mux_rt_rd_s : std_logic is control_s(10);
-	    alias wb_reg_s   : std_logic is control_s(9);
-	    alias sel_mux_rt_imm_s     : std_logic is control_s(8);
-	    alias sel_alu_ctrl_s     : std_logic is control_s(7 downto 4);
-	    alias sel_mux_alu_ram_s     : std_logic is control_s(3);
-	    alias beq_s         : std_logic is control_s(2);
-	    alias rd_ram_s    : std_logic is control_s(1);
-	    alias wr_ram_s   : std_logic is control_s(0);
-   signal mux_hex_out_s    : std_logic_vector(data_width - 1 downto 0);
-	signal display_HEX_0    : std_logic_vector(6 downto 0);
-	signal display_HEX_1    : std_logic_vector(6 downto 0);
-	signal display_HEX_2    : std_logic_vector(6 downto 0);
-	signal display_HEX_3    : std_logic_vector(6 downto 0);
+	signal CLK                  : std_logic;
+	signal RESET                : std_logic;
+	signal pc_out_s 	          : std_logic_vector(data_width - 1 downto 0);
+	signal pc_out_plus_4_s      : std_logic_vector(data_width - 1 downto 0);
+	signal mux_rt_rd_out_s      : std_logic_vector(4 downto 0);
+	signal adder_out_s          : std_logic_vector(data_width - 1 downto 0);
+	signal rom_out_s            : std_logic_vector(data_width - 1 downto 0);
+	    alias  opcode_s         : std_logic_vector(5  downto 0) is rom_out_s(31 downto 26);
+	    alias  rs_s		       : std_logic_vector(4  downto 0) is rom_out_s(25 downto 21);
+	    alias  rt_s	          : std_logic_vector(4  downto 0) is rom_out_s(20 downto 16);
+		alias  rd_s              : std_logic_vector(4  downto 0) is rom_out_s(15 downto 11);
+	    alias  immediate_s	    : std_logic_vector(15 downto 0) is rom_out_s(15 downto  0);
+		alias  funct_s           : std_logic_vector(5  downto 0) is rom_out_s(5  downto  0);
+	signal im_extend_s          : std_logic_vector(data_width - 1 downto 0);
+	signal im_ext_sl2_s         : std_logic_vector(data_width - 1 downto 0);
+	signal and_out_s            : std_logic;
+	signal mux_pc_out_s         : std_logic_vector(data_width - 1 downto 0);
+	signal rs_alu_A_s		       : std_logic_vector(data_width - 1 downto 0);
+	signal rt_alu_B_s		       : std_logic_vector(data_width - 1 downto 0);
+	signal ram_out_s            : std_logic_vector(data_width - 1 downto 0);
+	signal mux_rt_imm_out_s     : std_logic_vector(data_width - 1 downto 0);
+	signal alu_out_s		       : std_logic_vector(data_width - 1 downto 0);
+	signal mux_alu_ram_out_s    : std_logic_vector(data_width - 1 downto 0);
+	signal flag_zero_s          : std_logic;
+	signal control_s            : std_logic_vector(10 downto 0);
+		 alias sel_mux_rt_rd_s   : std_logic is control_s(10);
+	    alias wb_reg_s          : std_logic is control_s(9);
+	    alias sel_mux_rt_imm_s  : std_logic is control_s(8);
+	    alias sel_alu_ctrl_s    : std_logic_vector(3 downto 0) is control_s(7 downto 4);
+	    alias sel_mux_alu_ram_s : std_logic is control_s(3);
+	    alias beq_s             : std_logic is control_s(2);
+	    alias rd_ram_s          : std_logic is control_s(1);
+	    alias wr_ram_s          : std_logic is control_s(0);
+   signal mux_hex_out_s        : std_logic_vector(data_width - 1 downto 0);
+	signal display_HEX_0        : std_logic_vector(6 downto 0);
+	signal display_HEX_1        : std_logic_vector(6 downto 0);
+	signal display_HEX_2        : std_logic_vector(6 downto 0);
+	signal display_HEX_3        : std_logic_vector(6 downto 0);
 	
 	
 	begin
@@ -106,7 +106,7 @@ architecture arch_name of topLevel is
 	ROM 		  : entity work.ROMMIPS generic map (dataWidth => data_width, addrWidth => addr_width, memoryAddrWidth => 6)
 						  port map (Endereco => pc_out_s, Dado => rom_out_s);
 	
-	CONTROL_UNIT : entity work.instructionDecoder port map (input_opcode => opcode_s, input_funct => funct_s, output => control_s);
+	CONTROL_UNIT : entity work.instructionDecoder port map (opcode_i => opcode_s, funct_i => funct_s, output => control_s);
 	
 	MUX_RT_RD    : entity work.mux2x1 generic map (larguraDados => 5)
 	 					   port map(entradaA_MUX => rt_s, entradaB_MUX => rd_s, seletor_MUX => sel_mux_rt_rd_s, saida_MUX => mux_rt_rd_out_s);
@@ -118,7 +118,7 @@ architecture arch_name of topLevel is
  					   port map(entradaA_MUX => rt_alu_B_s, entradaB_MUX => im_extend_s, seletor_MUX => sel_mux_rt_imm_s, saida_MUX => mux_rt_imm_out_s);
 
 	ALU 		: entity work.ALUSumSub generic map(larguraDados => addr_width)
-					    port map (entradaA => rs_alu_A_s, entradaB => mux_rt_imm_out_s, saida => alu_out_s, flag_zero => flag_zero_s, seletor => sel_alu_s);
+					    port map (entradaA => rs_alu_A_s, entradaB => mux_rt_imm_out_s, saida => alu_out_s, flag_zero => flag_zero_s, selector => sel_alu_ctrl_s);
 
 	MUX_ALU_RAM : entity work.mux2x1 generic map (larguraDados => addr_width)
  					   port map(entradaA_MUX => alu_out_s, entradaB_MUX => ram_out_s, seletor_MUX => sel_mux_alu_ram_s, saida_MUX => mux_alu_ram_out_s);
