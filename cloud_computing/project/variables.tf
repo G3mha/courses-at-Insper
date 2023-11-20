@@ -9,3 +9,9 @@ variable "password" {
   type        = string
   sensitive   = true
 }
+
+variable "user_data" {
+  description = "User data script for configuring the instance"
+  type        = string
+  default     = "uvicorn sql_app.main:app"
+}

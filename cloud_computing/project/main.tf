@@ -21,15 +21,15 @@ provider "aws" {
 #   }
 # }
 
-# module "ec2" {
-#   source = "./modules/ec2"
-#   # Parâmetros do módulo EC2
-# }
+module "ec2" {
+  source = "./modules/ec2"
+  # Parâmetros do módulo EC2
+  user_data = base64encode(var.user_data)
+}
 
 module "rds" {
   source = "./modules/rds"
   # Parâmetros do módulo RDS
-  # username and password are set as environment variables
   username = var.username
   password = var.password
 }
