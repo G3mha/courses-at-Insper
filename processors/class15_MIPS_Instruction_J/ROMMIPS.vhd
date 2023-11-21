@@ -47,6 +47,7 @@ architecture assincrona OF ROMMIPS IS
 		  tmp(4) := x"00000000"; -- nop
 		  tmp(5) := x"110AFFFE"; -- beq $rs, $rt, immediate => beq $t0, $t2, -2
 		  tmp(6) := x"00000000"; -- nop
+		  tmp(7) := x"08000002"; -- jmp 2
 		  
         return tmp;
     end initMemory;
