@@ -23,7 +23,7 @@ provider "aws" {
 
 
 module "rds" {
-  source = "./modules/rds"
+  source = "rds"
   # Parâmetros do módulo RDS
   username = var.username
   password = var.password

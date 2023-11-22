@@ -21,21 +21,21 @@ module "security_group" {
 
 resource "aws_db_instance" "my_rds_instance" {
   identifier              = var.db_instance_identifier
-  db_name                 = var.db_name
-  allocated_storage       = var.allocated_storage
-  storage_type            = var.storage_type
-  engine                  = var.engine
-  engine_version          = var.engine_version
-  instance_class          = var.instance_class
+  db_name                 = "mydb"
+  allocated_storage       = 20
+  storage_type            = "gp2"
+  engine                  = "mysql"
+  engine_version          = "8.0.33"
+  instance_class          = "db.t2.micro"
   username                = var.username
   password                = var.password
   # db_subnet_group_name   = var.db_subnet_group_name
   # vpc_security_group_ids = [aws_security_group.rds_security_group.id]
   vpc_security_group_ids = [module.security_group.RDS_security_group_id]
 
-  backup_retention_period = var.backup_retention_period
-  backup_window           = var.backup_window
-  maintenance_window      = var.maintenance_window
+  backup_retention_period = 7
+  backup_window           = "04:00-05:00"
+  maintenance_window      = "Mon:03:00-Mon:04:00"
 
   multi_az                = true
   publicly_accessible     = false
@@ -43,4 +43,9 @@ resource "aws_db_instance" "my_rds_instance" {
   tags = {
     Name = var.db_instance_identifier
   }
+}
+
+output "rds_endpoint" {
+  description = "The endpoint of the RDS instance"
+  value       = aws_db_instance.my_rds_instance.endpoint
 }

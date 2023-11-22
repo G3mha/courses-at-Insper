@@ -15,3 +15,15 @@ variable "user_data" {
   type        = string
   default     = "uvicorn sql_app.main:app"
 }
+
+variable "region" {
+  description = "AWS region"
+  type        = string
+  default     = "us-east-1"
+}
+
+variable "db_instance_identifier" {
+  description = "DB instance identifier"
+  type        = string
+  default     = "myrdsdb"
+}
