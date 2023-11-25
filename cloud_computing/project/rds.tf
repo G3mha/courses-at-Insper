@@ -1,26 +1,5 @@
-# modules/rds/main.tf
-
-provider "aws" {
-  region = var.region
-}
-
-# resource "tls_private_key" "ssh_key" {
-#   algorithm = "RSA"
-#   rsa_bits  = 2048
-# }
-
-# resource "aws_key_pair" "deployer_key" {
-#   key_name   = "ssh_key"
-#   public_key = tls_private_key.ssh_key.public_key_openssh
-# }
-
-module "security_group" {
-  source = "./security_group"
-  # Parâmetros do módulo Security Group
-}
-
-resource "aws_db_instance" "my_rds_instance" {
-  identifier              = var.db_instance_identifier
+resource "aws_db_instance" "enricco-rds_instance" {
+  identifier              = "myrdsdb"
   db_name                 = "mydb"
   allocated_storage       = 20
   storage_type            = "gp2"
@@ -29,9 +8,8 @@ resource "aws_db_instance" "my_rds_instance" {
   instance_class          = "db.t2.micro"
   username                = var.username
   password                = var.password
-  # db_subnet_group_name   = var.db_subnet_group_name
-  # vpc_security_group_ids = [aws_security_group.rds_security_group.id]
-  vpc_security_group_ids = [module.security_group.RDS_security_group_id]
+  db_subnet_group_name    = aws_db_subnet_group.enricco-db_subnet_group.name
+  vpc_security_group_ids  = [aws_security_group.to_rds.id]
 
   backup_retention_period = 7
   backup_window           = "04:00-05:00"
@@ -41,11 +19,20 @@ resource "aws_db_instance" "my_rds_instance" {
   publicly_accessible     = false
   skip_final_snapshot     = true 
   tags = {
-    Name = var.db_instance_identifier
+    Name = "myrdsdb"
+  }
+}
+
+resource "aws_db_subnet_group" "enricco-db_subnet_group" {
+  name       = "enricco-myrdsdb"
+  subnet_ids = module.vpc.private_subnets
+
+  tags = {
+    Name = "MyDBSubnetGroup"
   }
 }
 
 output "rds_endpoint" {
   description = "The endpoint of the RDS instance"
-  value       = aws_db_instance.my_rds_instance.endpoint
+  value       = aws_db_instance.enricco-rds_instance.endpoint
 }

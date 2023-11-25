@@ -1,9 +1,3 @@
-# modules/ec2/main.tf
-
-provider "aws" {
-  region = var.region
-}
-
 resource "tls_private_key" "enricco_key_pair" {
   algorithm = "RSA"
 }
@@ -32,7 +26,8 @@ resource "aws_autoscaling_group" "enricco_asg" {
   desired_capacity     = var.desired_capacity
   max_size             = var.max_size
   min_size             = var.min_size
-  availability_zones = ["us-east-1a", "us-east-1b"]
+  vpc_zone_identifier  = module.vpc.public_subnets
+
   launch_template {
     id      = aws_launch_template.enricco_launch_template.id
     version = "$Latest"
