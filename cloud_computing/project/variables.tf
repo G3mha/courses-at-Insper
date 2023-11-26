@@ -14,12 +14,6 @@ variable "password" {
   type        = string
 }
 
-variable "user_data" {
-  description = "User data script for configuring the instance"
-  type        = string
-  default     = "uvicorn sql_app.main:app"
-}
-
 variable "ami_id" {
   description = "ID of the Amazon Machine Image (AMI)"
   type        = string
@@ -42,24 +36,6 @@ variable "instance_type" {
   description = "Type of EC2 instance"
   type        = string
   default     = "t2.micro"
-}
-
-variable "desired_capacity" {
-  description = "Desired number of instances in the Auto Scaling Group"
-  type        = number
-  default     = 2
-}
-
-variable "min_size" {
-  description = "Minimum number of instances in the Auto Scaling Group"
-  type        = number
-  default     = 1
-}
-
-variable "max_size" {
-  description = "Maximum number of instances in the Auto Scaling Group"
-  type        = number
-  default     = 4
 }
 
 variable "evaluation_periods" {
@@ -152,23 +128,8 @@ variable "azs" {
   default     = ["us-east-1a", "us-east-1b"]
 }
 
-# variable "healthy_threshold" {
-#   description = "Healthy threshold for the health check"
-#   type        = number
-#   default     = 2
-# }
-
-# variable "unhealthy_threshold" {
-#   description = "Unhealthy threshold for the health check"
-#   type        = number
-#   default     = 2
-# }
-
-# variable "listener_port" {
-#   description = "Port for the ALB listener"
-# }
-
-# variable "listener_protocol" {
-#   description = "Protocol for the ALB listener"
-#   default     = "HTTP"
-# }
+variable "db_name" {
+  description = "Name of the database to create"
+  type        = string
+  default     = "mydb"
+}
