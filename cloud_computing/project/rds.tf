@@ -1,6 +1,6 @@
 resource "aws_db_instance" "enricco-rds_instance" {
   identifier              = "myrdsdb"
-  db_name                 = "mydb"
+  db_name                 = var.db_name
   allocated_storage       = 20
   storage_type            = "gp2"
   engine                  = "mysql"
@@ -30,9 +30,4 @@ resource "aws_db_subnet_group" "enricco-db_subnet_group" {
   tags = {
     Name = "MyDBSubnetGroup"
   }
-}
-
-output "rds_endpoint" {
-  description = "The endpoint of the RDS instance"
-  value       = aws_db_instance.enricco-rds_instance.endpoint
 }
