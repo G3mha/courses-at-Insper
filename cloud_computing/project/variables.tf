@@ -4,32 +4,10 @@ variable "region" {
   default     = "us-east-1"
 }
 
-variable "username" {
-  description = "Master username for the DB instance"
-  type        = string
-}
-
-variable "password" {
-  description = "Master password for the DB instance"
-  type        = string
-}
-
 variable "ami_id" {
   description = "ID of the Amazon Machine Image (AMI)"
   type        = string
   default     = "ami-0d86d19bb909a6c95"
-}
-
-variable "key_name" {
-  description = "Name of the key pair to use for the instance"
-  type        = string
-  default     = "enricco_key_pair"
-}
-
-variable "launch_template_name" {
-  description = "Name for the launch configuration"
-  type        = string
-  default     = "enricco_launch_template"
 }
 
 variable "instance_type" {
@@ -132,4 +110,14 @@ variable "db_name" {
   description = "Name of the database to create"
   type        = string
   default     = "mydb"
+}
+
+variable "db_username" {
+  description = "Master username for the DB instance"
+  type        = string
+}
+
+variable "db_password" {
+  description = "Master password for the DB instance"
+  type        = string
 }

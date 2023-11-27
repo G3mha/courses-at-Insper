@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# install the correct dependecies
+sudo apt-get update
+sudo apt-get install -y ec2-instance-connect python3-pip awscli authbind git
+
+# remove the default environment file
+git clone https://github.com/G3mha/Gym-Bros.git
+cd Gym-Bros
+
+# install all required Python packages
+pip install -r requirements.txt
+
+# set the refreshed environment variables
+export DB_HOST=${db_host}
+export DB_USERNAME=${db_username}
+export DB_PASSWORD=${db_password}
+export DB_PORT=3306
+export DB_NAME=${db_name}
+
+# bind the port 80 to the app
+sudo touch /etc/authbind/byport/80
+sudo chmod 500 /etc/authbind/byport/80
+sudo chown ubuntu /etc/authbind/byport/80
+
+# run the app
+authbind --deep uvicorn sql_app.main:app --host 0.0.0.0 --port 80

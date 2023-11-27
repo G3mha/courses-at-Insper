@@ -43,3 +43,6 @@ terraform.rc
 # End of https://www.toptal.com/developers/gitignore/api/terraform
 
 tfplan
+
+id_mykey
+id_mykey.pub

@@ -1,5 +1,5 @@
 resource "aws_security_group" "alb_sg" {
-  name        = "enricco-alb_sg"
+  name        = "enricco-alb-sg"
   description = "Security group for ALB"
   vpc_id      = module.vpc.vpc_id
 
@@ -25,12 +25,12 @@ resource "aws_security_group" "alb_sg" {
   }
 
   tags = {
-    Name = "alb_sg"
+    Name = "enricco-alb-sg"
   }
 }
 
 resource "aws_security_group" "ec2_sg" {
-  name        = "enricco-ec2_sg"
+  name        = "enricco-ec2-sg"
   description = "Security group for EC2"
   vpc_id      = module.vpc.vpc_id
 
@@ -56,12 +56,12 @@ resource "aws_security_group" "ec2_sg" {
   }
 
   tags = {
-    Name = "ec2_sg"
+    Name = "enricco-ec2-sg"
   }
 }
 
 resource "aws_security_group" "rds_sg" {
-  name        = "enricco-rds_sg"
+  name        = "enricco-rds-sg"
   description = "Security group for RDS"
   vpc_id      = module.vpc.vpc_id
 
@@ -80,12 +80,12 @@ resource "aws_security_group" "rds_sg" {
   }
 
   tags = {
-    Name = "rds_sg"
+    Name = "enricco-rds-sg"
   }
 }
 
 resource "aws_security_group" "locust_sg" {
-  name        = "enricco-locust_sg"
+  name        = "enricco-locust-sg"
   description = "Security group for Locust"
   vpc_id      = module.vpc.vpc_id
 
@@ -104,7 +104,7 @@ resource "aws_security_group" "locust_sg" {
   }
 
   tags = {
-    Name = "locust-sg"
+    Name = "enricco-locust-sg"
   }
 }
 
