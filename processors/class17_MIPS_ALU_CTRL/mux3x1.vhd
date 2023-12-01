@@ -2,12 +2,14 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 entity mux3x1 is
-  -- Total de bits das entradas e saidas
-  generic ( larguraDados : natural := 8);
+  generic (
+	 dataWidth	: natural := 32;
+  );
+			  
   port (
-    input_A, input_B, input_C : in std_logic_vector((larguraDados-1) downto 0);
+    input_A, input_B, input_C : in std_logic_vector((dataWidth-1) downto 0);
     sel : in std_logic_vector(1 downto 0);
-    output : out std_logic_vector((larguraDados-1) downto 0)
+    output : out std_logic_vector((dataWidth-1) downto 0)
   );
 end entity;
 
