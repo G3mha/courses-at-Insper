@@ -140,7 +140,7 @@ architecture arch_name of topLevel is
 	RAM          : entity work.RAMMIPS generic map (dataWidth => data_width, addrWidth => addr_width, memoryAddrWidth => 6)
                      port map (addr => alu_out_s, we => wr_ram_s, re => rd_ram_s, habilita  => '1', input => rt_alu_B_s, output => ram_out_s, clk => CLK);
 	
-	MUX_HEX      : entity work.mux3x1 generic map (larguraDados => addr_width)
+	MUX_HEX      : entity work.mux3x1 generic map (dataWidth => addr_width)
  					      port map(input_A => alu_out_s, input_B => rt_alu_B_s, input_C => ram_out_s, sel => (SW(1) & SW(0)), output => mux_hex_out_s);	
 
    DEC_HEX0     : entity work.hexTo7seg
