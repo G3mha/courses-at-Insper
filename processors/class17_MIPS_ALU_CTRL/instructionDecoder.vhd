@@ -4,7 +4,8 @@ use ieee.std_logic_1164.all;
 entity instructionDecoder is
   port ( opcode_i : in  std_logic_vector(5  downto 0);
          funct_i  : in  std_logic_vector(5  downto 0);
-         output   : out std_logic_vector(11 downto 0)
+         output   : out std_logic_vector(11 downto 0);
+			typeR    : out std_logic
   );
 end entity;
 
@@ -26,6 +27,8 @@ architecture comportamento of instructionDecoder is
 				 "000100000100" when (opcode_i = BEQ) else
 				 "100000000000" when (opcode_i = JMP) else
 				 "000000000000";  -- NOP for unidentified inputs
+				 
+	typeR <= '1' when (opcode_i = "000000") else '0';
 
 end architecture;
 

@@ -71,6 +71,8 @@ architecture arch_name of topLevel is
 	signal display_HEX_1        : std_logic_vector(6 downto 0);
 	signal display_HEX_2        : std_logic_vector(6 downto 0);
 	signal display_HEX_3        : std_logic_vector(6 downto 0);
+	signal type_r               : std_logic;
+	signal mux_ctrl_out         : std_logic_vector(3 downto 0);
 	
 	
 	begin
@@ -86,8 +88,8 @@ architecture arch_name of topLevel is
 			                  port map (clk => CLOCK_50, entrada => (NOT FPGA_RESET_N), saida => RESET);
 	end generate;
 
-	MUX_JMP      : entity work.mux2x1 generic map (larguraDados => addr_width)
-	                 port map (entradaA_MUX => mux_pc_out_s, entradaB_MUX => concat_out_s, seletor_MUX => sel_mux_jmp_s, saida_MUX => mux_jmp_out_s);
+	MUX_JMP      : entity work.mux2x1 generic map (dataWidth => addr_width)
+	                 port map (input_A => mux_pc_out_s, input_B => concat_out_s, sel => sel_mux_jmp_s, output => mux_jmp_out_s);
 	
 	PC           : entity work.genericRegister  generic map (larguraDados => addr_width)
 		              port map (DIN => mux_jmp_out_s, DOUT => pc_out_s, ENABLE => '1', CLK => CLK, RST => RESET);
@@ -108,29 +110,31 @@ architecture arch_name of topLevel is
 
 	GATE_AND     : entity work.gateAND port map (A => flag_zero_s, B => beq_s, output => and_out_s);
    
-	MUX_PC       : entity work.mux2x1 generic map (larguraDados => addr_width)
- 					      port map(entradaA_MUX => pc_out_plus_4_s, entradaB_MUX => adder_out_s, seletor_MUX => and_out_s, saida_MUX => mux_pc_out_s);
+	MUX_PC       : entity work.mux2x1 generic map (dataWidth => addr_width)
+ 					      port map(input_A => pc_out_plus_4_s, input_B => adder_out_s, sel => and_out_s, output => mux_pc_out_s);
 
 	-- We only need 64 (2^6) positions in ROM, so we use the 6 bits of the address
 	ROM 		    : entity work.ROMMIPS generic map (dataWidth => data_width, addrWidth => addr_width, memoryAddrWidth => 6)
 						   port map (Endereco => pc_out_s, Dado => rom_out_s);
 	
-	CONTROL_UNIT : entity work.instructionDecoder port map (opcode_i => opcode_s, funct_i => funct_s, output => control_s);
+	CONTROL_UNIT : entity work.instructionDecoder port map (opcode_i => opcode_s, funct_i => funct_s, output => control_s, typeR => type_r);
 	
-	MUX_RT_RD    : entity work.mux2x1 generic map (larguraDados => 5)
-	 					   port map(entradaA_MUX => rt_s, entradaB_MUX => rd_s, seletor_MUX => sel_mux_rt_rd_s, saida_MUX => mux_rt_rd_out_s);
+	ALU_CTRL     : entity work.ALUctrl port map (opcode => opcode_s, funct => funct_s, type_R => type_r, output => mux_ctrl_out);
+	
+	MUX_RT_RD    : entity work.mux2x1 generic map (dataWidth => 5)
+	 					   port map(input_A => rt_s, input_B => rd_s, sel => sel_mux_rt_rd_s, output => mux_rt_rd_out_s);
 
 	REG_BANK     : entity work.registerBank generic map (larguraDados => addr_width)
 						   port map (clk => CLK, enderecoA => rs_s, enderecoB => rt_s, enderecoC => mux_rt_rd_out_s, dadoEscritaC => mux_alu_ram_out_s, escreveC => wb_reg_s, saidaA => rs_alu_A_s, saidaB => rt_alu_B_s);
 
-	MUX_RT_IMM   : entity work.mux2x1 generic map (larguraDados => addr_width)
- 					      port map(entradaA_MUX => rt_alu_B_s, entradaB_MUX => im_extend_s, seletor_MUX => sel_mux_rt_imm_s, saida_MUX => mux_rt_imm_out_s);
+	MUX_RT_IMM   : entity work.mux2x1 generic map (dataWidth => addr_width)
+ 					      port map(input_A => rt_alu_B_s, input_B => im_extend_s, sel => sel_mux_rt_imm_s, output => mux_rt_imm_out_s);
 
-	ALU 		    : entity work.ALUSumSub generic map(larguraDados => addr_width)
-					      port map (entradaA => rs_alu_A_s, entradaB => mux_rt_imm_out_s, saida => alu_out_s, flag_zero => flag_zero_s, selector => sel_alu_ctrl_s);
+	ALU 		    : entity work.ALUMIPS generic map(data_width => addr_width)
+					      port map (input_A => rs_alu_A_s, input_B => mux_rt_imm_out_s, operation => mux_ctrl_out, output => alu_out_s, flag_zero => flag_zero_s);
 
-	MUX_ALU_RAM  : entity work.mux2x1 generic map (larguraDados => addr_width)
- 					      port map(entradaA_MUX => alu_out_s, entradaB_MUX => ram_out_s, seletor_MUX => sel_mux_alu_ram_s, saida_MUX => mux_alu_ram_out_s);
+	MUX_ALU_RAM  : entity work.mux2x1 generic map (dataWidth => addr_width)
+ 					      port map(input_A => alu_out_s, input_B => ram_out_s, sel => sel_mux_alu_ram_s, output => mux_alu_ram_out_s);
 
 	-- Why is it 6?
 	RAM          : entity work.RAMMIPS generic map (dataWidth => data_width, addrWidth => addr_width, memoryAddrWidth => 6)

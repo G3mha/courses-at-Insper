@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 
 entity mux2x1 is
   generic (
-	 dataWidth	: natural := 32;
+	 dataWidth	: natural := 32
   );
 
   port (

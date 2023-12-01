@@ -23,7 +23,7 @@ architecture comportamento of bitWithOverflow is
     
     gateNOT : entity work.gateNOT port map (A => entradaB, output => entradaB_invertida);
     
-    MUX_NOT : entity work.mux2x1 port map (entradaA_MUX => entradaB, entradaB_MUX => entradaB_invertida, seletor_MUX => inverteB, saida_MUX => mux_not_out);
+    MUX_NOT : entity work.mux2x1 port map (input_A => entradaB, input_B => entradaB_invertida, sel => inverteB, output => mux_not_out);
 
     gateAND : entity work.gateAND port map (A => entradaA, B => mux_not_out, output => and_out);
 
@@ -31,7 +31,7 @@ architecture comportamento of bitWithOverflow is
 
     ADDER   : entity work.bitAdder port map (entradaA => entradaA, entradaB => mux_not_out, carry_in => carry_in, carry_out => carry_out, saida => adder_out);
 
-    MUX_OUT : entity work.mux4x1 port map (entradaA_MUX => and_out, entradaB_MUX => or_out, entradaC_MUX => adder_out, entradaD_MUX => slt, seletor_MUX => selMUX, saida_MUX => saida);
+    MUX_OUT : entity work.mux4x1 port map (input_A => and_out, input_B => or_out, input_C => adder_out, input_D => slt, sel => selMUX, output => saida);
 
     gateXOR1 : entity work.gateXOR port map (A => carry_out, B => carry_in, output => xor1_out);
     

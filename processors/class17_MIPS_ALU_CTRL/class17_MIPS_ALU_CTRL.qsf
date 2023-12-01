@@ -1,0 +1,223 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 2020  Intel Corporation. All rights reserved.
+# Your use of Intel Corporation's design tools, logic functions 
+# and other software and tools, and any partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Intel Program License 
+# Subscription Agreement, the Intel Quartus Prime License Agreement,
+# the Intel FPGA IP License Agreement, or other applicable license
+# agreement, including, without limitation, that your use is for
+# the sole purpose of programming logic devices manufactured by
+# Intel and sold by Intel or its authorized distributors.  Please
+# refer to the applicable agreement for further details, at
+# https://fpgasoftware.intel.com/eula.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus Prime
+# Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
+# Date created = 13:49:34  November 24, 2023
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		class17_MIPS_ALU_CTRL_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus Prime software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY "Cyclone V"
+set_global_assignment -name DEVICE 5CEBA4F23C7
+set_global_assignment -name TOP_LEVEL_ENTITY topLevel
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 20.1.0
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "13:49:34  NOVEMBER 24, 2023"
+set_global_assignment -name LAST_QUARTUS_VERSION "20.1.0 Lite Edition"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 256
+set_global_assignment -name VHDL_FILE topLevel.vhd
+set_global_assignment -name VHDL_FILE shiftLeft2.vhd
+set_global_assignment -name VHDL_FILE ROMMIPS.vhd
+set_global_assignment -name VHDL_FILE registerBank.vhd
+set_global_assignment -name VHDL_FILE RAMMIPS.vhd
+set_global_assignment -name VHDL_FILE mux4x1.vhd
+set_global_assignment -name VHDL_FILE mux3x1.vhd
+set_global_assignment -name VHDL_FILE mux2x1.vhd
+set_global_assignment -name VHDL_FILE instructionDecoder.vhd
+set_global_assignment -name VHDL_FILE hexTo7seg.vhd
+set_global_assignment -name VHDL_FILE genericRegister.vhd
+set_global_assignment -name VHDL_FILE genericAdder.vhd
+set_global_assignment -name VHDL_FILE gateXOR.vhd
+set_global_assignment -name VHDL_FILE gateOR.vhd
+set_global_assignment -name VHDL_FILE gateNOT.vhd
+set_global_assignment -name VHDL_FILE gateAND.vhd
+set_global_assignment -name VHDL_FILE extendGenericSignal.vhd
+set_global_assignment -name VHDL_FILE edgeDetector.vhd
+set_global_assignment -name VHDL_FILE constantSum.vhd
+set_global_assignment -name VHDL_FILE concatJMP.vhd
+set_global_assignment -name VHDL_FILE bitWithOverflow.vhd
+set_global_assignment -name VHDL_FILE bitAdder.vhd
+set_global_assignment -name VHDL_FILE bit.vhd
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+
+
+#============================================================
+# FAMILY "Cyclone V"
+# DEVICE 5CEBA4F23C7
+# Board DE0-CV
+#============================================================
+
+# Inicio da configuração dos pinos.
+
+#============================================================
+# CLOCK
+#============================================================
+
+#============================================================
+# HEX0
+#============================================================
+
+#============================================================
+# HEX1
+#============================================================
+
+#============================================================
+# HEX2
+#============================================================
+
+#============================================================
+# HEX3
+#============================================================
+
+#============================================================
+# HEX4
+#============================================================
+
+#============================================================
+# HEX5
+#============================================================
+
+#============================================================
+# KEY
+#============================================================
+
+#============================================================
+# KEY (Reset)
+#============================================================
+
+#============================================================
+# LEDR
+#============================================================
+
+
+#============================================================
+# SW
+#============================================================
+
+#====================================================================
+# Fim da configuração dos pinos utilizados em Design de Computadores.
+#====================================================================
+
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to CLOCK_50
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX0[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX0[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX0[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX0[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX0[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX0[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX0[6]
+set_instance_assignment -name CURRENT_STRENGTH_NEW DEFAULT -to HEX0
+set_instance_assignment -name SLEW_RATE 1 -to HEX0
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX1[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX1[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX1[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX1[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX1[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX1[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX1[6]
+set_instance_assignment -name CURRENT_STRENGTH_NEW DEFAULT -to HEX1
+set_instance_assignment -name SLEW_RATE 1 -to HEX1
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX2[6]
+set_instance_assignment -name CURRENT_STRENGTH_NEW DEFAULT -to HEX2
+set_instance_assignment -name SLEW_RATE 1 -to HEX2
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX3[6]
+set_instance_assignment -name CURRENT_STRENGTH_NEW DEFAULT -to HEX3
+set_instance_assignment -name SLEW_RATE 1 -to HEX3
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX4[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX4[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX4[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX4[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX4[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX4[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX4[6]
+set_instance_assignment -name CURRENT_STRENGTH_NEW DEFAULT -to HEX4
+set_instance_assignment -name SLEW_RATE 1 -to HEX4
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX5[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX5[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX5[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX5[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX5[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX5[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to HEX5[6]
+set_instance_assignment -name CURRENT_STRENGTH_NEW DEFAULT -to HEX5
+set_instance_assignment -name SLEW_RATE 1 -to HEX5
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to KEY[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to KEY[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to KEY[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to KEY[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to FPGA_RESET_N
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[9]
+set_instance_assignment -name CURRENT_STRENGTH_NEW DEFAULT -to LEDR
+set_instance_assignment -name SLEW_RATE 1 -to LEDR
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW[9]
+set_global_assignment -name VHDL_FILE ALUctrl.vhd
+set_global_assignment -name VHDL_FILE ALUMIPS.vhd
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name VHDL_INPUT_VERSION VHDL_2008
+set_global_assignment -name VHDL_SHOW_LMF_MAPPING_MESSAGES OFF
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
