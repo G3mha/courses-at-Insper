@@ -22,6 +22,10 @@ resource "aws_launch_template" "launch_template" {
     subnet_id                   = module.vpc.public_subnets[0]
     security_groups             = [aws_security_group.ec2_sg.id]
   }
+
+  iam_instance_profile {
+    name = aws_iam_instance_profile.ec2_profile.name
+  }
 }
 
 resource "aws_autoscaling_group" "asg" {
@@ -84,6 +88,10 @@ resource "aws_cloudwatch_metric_alarm" "low_cpu_alarm" {
   dimensions = {
     AutoScalingGroupName = aws_autoscaling_group.asg.name
   }
+}
+
+resource "aws_cloudwatch_log_group" "log_group" {
+  name = "/enricco-fastapi/logs"
 }
 
 resource "aws_autoscaling_attachment" "asg_attachment" {
