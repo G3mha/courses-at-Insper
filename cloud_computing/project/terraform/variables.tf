@@ -7,7 +7,7 @@ variable "region" {
 variable "ami_id" {
   description = "ID of the Amazon Machine Image (AMI)"
   type        = string
-  default     = "ami-0d86d19bb909a6c95"
+  default     = "ami-029772b103bf2782f"
 }
 
 variable "instance_type" {
