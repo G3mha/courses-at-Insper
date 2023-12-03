@@ -8,7 +8,7 @@ Dado a especificação do projeto, foi desenvolvido um CRUD simples em Python ut
 
 A aplicação foi hospedada na Amazon Web Services (AWS), sendo possível criar toda a infraestrutura necessária para a aplicação utilizando somente o script Terraform disponível neste repositório, bem como destruí-la completamente.
 
-## Utilização do script Terraform
+## Subindo a infraestrutura com Terraform
 
 Para começar, é necessário ter uma conta na AWS e obter seu `access_key_id` e `secret_access_key`.
 
@@ -39,6 +39,21 @@ terraform init
 terraform validate
 terraform plan -out="tfplan"
 terraform apply "tfplan"
+```
+
+## Destruindo a infraestrutura com Terraform
+
+Para destruir a infraestrutura, execute os seguintes comandos:
+
+```bash
+cd terraform/bucket
+aws s3 rm s3://enricco-terraform-state --recursive
+terraform destroy
+```
+
+```bash
+cd ..
+terraform destroy
 ```
 
 ## Diagrama de infraestrutura
@@ -103,6 +118,8 @@ Baseado nesses requisitos, excluímos todas as regiões que não possuem `t2.mic
 ## Custos de manutenção mensal
 
 Para realizar uma estimativa de custos, foi utilizado o [AWS Pricing Calculator](https://calculator.aws/#/). Os custos foram estimados para um período de 1 mês, e os valores foram convertidos para Reais utilizando a cotação do dólar do dia 03/12/2023, de R$4,92, de acordo com o [Banco Central do Brasil](https://www.bcb.gov.br/conversao).
+
+O valor total estimado para o período de 1 mês foi de **$73.71**, ou seja, **R$362,65**. O resultado da calculadora de custo já com os valores de cada serviço configurado está disponível publicamente [neste link](https://calculator.aws/#/estimate?id=38b2eace6007c3130f5064e74299cf6d9eea6c94), ou no PDF dentro do repositório, no caminho `/docs/AWS Pricing Calculator`. Abaixo, temos um resumo da configuração utilizada para a estimativa de custos:
 
 ### Amazon Virtual Private Cloud (VPC)
 
