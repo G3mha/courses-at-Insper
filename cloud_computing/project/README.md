@@ -104,6 +104,29 @@ Baseado nesses requisitos, excluímos todas as regiões que não possuem `t2.mic
 
 Para realizar uma estimativa de custos, foi utilizado o [AWS Pricing Calculator](https://calculator.aws/#/). Os custos foram estimados para um período de 1 mês, e os valores foram convertidos para Reais utilizando a cotação do dólar do dia 03/12/2023, de R$4,92, de acordo com o [Banco Central do Brasil](https://www.bcb.gov.br/conversao).
 
+### Amazon Virtual Private Cloud (VPC)
+
+Parâmetros:
+
+- Região: `eu-west-1` (Ireland);
+- VPC services: `Data Transfer`;
+- Number of VPN Connections: `1`;
+- Data Transfer Intra-region (GB): `1`;
+- Data Transfer All other regions (GB): `1`.
+- Data Transfer Out to Internet (GB): `1`;
+
+### Amazon RDS for MySQL
+
+Parâmetros:
+
+- Região: `eu-west-1` (Ireland);
+- Quantidade de instâncias: `1`;
+- Tipo de instância: `db.t2.micro`;
+- Utilização: `On-Demand (100%)`;
+- Deployment options: `Multi-AZ`;
+- Storage: `General Purpose SSD (gp2)`;
+- Storage (GB): `20`.
+
 ### Amazon EC2
 
 Parâmetros:
@@ -117,12 +140,49 @@ Parâmetros:
 - Baseline (instances): `2`;
 - Peak (instances): `6`;
 - Duration of peak (hours): `6`;
-- Payment option: `EC2 Instance Savings Plans (1 Year, No Upfront)`;
+- Payment option: `EC2 Instance Savings Plans (1 Year, No Upfront)`.
 
-### Amazon RDS for MySQL
+### Elastic Load Balancing
 
 Parâmetros:
 
 - Região: `eu-west-1` (Ireland);
-- Quantidade de instâncias: `1`;
-- Tipo de instância: `db.t2.micro`;
+- Tipo de load balancer: `Application Load Balancer`;
+- Features: `Load Balancer on Outposts`;
+- Número de ALBs: `1`.
+
+### Amazon Simple Storage Service (S3)
+
+Parâmetros:
+
+- Região: `eu-west-1` (Ireland);
+- S3 Storage Class: `Standard`;
+- Storage (GB): `0.01`;
+- Requests: `10`;
+- Data Returned by S3 Select (GB): `0.001`.
+- Data Scanned by S3 Select (GB): `0.01`.
+
+### Amazon DynamoDB
+
+Parâmetros:
+
+- Região: `eu-west-1` (Ireland);
+- Features: `DynamoDB Data Import from Amazon S3 feature`;
+- Source file size (GB): `0.01`;
+
+### Amazon API Gateway
+
+Parâmetros:
+
+- Região: `eu-west-1` (Ireland);
+- API Type: `REST API`;
+- Request units: `millions`;
+- Requests per month: `1`;
+
+### Amazon CloudWatch
+
+Parâmetros:
+
+- Região: `eu-west-1` (Ireland);
+- Number of metrics: `2`;
+- Number of Standard Resolution Alarm Metrics: `2`;

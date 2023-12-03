@@ -1,7 +1,7 @@
 variable "region" {
   description = "AWS region"
   type        = string
-  default     = "us-east-1"
+  default     = "eu-west-1"
 }
 
 variable "ami_id" {
@@ -103,7 +103,7 @@ variable "timeout" {
 variable "azs" {
   type        = list(string)
   description = "Availability Zones"
-  default     = ["us-east-1a", "us-east-1b"]
+  default     = ["eu-west-1a", "eu-west-1b"]
 }
 
 variable "db_name" {

@@ -10,7 +10,7 @@ terraform {
   backend "s3" {
     bucket         = "enricco-terraform-state"
     key            = "terraform.tfstate"
-    region         = "us-east-1"
+    region         = var.region
     encrypt        = true
     dynamodb_table = "enricco-terraform-state-lock"
   }
