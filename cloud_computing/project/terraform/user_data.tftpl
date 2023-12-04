@@ -14,7 +14,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 # set the refreshed environment variables
-export DB_ENDPOINT=$(aws rds describe-db-instances --region eu-west-1 --query 'DBInstances[1].Endpoint.Address' --output text)
+export DB_ENDPOINT=$(aws rds describe-db-instances --region eu-west-1 --query 'DBInstances[0].Endpoint.Address' --output text)
 export DB_HOST=$(dig +short $DB_ENDPOINT)
 export DB_USER=${db_username}
 export DB_PASS=${db_password}
