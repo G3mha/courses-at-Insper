@@ -128,8 +128,6 @@ O ALB foi criado para balancear a carga entre as instâncias EC2. Ele está disp
 
 Mantém a quantidade de instâncias EC2 em 2, com um mínimo de 2 e um máximo de 6. A política de escalonamento é configurada para expandir a quantidade de instâncias quando a utilização de CPU atingir 70%, e reduzir a quantidade de instâncias quando a utilização de CPU atingir 20%. A política de Health Check é configurada para verificar a saúde das instâncias a cada 5 minutos, com um tempo de espera de 1 minuto, e um limite de 1 falha consecutiva.
 
-### EC2 (Elastic Compute Cloud)
-
 ## Decisões técnicas
 
 - Para a aplicação, configurada em Ubuntu, foi utilizado Elastic Compute Cloud (EC2);
@@ -284,7 +282,7 @@ Parâmetros:
 - Number of metrics: `2`;
 - Number of Standard Resolution Alarm Metrics: `2`;
 
-## Utilizando o Locust para testes de carga
+## Custo real utilizando o Locust para testes de carga
 
 Para realizar os testes de carga, foi utilizado o Locust, uma ferramenta de código aberto para testes de carga. Sua utilização foi tão somente acessar o endereço no navegador e configurar um teste de carga de 250 usuários, com 50 usuários por segundo, e um tempo de execução de 10 minutos. O resultado do teste pode ser visto nas imagens abaixo:
 
@@ -294,9 +292,26 @@ Para realizar os testes de carga, foi utilizado o Locust, uma ferramenta de cód
 
 Isso resulta na execução da Policy estabelecida para o ALB, que pode ser vista no dashboard depois de pouco tempo de execução do teste:
 
-![Policy](./docs/AWS_dashboard.jpeg)
+![Dashboard 1](./docs/AWS_dashboard_before.jpeg)
 
-## Custo real de manutenção mensal
+Depois do fim do teste carga, podemos ver que foi bem sucedido o downscaling das instâncias EC2:
 
-Para calcular o custo real de manutenção mensal, foi utilizado o [AWS Billing and Cost Management](https://console.aws.amazon.com/billing/home?#/). 
+![Dashboard 2](./docs/AWS_dashboard_after.png)
 
+Para calcular o custo real de manutenção mensal, foi utilizado o [AWS Billing and Cost Management](https://console.aws.amazon.com/billing/home?#/).
+
+Como forma de validar a estimativa da Calculadora de Custos AWS, levamos em conta o tempo em que o teste carga rodou (10 minutos), com uma taxa de swarm do Locust de aproximadamente 122 RPS. Assim, observamos o painel de custos da região `eu-west-1` (Ireland), que pode ser visto abaixo:
+
+![Billing 1](./docs/AWS_dashboard_price.png)
+
+Contudo é necessário deduzir os custos não relacionados ao swarm do Locust, neste caso os valores contornados em vermelho na imagem abaixo:
+
+![Billing 2](./docs/AWS_dashboard_deduction.png)
+
+Portanto, do total de **$3.51**, devem ser descontados:
+
+- 10 minutos representam aproximadamente 1.11% de 15 horas, portanto 11% sobre $0.54, resulta em desconto de **$0,48**;
+- 10 minutos representam aproximadamente 0.52% de 32 horas, portanto 0.52% sobre $1.54, resulta em desconto de **$1.53**;
+- 10 minutos representam aproximadamente 0.56% de 30 horas, portanto 0.56% sobre $0.39, resulta em desconto de **$0.389**.
+
+Assim, o custo real de manutenção em 10 minutos de teste de carga é de **$1.111**. Vale ressaltar que esse é um fluxo muito atípico e que representa o equivalente ao fluxo de 1 dia da aplicação no mundo real. Assim, podemos extrapolar isso para a aplicação rodando todos os dias da semana, o custo real de manutenção mensal é de **$33,33**, ou seja, **R$163,99**.
