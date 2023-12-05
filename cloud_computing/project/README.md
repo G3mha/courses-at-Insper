@@ -68,6 +68,68 @@ terraform destroy
 
 Neste diagrama, cada cor representa uma camada de abstração da infraestrutura, sendo `preto` a cor referente a camada de serviços AWS, ou seja, a camada de "cloud", em `roxo` a camada de rede, como o IPRouter e a VPC, em `vermelho` as camadas de segurança, representadas pelos Security Groups, em `verde` as camadas de subnets, pública e privada, em `azul` a camada de monitoramento, representada pelo CloudWatch, e em `laranja` a camada de aplicação, representada pelas instâncias EC2, o ALB e o banco de dados RDS, bem como a própria aplicação CRUD que é visível ao usuário. A World Wide Web é representada por um círculo em `azul`. As setas representam a comunicação entre os serviços.
 
+## Documentação da aplicação
+
+Serviços utilizados:
+
+### VPC (Virtual Private Cloud)
+
+A Virtual Private Cloud (VPC) foi criada para isolar a infraestrutura. A VPC possui CIDR 172.31.0.0/16. Assim, geramos 2 subnets privadas e 2 subnets públicas, sendo:
+
+- Subnet privada 1:
+  - CIDR: 172.31.0.0/26
+  - Availability Zone: `eu-west-1a`;
+
+- Subnet privada 2:
+  - CIDR: 172.31.0.64/26
+  - Availability Zone: `eu-west-1b`;
+
+- Subnet pública 1:
+  - CIDR: 172.31.0.128/26
+  - Availability Zone: `eu-west-1a`;
+
+- Subnet pública 2:
+  - CIDR: 172.31.0.192/26
+  - Availability Zone: `eu-west-1b`;
+
+### Security Groups
+
+Para garantir a segurança da aplicação, foram criados quatro Security Groups, permitindo somente os serviços necessários para o funcionamento da aplicação. São eles:
+
+- ALB Security Group:
+  - Entrada: permite tráfego HTTP (80) e SSH (22) de qualquer origem;
+  - Saída: permite tráfego de qualquer protocolo para qualquer destino;
+
+- EC2 Security Group:
+  - Entrada: permite tráfego HTTP (80) proveniente do ALB Security Group e SSH (22) de qualquer origem;
+  - Saída: permite tráfego de qualquer protocolo para qualquer destino;
+
+- RDS Security Group:
+  - Entrada: permite tráfego MySQL (3306) proveniente do EC2 Security Group;
+  - Saída: permite tráfego de qualquer protocolo para qualquer destino;
+
+- Locust Security Group:
+  - Entrada: permite tráfego de qualquer protocolo para qualquer origem;
+  - Saída: permite tráfego de qualquer protocolo para qualquer destino;
+
+### IAM
+
+Para garantir que as permissões adequadas fossem assinaladas para as instâncias EC2, foi criado um IAM Role, com permissões de escrita de logs, principalmente.
+
+### RDS (Relational Database Service)
+
+O RDS foi criado para hospedar o banco de dados MySQL. Portanto, sua engine é `mysql` na versão `8.0.33`, com `Multi-AZ` habilitado. Os backups são retidos por 7 dias, e com uma janela de manutenção semanal, às segundas-feiras, das 03:00 às 04:00, e de backup diário, das 04:00 às 05:00. O RDS possui uma instância `db.t2.micro` com 20GB de armazenamento `gp2`. Para garantir a segurança do acesso ao banco de dados, os dados de usuário e senha são configurados em um arquivo `terraform.tfvars` e estão disponíveis somente neles.
+
+### ALB (Application Load Balancer)
+
+O ALB foi criado para balancear a carga entre as instâncias EC2. Ele está disponível publicamente na Internet. Ele tem um listener na porta 80 que encaminha o tráfego para o Target Group configurado (Instâncias EC2).
+
+### ASG (Auto Scaling Group)
+
+Mantém a quantidade de instâncias EC2 em 2, com um mínimo de 2 e um máximo de 6. A política de escalonamento é configurada para expandir a quantidade de instâncias quando a utilização de CPU atingir 70%, e reduzir a quantidade de instâncias quando a utilização de CPU atingir 20%. A política de Health Check é configurada para verificar a saúde das instâncias a cada 5 minutos, com um tempo de espera de 1 minuto, e um limite de 1 falha consecutiva.
+
+### EC2 (Elastic Compute Cloud)
+
 ## Decisões técnicas
 
 - Para a aplicação, configurada em Ubuntu, foi utilizado Elastic Compute Cloud (EC2);
