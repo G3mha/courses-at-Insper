@@ -121,13 +121,17 @@ Com regiões de disponilibidade em todo o mundo, vem também a necessidade de es
 
 Baseado nesses requisitos, excluímos todas as regiões que não possuem `t2.micro`. Em seguida, excluímos a região `us-east-1` (N. Virginia) pela imensa quantidade de outages. Excluímos `ap-southeast-2` (Sydney), `ap-northeast-1` (Tokyo) e `sa-east-1` (São Paulo) por possuírem uma grande diferença de custo em relação a `us-east-1` (N. Virginia). E por fim, excluímos `us-west-2` (Oregon) por possuir um histórico de outages, apesar de ser a segunda região mais barata. Com isso, ficamos em um empate entre `eu-west-1` (Ireland) e `ap-southeast-1` (Singapore), e como a região `eu-west-1` (Ireland) possui um custo 11% menor, foi a escolhida para hospedar a aplicação.
 
+### A escolha de monitoramento
+
+O projeto utiliza o CloudWatch para monitorar as instâncias EC2 e o RDS. Métricas essenciais, como Utilização de CPU e Contagem de Requisições da ALB, são monitoradas. Para a utilização de CPU, políticas de escalonamento são definidas em 70% para acionar a expansão e 20% para a redução, garantindo eficiência financeira de recursos. Da mesma forma, a métrica de Contagem de Requisições da ALB é configurada com limites 150 requisições, em um intervalo de espera de 5 minutos para evitar uma redução rápida de escala.
+
 ### A escolha de instâncias
 
 O projeto utiliza a `t2.micro` para implantação de instâncias EC2. Por ser uma aplicação CRUD, essa configuração de baixo custo provisiona recursos suficientes para lidar com essas operações básicas. Isso contribui para maximizar a eficiência financeira do projeto.
 
 ### A escolha do banco de dados
 
-
+O projeto utiliza a `db.t2.micro` para o RDS, que é ótima para operações CRUD. Optamos pela implantação em Multi-Availability Zone para garantir alta disponibilidade, bem como tolerância a falhas. Por fim, optamos pelo General Purpose SSD (GP2) com capacidade de 20GB que dá uma ótima margem para necessidades de armazenamento do projeto, que cobre uma possível escalada de requisitos do projeto.
 
 ## Estimativa de custo de manutenção mensal
 
@@ -217,6 +221,18 @@ Parâmetros:
 - Região: `eu-west-1` (Ireland);
 - Number of metrics: `2`;
 - Number of Standard Resolution Alarm Metrics: `2`;
+
+## Utilizando o Locust para testes de carga
+
+Para realizar os testes de carga, foi utilizado o Locust, uma ferramenta de código aberto para testes de carga. Sua utilização foi tão somente acessar o endereço no navegador e configurar um teste de carga de 250 usuários, com 50 usuários por segundo, e um tempo de execução de 10 minutos. O resultado do teste pode ser visto nas imagens abaixo:
+
+![Locust 1](./docs/Locust_chart.png)
+
+![Locust 2](./docs/Locust_current_ratio.png)
+
+Isso resulta na execução da Policy estabelecida para o ALB, que pode ser vista no dashboard depois de pouco tempo de execução do teste:
+
+![Policy](./docs/AWS_dashboard.jpeg)
 
 ## Custo real de manutenção mensal
 

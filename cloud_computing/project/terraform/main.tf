@@ -42,3 +42,11 @@ module "vpc" {
     Project = "Enricco"
   }
 }
+
+output "alb_dns_name" {
+    value = "${aws_alb.alb.dns_name}/docs"
+}
+
+output "locust_dns_name" {
+    value = "${aws_instance.locust.public_ip}:8089"
+}
