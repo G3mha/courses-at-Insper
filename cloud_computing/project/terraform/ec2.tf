@@ -58,6 +58,28 @@ resource "aws_autoscaling_policy" "scale_down_policy" {
   autoscaling_group_name = aws_autoscaling_group.asg.name
 }
 
+resource "aws_autoscaling_policy" "alb_policy" {
+  name                      = "enricco-alb-policy"
+  autoscaling_group_name    = aws_autoscaling_group.asg.name
+  policy_type               = "TargetTrackingScaling"
+  estimated_instance_warmup = 300 # 5 minutes
+
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ALBRequestCountPerTarget"
+      # Use the load balancer id
+      resource_label         = "${split("/", aws_alb.alb.id)[1]}/${split("/", aws_alb.alb.id)[2]}/${split("/", aws_alb.alb.id)[3]}/targetgroup/${split("/", aws_alb_target_group.alb_tg.arn)[1]}/${split("/", aws_alb_target_group.alb_tg.arn)[2]}"
+    }
+
+    target_value = 150 # 150 requests per minute
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+}
+
 resource "aws_cloudwatch_metric_alarm" "high_cpu_alarm" {
   alarm_name          = "enricco-high-cpu-alarm"
   comparison_operator = "GreaterThanThreshold"
