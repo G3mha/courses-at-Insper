@@ -41,6 +41,12 @@ terraform plan -out="tfplan"
 terraform apply "tfplan"
 ```
 
+## Testando a aplicação
+
+Ao final da execução do Terraform, serão exibidos no terminal, respectivamente, o ALB DNS name e o Locust Public IPv4 DNS.
+
+Para testar a aplicação FastAPI, é necessário acessar o endereço da ALB no navegador. Para testar a aplicação Locust, é necessário acessar o endereço do Locust no navegador.
+
 ## Destruindo a infraestrutura com Terraform
 
 Para destruir a infraestrutura, execute os seguintes comandos:
@@ -115,7 +121,15 @@ Com regiões de disponilibidade em todo o mundo, vem também a necessidade de es
 
 Baseado nesses requisitos, excluímos todas as regiões que não possuem `t2.micro`. Em seguida, excluímos a região `us-east-1` (N. Virginia) pela imensa quantidade de outages. Excluímos `ap-southeast-2` (Sydney), `ap-northeast-1` (Tokyo) e `sa-east-1` (São Paulo) por possuírem uma grande diferença de custo em relação a `us-east-1` (N. Virginia). E por fim, excluímos `us-west-2` (Oregon) por possuir um histórico de outages, apesar de ser a segunda região mais barata. Com isso, ficamos em um empate entre `eu-west-1` (Ireland) e `ap-southeast-1` (Singapore), e como a região `eu-west-1` (Ireland) possui um custo 11% menor, foi a escolhida para hospedar a aplicação.
 
-## Custos de manutenção mensal
+### A escolha de instâncias
+
+O projeto utiliza a `t2.micro` para implantação de instâncias EC2. Por ser uma aplicação CRUD, essa configuração de baixo custo provisiona recursos suficientes para lidar com essas operações básicas. Isso contribui para maximizar a eficiência financeira do projeto.
+
+### A escolha do banco de dados
+
+
+
+## Estimativa de custo de manutenção mensal
 
 Para realizar uma estimativa de custos, foi utilizado o [AWS Pricing Calculator](https://calculator.aws/#/). Os custos foram estimados para um período de 1 mês, e os valores foram convertidos para Reais utilizando a cotação do dólar do dia 03/12/2023, de R$4,92, de acordo com o [Banco Central do Brasil](https://www.bcb.gov.br/conversao).
 
@@ -203,3 +217,8 @@ Parâmetros:
 - Região: `eu-west-1` (Ireland);
 - Number of metrics: `2`;
 - Number of Standard Resolution Alarm Metrics: `2`;
+
+## Custo real de manutenção mensal
+
+Para calcular o custo real de manutenção mensal, foi utilizado o [AWS Billing and Cost Management](https://console.aws.amazon.com/billing/home?#/). 
+
