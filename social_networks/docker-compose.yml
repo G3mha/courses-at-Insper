@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  jupyterlab:
+    build:
+      context: .
+    volumes:
+      - ./__shared__:/home/jupyterlab/__shared__
+    ports:
+      - 8888:8888
