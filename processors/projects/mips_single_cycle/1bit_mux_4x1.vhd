@@ -1,21 +1,22 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity mux_3x1 is
+entity 1bit_mux_4x1 is
   generic (
 	 dataWidth	: natural := 32
   );
 
   port (
-    A, B, C : in std_logic_vector((dataWidth-1) downto 0);
+    A, B, C, D : in std_logic;
     sel : in std_logic_vector(1 downto 0);
-    output : out std_logic_vector((dataWidth-1) downto 0)
+    output : out std_logic
   );
 end entity;
 
-architecture comportamento of mux_3x1 is
+architecture comportamento of 1bit_mux_4x1 is
   begin
-    output <= C when (sel = "10") else 
+    output <= D when (sel = "11") else 
+              C when (sel = "10") else
               B when (sel = "01") else 
               A;
 end architecture;

@@ -15,5 +15,6 @@ end entity;
 
 architecture comportamento of mux_2x1 is
   begin
-    output <= B when (sel = '1') else A;
+    output <= B when (sel = '1') else
+              A;
 end architecture;

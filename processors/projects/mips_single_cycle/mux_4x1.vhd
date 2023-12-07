@@ -17,5 +17,6 @@ architecture comportamento of mux_4x1 is
   begin
     output <= D when (sel = "11") else 
               C when (sel = "10") else
-              B when (sel = "01") else A;
+              B when (sel = "01") else
+              A;
 end architecture;
