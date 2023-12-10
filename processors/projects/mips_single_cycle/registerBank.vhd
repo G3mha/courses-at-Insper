@@ -13,7 +13,7 @@ entity registerBank is
 -- Leitura de 2 registradores e escrita em 1 registrador simultaneamente.
     port
     (
-        CLK        : in std_logic;
+        CLK     : in std_logic;
 --
         A       : in std_logic_vector((address_width-1) downto 0);
         B       : in std_logic_vector((address_width-1) downto 0);

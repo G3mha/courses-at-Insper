@@ -7,8 +7,8 @@ entity mux_2x1 is
   );
 
   port (
-    A, B : in std_logic_vector((data_width-1) downto 0);
-    sel : in std_logic;
+    A, B   : in  std_logic_vector((data_width-1) downto 0);
+    sel    : in  std_logic;
     output : out std_logic_vector((data_width-1) downto 0)
   );
 end entity;

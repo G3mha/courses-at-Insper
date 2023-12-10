@@ -1,7 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity 1bit_mux_3x1 is
+entity onebit_mux_3x1 is
   generic (
 	 dataWidth	: natural := 32
   );
@@ -13,7 +13,7 @@ entity 1bit_mux_3x1 is
   );
 end entity;
 
-architecture comportamento of 1bit_mux_3x1 is
+architecture comportamento of onebit_mux_3x1 is
   begin
     output <= C when (sel = "10") else 
               B when (sel = "01") else 

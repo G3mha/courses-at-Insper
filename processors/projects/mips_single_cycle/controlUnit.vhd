@@ -1,14 +1,14 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity instructionDecoder is
+entity controlUnit is
   port ( opcode : in  std_logic_vector(5  downto 0);
          funct  : in  std_logic_vector(5  downto 0);
          output : out std_logic_vector(11 downto 0);
       );
 end entity;
 
-architecture comportamento of instructionDecoder is
+architecture comportamento of controlUnit is
 
   constant LW   : std_logic_vector(5 downto 0) := "100011"; -- 23
   constant SW   : std_logic_vector(5 downto 0) := "101011"; -- 2b

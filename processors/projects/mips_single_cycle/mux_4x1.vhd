@@ -7,9 +7,9 @@ entity mux_4x1 is
   );
 
   port (
-    A, B, C, D : in std_logic_vector((data_width-1) downto 0);
-    sel : in std_logic_vector(1 downto 0);
-    output : out std_logic_vector((data_width-1) downto 0)
+    A, B, C, D : in  std_logic_vector((data_width-1) downto 0);
+    sel        : in  std_logic_vector(1 downto 0);
+    output     : out std_logic_vector((data_width-1) downto 0)
   );
 end entity;
 

@@ -4,27 +4,28 @@ use ieee.numeric_std.all;
 
 
 entity topLevel is
-	generic   (
-		data_width  : natural :=  32;
-		addr_width  : natural :=  32;
-		simulacao   : boolean := FALSE -- to record on board, use FALSE
-	);
+    generic   (
+        data_width  : natural :=  32;
+        addr_width  : natural :=  32;
+        simulacao   : boolean := FALSE -- to record on board, use FALSE
+    );
 
-	port   (
-		-- Input ports
-		CLOCK_50     : in std_logic;
-      KEY          : in std_logic_vector(3 downto 0);
-		SW           : in std_logic_vector(9 downto 0);
-		FPGA_RESET_N : in std_logic;
-		
-		-- Output ports
-      LEDR       : out std_logic_vector(9 downto 0);
-      HEX0       : out std_logic_vector(6 downto 0);
-      HEX1       : out std_logic_vector(6 downto 0);
-      HEX2       : out std_logic_vector(6 downto 0);
-      HEX3       : out std_logic_vector(6 downto 0);
-		MUX_OUT    : out std_logic_vector(data_width - 1 downto 0)
-	);
+    port   (
+        -- Input ports
+        CLOCK_50     : in  std_logic;
+        KEY          : in  std_logic_vector(3 downto 0);
+        SW           : in  std_logic_vector(9 downto 0);
+        FPGA_RESET_N : in  std_logic;
+        
+        -- Output ports
+        LEDR         : out std_logic_vector(9 downto 0);
+        HEX0         : out std_logic_vector(6 downto 0);
+        HEX1         : out std_logic_vector(6 downto 0);
+        HEX2         : out std_logic_vector(6 downto 0);
+        HEX3         : out std_logic_vector(6 downto 0);
+		HEX4         : out std_logic_vector(6 downto 0);
+		HEX5         : out std_logic_vector(6 downto 0)
+    );
 end entity;
 
 
@@ -50,131 +51,105 @@ architecture arch_name of topLevel is
         alias enable_reg_wr     : std_logic is control_word(8);
         alias sel_mux_rt_imm    : std_logic is control_word(7)
         alias sel_type_r        : std_logic is control_word(6);
-        alias sel_mux_ula_rom   : std_logic_vector(1 downto 0) is control_word(5 downto 4);
+        alias sel_mux_alu_ram   : std_logic_vector(1 downto 0) is control_word(5 downto 4);
         alias beq               : std_logic is control_word(3);
         alias bne               : std_logic is control_word(2);
-        alias enable_rom_rd     : std_logic is control_word(1);
-        alias enable_rom_wr     : std_logic is control_word(0);
-    signal mux_rt_rd_out 	    : std_logic_vector(4 downto 0);
+        alias enable_ram_rd     : std_logic is control_word(1);
+        alias enable_ram_wr     : std_logic is control_word(0);
+    signal mux_rt_rd_out        : std_logic_vector(4 downto 0);
     signal rs_data              : std_logic_vector(data_width - 1 downto 0);
     signal rt_data              : std_logic_vector(data_width - 1 downto 0);
+    signal im_extend            : std_logic_vector(data_width - 1 downto 0);
     signal mux_rt_imm_out       : std_logic_vector(data_width - 1 downto 0);
+    signal control_word_alu     : std_logic_vector(3 downto 0);
+    signal alu_out              : std_logic_vector(data_width - 1 downto 0);
+    signal flag_zero            : std_logic;
+    signal mux_beq_out          : std_logic;
+    signal ram_out              : std_logic_vector(data_width - 1 downto 0)
+    signal lui_out              : std_logic_vector(data_width - 1 downto 0);
+    signal mux_alu_ram_out      : std_logic_vector(data_width - 1 downto 0);
+    signal im_extend_sl2        : std_logic_vector(data_width - 1 downto 0);
+	signal adder_out            : std_logic_vector(data_width - 1 downto 0);
+    signal mux_pc4_imm_out      : std_logic_vector(data_width - 1 downto 0);
+    signal mux_jmp_out          : std_logic_vector(data_width - 1 downto 0);
+	signal mux_prox_pc_out      : std_logic_vector(data_width - 1 downto 0);
+    signal mux_hex_out        : std_logic_vector(data_width - 1 downto 0);
+    signal display_hex_0        : std_logic_vector(6 downto 0);
+    signal display_hex_1        : std_logic_vector(6 downto 0);
+    signal display_hex_2        : std_logic_vector(6 downto 0);
+    signal display_hex_3        : std_logic_vector(6 downto 0);
+	signal display_hex_4        : std_logic_vector(6 downto 0);
+	signal display_hex_5        : std_logic_vector(6 downto 0);
+    begin
 
-	signal mux_rt_rd_out_s      : std_logic_vector(4 downto 0);
-	signal adder_out_s          : std_logic_vector(data_width - 1 downto 0);
-	signal im_extend_s          : std_logic_vector(data_width - 1 downto 0);
-	signal im_ext_sl2_s         : std_logic_vector(data_width - 1 downto 0);
-	signal and_out_s            : std_logic;
-	signal mux_pc_out           : std_logic_vector(data_width - 1 downto 0);
-	signal rs_alu_A_s		       : std_logic_vector(data_width - 1 downto 0);
-	signal rt_alu_B_s		       : std_logic_vector(data_width - 1 downto 0);
-	signal ram_out_s            : std_logic_vector(data_width - 1 downto 0);
-	signal mux_rt_imm_out_s     : std_logic_vector(data_width - 1 downto 0);
-	signal alu_out_s		       : std_logic_vector(data_width - 1 downto 0);
-	signal mux_alu_ram_out_s    : std_logic_vector(data_width - 1 downto 0);
-	signal flag_zero_s          : std_logic;
-	signal mux_jmp_out_s        : std_logic_vector(data_width - 1 downto 0);
-	signal concat_out         : std_logic_vector(data_width - 1 downto 0);
-   signal mux_hex_out_s        : std_logic_vector(data_width - 1 downto 0);
-	signal display_HEX_0        : std_logic_vector(6 downto 0);
-	signal display_HEX_1        : std_logic_vector(6 downto 0);
-	signal display_HEX_2        : std_logic_vector(6 downto 0);
-	signal display_HEX_3        : std_logic_vector(6 downto 0);
-	signal type_r               : std_logic;
-	signal mux_ctrl_out         : std_logic_vector(3 downto 0);
-	
-	
-	begin
-
-	gravar:  if simulacao generate
-	CLK <= KEY(0);
-	RESET <= '0';
-	else generate
-	EDGE_DETECT_CLK   : work.edgeDetector(bordaSubida)
-			                  port map (clk => CLOCK_50, entrada => (not KEY(0)), saida => CLK);
-	
-	EDGE_DETECT_RESET : work.edgeDetector(bordaSubida)
-			                  port map (clk => CLOCK_50, entrada => (NOT FPGA_RESET_N), saida => RESET);
-	end generate;
-
-    PC           : entity work.genericRegister port map (input => mux_prox_pc_out, output => pc_out, ENABLE => '1', CLK => CLK, RST => RESET);
-
-    INC_PC4      : entity work.constantSum port map (input => pc_out, output => pc_out4);
-
-    ROM          : entity work.ROMMIPS port map (address => pc_out, data => rom_out);
-
-    CONTROL_UNIT : entity work.instructionDecoder port map (opcode => opcode, funct => funct, output => control_word);
-
-    MUX_RT_RD    : entity work.mux_3x1 generic map (data_width => 5)
-	                    port map (A => rt, B => rd, C => r31, sel => sel_mux_rt_rd, output => mux_rt_rd_out);
-
-    REG_BANK     : entity work.registerBank port map (CLK => CLK, A => rs, B => rt, C => mux_rt_rd_out, data_to_write => mux_alu_ram_out, enable_write => enable_reg_wr, outputA => rs_data, outputB => rt_data);
-
+    gravar:  if simulacao generate
+    CLK <= KEY(0);
+    RESET <= '0';
+    else generate
+    EDGE_DETECT_CLK   : work.edgeDetector(bordaSubida)
+                              port map (clk => CLOCK_50, entrada => (not KEY(0)), saida => CLK);
     
+    EDGE_DETECT_RESET : work.edgeDetector(bordaSubida)
+                              port map (clk => CLOCK_50, entrada => (NOT FPGA_RESET_N), saida => RESET);
+    end generate;
 
-    MUX_RT_IMM   : entity work.mux_2x1 port map (A => rt_data, B => /, sel => sel_mux_rt_imm, output => mux_rt_imm_out);
+    PC            : entity work.genericRegister port map (input => mux_prox_pc_out, output => pc_out, ENABLE => '1', CLK => CLK, RST => RESET);
 
-	MUX_PROX_PC  : entity work.mux_2x1 port map (A => mux_jmp_out, B => r1_out, sel => jr, output => mux_prox_pc_out);
+    INC_PC4       : entity work.constantSum port map (input => pc_out, output => pc_out4);
 
-	CONCAT       : entity work.concatJMP port map(immediate => immediate_jmp_s, pc_plus_4 => pc_out_plus_4_s, output => concat_out);
-	
-	EXT_SIGNAL   : entity work.extendGenericSignal   generic map (larguraDadoEntrada => 16, larguraDadoSaida => addr_width)
-                    port map (input => immediate_s, output => im_extend_s);
+    ROM           : entity work.ROMMIPS port map (address => pc_out, data => rom_out);
 
-	SHIFT_LEFT2  : entity work.shiftLeft2 port map (input => im_extend_s, output => im_ext_sl2_s);
-						
-	ADD_IM_PC4   : entity work.genericAdder  generic map (larguraDados => addr_width)
-                     port map(entradaA => pc_out_plus_4_s, entradaB => im_ext_sl2_s, saida => adder_out_s);
+    CTRL_UNIT     : entity work.controlUnit port map (opcode => opcode, funct => funct, output => control_word);
 
-	GATE_AND     : entity work.gateAND port map (A => flag_zero_s, B => beq_s, output => and_out_s);
-   
-	MUX_PC       : entity work.mux2x1 generic map (dataWidth => addr_width)
- 					      port map(input_A => pc_out_plus_4_s, input_B => adder_out_s, sel => and_out_s, output => mux_pc_out_s);
+    MUX_RT_RD     : entity work.mux_3x1 generic map (data_width => 5) port map (A => rt, B => rd, C => r31, sel => sel_mux_rt_rd, output => mux_rt_rd_out);
 
-	
-	CONTROL_UNIT : entity work.instructionDecoder port map (opcode_i => opcode_s, funct_i => funct_s, output => control_s, typeR => type_r);
-	
-	ALU_CTRL     : entity work.ALUctrl port map (opcode => opcode_s, funct => funct_s, type_R => type_r, output => mux_ctrl_out);
-	
-	MUX_RT_RD    : entity work.mux2x1 generic map (dataWidth => 5)
-	 					   port map(input_A => rt_s, input_B => rd_s, sel => sel_mux_rt_rd_s, output => mux_rt_rd_out_s);
+    REG_BANK      : entity work.registerBank port map (CLK => CLK, A => rs, B => rt, C => mux_rt_rd_out, data_to_write => mux_alu_ram_out, enable_write => enable_reg_wr, outputA => rs_data, outputB => rt_data);
 
-	REG_BANK     : entity work.registerBank generic map (larguraDados => addr_width)
-						   port map (clk => CLK, enderecoA => rs_s, enderecoB => rt_s, enderecoC => mux_rt_rd_out_s, dadoEscritaC => mux_alu_ram_out_s, escreveC => wb_reg_s, saidaA => rs_alu_A_s, saidaB => rt_alu_B_s);
+    EXT_SIGNAL    : entity work.extendSignal port map (input => immediate, sel => sel_ori_andi, output => im_extend);
 
-	MUX_RT_IMM   : entity work.mux2x1 generic map (dataWidth => addr_width)
- 					      port map(input_A => rt_alu_B_s, input_B => im_extend_s, sel => sel_mux_rt_imm_s, output => mux_rt_imm_out_s);
+    MUX_RT_IMM    : entity work.mux_2x1 port map (A => rt_data, B => im_extend5, sel => sel_mux_rt_imm, output => mux_rt_imm_out);
 
-	ALU 		    : entity work.ALUMIPS generic map(data_width => addr_width)
-					      port map (input_A => rs_alu_A_s, input_B => mux_rt_imm_out_s, operation => mux_ctrl_out, output => alu_out_s, flag_zero => flag_zero_s);
+    CTRL_UNIT_ALU : entity work.controlUnitALU port map (opcode => opcode, funct => funct, type_R => sel_type_r, output => control_word_alu);
 
-	MUX_ALU_RAM  : entity work.mux2x1 generic map (dataWidth => addr_width)
- 					      port map(input_A => alu_out_s, input_B => ram_out_s, sel => sel_mux_alu_ram_s, output => mux_alu_ram_out_s);
+    ALU           : entity work.ALUMIPS port map (A => rs_data, B => mux_rt_imm_out, operation => control_word_alu, output => alu_out, flag_zero => flag_zero);
 
-	-- Why is it 6?
-	RAM          : entity work.RAMMIPS generic map (dataWidth => data_width, addrWidth => addr_width, memoryAddrWidth => 6)
-                     port map (addr => alu_out_s, we => wr_ram_s, re => rd_ram_s, habilita  => '1', input => rt_alu_B_s, output => ram_out_s, clk => CLK);
-	
-	MUX_HEX      : entity work.mux3x1 generic map (dataWidth => addr_width)
- 					      port map(input_A => alu_out_s, input_B => rt_alu_B_s, input_C => ram_out_s, sel => (SW(1) & SW(0)), output => mux_hex_out_s);	
+    MUX_BEQ       : entity work.onebit_mux_2x1 port map (A => not(flag_zero), B => flag_zero, sel => beq, output => mux_beq_out);
 
-   DEC_HEX0     : entity work.hexTo7seg
-                     port map(dadoHex => mux_hex_out_s(3 downto 0), apaga => '0', negativo => '0', overFlow => '0', saida7seg => display_HEX_0);
+    RAM           : entity work.RAMMIPS port map (address => alu_out, data => rt_data, enable_read => enable_ram_rd, enable_write => enable_ram_wr, output => ram_out, CLK => CLK);
 
-   DEC_HEX1     : entity work.hexTo7seg
-                     port map(dadoHex => mux_hex_out_s(7 downto 4), apaga => '0', negativo => '0', overFlow => '0', saida7seg => display_HEX_1);
+    LUI           : entity work.LUI port map (input => immediate, output => lui_out);
 
-   DEC_HEX2     : entity work.hexTo7seg
-                     port map(dadoHex => mux_hex_out_s(11 downto 8), apaga => '0', negativo => '0', overFlow => '0', saida7seg => display_HEX_2);
+    MUX_ALU_MEM   : entity work.mux_4x1 port map (A => alu_out, B => ram_out, C => pc_out4, D => lui_out, sel => sel_mux_alu_ram, output => mux_alu_ram_out);
 
-   DEC_HEX3     : entity work.hexTo7seg
-                     port map(dadoHex => mux_hex_out_s(15 downto 12), apaga => '0', negativo => '0', overFlow => '0', saida7seg => display_HEX_3);
+    SHIFT_LEFT_2  : entity work.shiftLeft2 port map (input => im_extend, output => im_extend_sl2);
 
-   LEDR(9 downto 0) <= pc_out_s(9 downto 0);
-	HEX0 <= display_HEX_0;
-   HEX1 <= display_HEX_1;
-   HEX2 <= display_HEX_2;
-   HEX3 <= display_HEX_3;
-	MUX_OUT <= mux_hex_out_s;
+    ADD_PC4_IMM   : entity work.adder port map (A => pc_out4, B => im_extend_sl2, output => adder_out);
 
+    MUX_PC4_IMM   : entity work.mux_2x1 port map (A => pc_out4, B => adder_out, sel => (mux_beq_out and (beq or bne)), output => mux_pc4_imm_out);
+
+    MUX_PC4_JMP   : entity work.mux_2x1 port map (A => mux_pc4_imm_out, B => (pc_out4(31 downto 28) & jmp_address & "00"), sel => sel_mux_pc4_jmp, output => mux_jmp_out);
+
+    MUX_PROX_PC   : entity work.mux_2x1 port map (A => mux_jmp_out, B => rs_data, sel => jr, output => mux_prox_pc_out);
+
+    MUX_HEX       : entity work.mux_4x1 port map (A => alu_out, B => rs_data, C => rt_data, D => mux_alu_ram_out, sel => (SW(1) & SW(0)), output => mux_hex_out);    
+
+    DEC_HEX0     : entity work.hexTo7seg port map (dadoHex => mux_hex_out(3  downto  0), apaga => '0', negativo => '0', overFlow => '0', saida7seg => display_hex_0);
+
+    DEC_HEX1     : entity work.hexTo7seg port map (dadoHex => mux_hex_out(7  downto  4), apaga => '0', negativo => '0', overFlow => '0', saida7seg => display_hex_1);
+
+    DEC_HEX2     : entity work.hexTo7seg port map (dadoHex => mux_hex_out(11 downto  8), apaga => '0', negativo => '0', overFlow => '0', saida7seg => display_hex_2);
+
+    DEC_HEX3     : entity work.hexTo7seg port map (dadoHex => mux_hex_out(15 downto 12), apaga => '0', negativo => '0', overFlow => '0', saida7seg => display_hex_3);
+
+    DEC_HEX4     : entity work.hexTo7seg port map (dadoHex => mux_hex_out(19 downto 16), apaga => '0', negativo => '0', overFlow => '0', saida7seg => display_hex_4);
+
+	DEC_HEX5     : entity work.hexTo7seg port map (dadoHex => mux_hex_out(23 downto 20), apaga => '0', negativo => '0', overFlow => '0', saida7seg => display_hex_5);
+
+    LEDR(9 downto 0) <= pc_out(9 downto 0);
+    HEX0 <= display_hex_0;
+    HEX1 <= display_hex_1;
+    HEX2 <= display_hex_2;
+    HEX3 <= display_hex_3;
+	HEX4 <= display_hex_4;
+	HEX5 <= display_hex_5;
 end architecture;

@@ -20,18 +20,18 @@ end entity;
 
 architecture arch_name of ALUMIPS is
 
-	signal carry_out_0  : std_logic;
-	signal carry_out_1  : std_logic;
-	signal carry_out_2  : std_logic;
-	signal carry_out_3  : std_logic;
-	signal carry_out_4  : std_logic;
-	signal carry_out_5  : std_logic;
-	signal carry_out_6  : std_logic;
-	signal carry_out_7  : std_logic;
-	signal carry_out_8  : std_logic;
-	signal carry_out_9  : std_logic;
-	signal carry_out_10 : std_logic;
-	signal carry_out_11 : std_logic;
+	signal carry_out_0     : std_logic;
+	signal carry_out_1     : std_logic;
+	signal carry_out_2     : std_logic;
+	signal carry_out_3     : std_logic;
+	signal carry_out_4     : std_logic;
+	signal carry_out_5     : std_logic;
+	signal carry_out_6     : std_logic;
+	signal carry_out_7     : std_logic;
+	signal carry_out_8     : std_logic;
+	signal carry_out_9     : std_logic;
+	signal carry_out_10    : std_logic;
+	signal carry_out_11    : std_logic;
 	signal carry_out_12    : std_logic;
 	signal carry_out_13    : std_logic;
 	signal carry_out_14    : std_logic;
@@ -52,9 +52,9 @@ architecture arch_name of ALUMIPS is
 	signal carry_out_29    : std_logic;
 	signal carry_out_30    : std_logic;
 	signal overflow_out_31 : std_logic;
-	signal inverte_B	   : std_logic;
-	signal sel_MUX		   : std_logic_vector(1 downto 0);
-	signal zero		   : std_logic_vector(data_width-1 downto 0) := (others=>'0');
+	signal inverte_B       : std_logic;
+	signal sel_MUX         : std_logic_vector(1 downto 0);
+	signal zero            : std_logic_vector(data_width-1 downto 0) := (others=>'0');
 	
 	begin
 
