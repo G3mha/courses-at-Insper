@@ -42,14 +42,14 @@ architecture arch_name of topLevel is
         alias immediate         : std_logic_vector(15 downto 0) is rom_out(15 downto  0);
         alias jmp_address       : std_logic_vector(25 downto 0) is rom_out(25 downto  0);
         alias funct             : std_logic_vector(5  downto 0) is rom_out(5  downto  0);
-    signal r31                  : "11111";
+    signal r31                  : std_logic_vector(4  downto 0);
     signal control_word         : std_logic_vector(13 downto 0);
         alias jr                : std_logic is control_word(13);
         alias sel_mux_pc4_jmp   : std_logic is control_word(12);
         alias sel_mux_rt_rd     : std_logic_vector(1 downto 0) is control_word(11 downto 10);
         alias sel_ori_andi      : std_logic is control_word(9);
         alias enable_reg_wr     : std_logic is control_word(8);
-        alias sel_mux_rt_imm    : std_logic is control_word(7)
+        alias sel_mux_rt_imm    : std_logic is control_word(7);
         alias sel_type_r        : std_logic is control_word(6);
         alias sel_mux_alu_ram   : std_logic_vector(1 downto 0) is control_word(5 downto 4);
         alias beq               : std_logic is control_word(3);
@@ -65,7 +65,7 @@ architecture arch_name of topLevel is
     signal alu_out              : std_logic_vector(data_width - 1 downto 0);
     signal flag_zero            : std_logic;
     signal mux_beq_out          : std_logic;
-    signal ram_out              : std_logic_vector(data_width - 1 downto 0)
+    signal ram_out              : std_logic_vector(data_width - 1 downto 0);
     signal lui_out              : std_logic_vector(data_width - 1 downto 0);
     signal mux_alu_ram_out      : std_logic_vector(data_width - 1 downto 0);
     signal im_extend_sl2        : std_logic_vector(data_width - 1 downto 0);
@@ -93,6 +93,8 @@ architecture arch_name of topLevel is
                               port map (clk => CLOCK_50, entrada => (NOT FPGA_RESET_N), saida => RESET);
     end generate;
 
+	 r31 <= "11111";
+	 
     PC            : entity work.genericRegister port map (input => mux_prox_pc_out, output => pc_out, ENABLE => '1', CLK => CLK, RST => RESET);
 
     INC_PC4       : entity work.constantSum port map (input => pc_out, output => pc_out4);
@@ -107,9 +109,9 @@ architecture arch_name of topLevel is
 
     EXT_SIGNAL    : entity work.extendSignal port map (input => immediate, sel => sel_ori_andi, output => im_extend);
 
-    MUX_RT_IMM    : entity work.mux_2x1 port map (A => rt_data, B => im_extend5, sel => sel_mux_rt_imm, output => mux_rt_imm_out);
+    MUX_RT_IMM    : entity work.mux_2x1 port map (A => rt_data, B => im_extend, sel => sel_mux_rt_imm, output => mux_rt_imm_out);
 
-    CTRL_UNIT_ALU : entity work.controlUnitALU port map (opcode => opcode, funct => funct, type_R => sel_type_r, output => control_word_alu);
+    CTRL_UNIT_ALU : entity work.controlUnitALU port map (opcode => opcode, funct => funct, sel_type_r => sel_type_r, output => control_word_alu);
 
     ALU           : entity work.ALUMIPS port map (A => rs_data, B => mux_rt_imm_out, operation => control_word_alu, output => alu_out, flag_zero => flag_zero);
 

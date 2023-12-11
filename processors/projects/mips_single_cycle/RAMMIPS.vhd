@@ -12,7 +12,7 @@ entity RAMMIPS IS
           data    : in std_logic_vector(data_width-1 downto 0);
           output  : out std_logic_vector(data_width-1 downto 0);
           enable_read, enable_write : in std_logic;
-          habilita : in std_logic := '1';
+          habilita : in std_logic := '1'
         );
 end entity;
 

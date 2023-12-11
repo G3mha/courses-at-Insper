@@ -16,8 +16,12 @@ entity extendSignal is
 end entity;
 
 architecture comportamento of extendSignal is
-    signal sign_ext_imm : std_logic_vector(data_width_out-1 downto 0) := (others => input(data_width_in-1)) & input;
-    signal zero_ext_imm : std_logic_vector(data_width_out-1 downto 0) := (others => '0') & input;
+    signal e            : std_logic;
+    signal sign_ext_imm : std_logic_vector(data_width_out-1 downto 0);
+    signal zero_ext_imm : std_logic_vector(data_width_out-1 downto 0);
 begin
-    output <= zero_ext_imm when sel = '1' else sign_ext_imm;
+    e            <= input(data_width_in-1);
+    sign_ext_imm <= e & e & e & e & e & e & e & e & e & e & e & e & e & e & e & e & input;
+    zero_ext_imm <= '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & input;
+    output       <= zero_ext_imm when sel = '1' else sign_ext_imm;
 end architecture;

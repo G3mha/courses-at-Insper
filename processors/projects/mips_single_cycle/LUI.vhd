@@ -15,7 +15,6 @@ entity LUI is
 end entity;
 
 architecture comportamento of LUI is
-    signal input_ext : std_logic_vector(data_width_out-1 downto 0) := input & (others => '0');
 begin
-    output <= input_ext;
+    output <= input & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0' & '0';
 end architecture;

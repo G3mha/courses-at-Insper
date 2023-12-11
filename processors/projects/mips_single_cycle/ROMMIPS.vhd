@@ -54,9 +54,9 @@ architecture assincrona OF ROMMIPS IS
 
     signal memROM : blocoMemoria := initMemory;
 -- Utiliza uma quantidade menor de endereços locais:
-   signal EnderecoLocal : std_logic_vector(memory_addr_width-1 downto 0);
+   signal local_address : std_logic_vector(memory_addr_width-1 downto 0);
 
 begin
-  EnderecoLocal <= address(memory_addr_width+1 downto 2);
-  Dado <= memROM (datategr(unsigned(EnderecoLocal)));
+  local_address <= address(memory_addr_width+1 downto 2);
+  data <= memROM (to_integer(unsigned(local_address)));
 end architecture;

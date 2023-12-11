@@ -4,7 +4,7 @@ use ieee.std_logic_1164.all;
 entity controlUnit is
   port ( opcode : in  std_logic_vector(5  downto 0);
          funct  : in  std_logic_vector(5  downto 0);
-         output : out std_logic_vector(11 downto 0);
+         output : out std_logic_vector(13 downto 0)
       );
 end entity;
 
@@ -14,7 +14,7 @@ architecture comportamento of controlUnit is
   alias sel_mux_rt_rd     : std_logic_vector(1 downto 0) is output(11 downto 10);
   alias sel_ori_andi      : std_logic is output(9);
   alias enable_reg_wr     : std_logic is output(8);
-  alias sel_mux_rt_imm    : std_logic is output(7)
+  alias sel_mux_rt_imm    : std_logic is output(7);
   alias sel_type_r        : std_logic is output(6);
   alias sel_mux_alu_ram   : std_logic_vector(1 downto 0) is output(5 downto 4);
   alias beq               : std_logic is output(3);

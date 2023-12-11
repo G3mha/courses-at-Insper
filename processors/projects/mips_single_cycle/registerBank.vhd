@@ -54,8 +54,8 @@ begin
     process(CLK) is
     begin
         if (rising_edge(CLK)) then
-            if (escreveC = '1') then
-                registrador(to_integer(unsigned(C))) := dadoEscritaC;
+            if (enable_write = '1') then
+                registrador(to_integer(unsigned(C))) := data_to_write;
             end if;
         end if;
     end process;
@@ -64,8 +64,8 @@ begin
     zeroA <= '1' when to_integer(unsigned(A)) = to_integer(unsigned(zero)) else '0';
     zeroB <= '1' when to_integer(unsigned(B)) = to_integer(unsigned(zero)) else '0';
 
-    saidaA <= registrador(to_integer(unsigned(A))) when zeroA = '0' else zero;
+    outputA <= registrador(to_integer(unsigned(A))) when zeroA = '0' else zero;
 	 
-    saidaB <= registrador(to_integer(unsigned(B))) when zeroB = '0' else zero;
+    outputB <= registrador(to_integer(unsigned(B))) when zeroB = '0' else zero;
 	 
 end architecture;
