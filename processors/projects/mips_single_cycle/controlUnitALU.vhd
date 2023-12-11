@@ -10,6 +10,7 @@ entity controlUnitALU is
 end entity;
 
 architecture comportamento of controlUnitALU is
+  -- Inputs
   constant LW   : std_logic_vector(5 downto 0) := "100011"; -- 23
   constant SW   : std_logic_vector(5 downto 0) := "101011"; -- 2b
   constant BEQ  : std_logic_vector(5 downto 0) := "000100"; -- 04
@@ -28,18 +29,18 @@ architecture comportamento of controlUnitALU is
   constant JAL  : std_logic_vector(5 downto 0) := "000011"; -- 03
   constant JR   : std_logic_vector(5 downto 0) := "001000"; -- 08
   constant LUI  : std_logic_vector(5 downto 0) := "001111"; -- 0f
-
+  -- Outputs
   constant ANDctrl : std_logic_vector(3 downto 0) := "0000";
   constant ORctrl  : std_logic_vector(3 downto 0) := "0001";
   constant ADDctrl : std_logic_vector(3 downto 0) := "0010";
   constant SUBctrl : std_logic_vector(3 downto 0) := "0110";
   constant SLTctrl : std_logic_vector(3 downto 0) := "0111";
   constant NORctrl : std_logic_vector(3 downto 0) := "1110";
-
+  -- Internal signals
   signal mux_out : std_logic_vector(5 downto 0);
   begin
 
-	MUX_OPCODE_FUNCT : entity work.mux_2x1 generic map (data_width => 6)
+  MUX_OPCODE_FUNCT : entity work.mux_2x1 generic map (data_width => 6)
                                          port map (A => opcode, B => funct, sel => sel_type_r, output => mux_out);
 
   output <= ADDctrl when (mux_out = LW  ) else
