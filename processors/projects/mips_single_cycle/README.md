@@ -24,4 +24,9 @@
 | 60     | 0x3C   | 0xXXXXXXXX | jal 0x00001F        | << 0x1F := 0x7C    |
 | 12     | 0x7C   | 0xXXXXXXXX | jr $ra              | pc := 0x40         |
 | 64     | 0x40   | 0xXXXXXXXX | nop                 |                    |
-| 68     | 0x44   | 0xXXXXXXXX | j 0x000000          | Volta ao Início    |
+| 68     | 0x48   | 0xXXXXXXXX | sll $t5 $t0 2       | $t5 := $t0 << 2    |
+| 72     | 0x4C   | 0xXXXXXXXX | jr $t5              | pc := 0x5C         |
+| 76     | 0x50   | 0xXXXXXXXX | nop                 |                    |
+| 80     | 0x54   | 0xXXXXXXXX | srl $t5 $t0 6       | $t0 := $t1 >> 6    |
+| 84     | 0x58   | 0xXXXXXXXX | jr $t0              | pc := 0x00         |
+| 96     | 0x60   | 0xXXXXXXXX | j 0x000050          | pc := 0x50         |
