@@ -29,6 +29,8 @@ architecture comportamento of controlUnitALU is
   constant JAL  : std_logic_vector(5 downto 0) := "000011"; -- 03
   constant JR   : std_logic_vector(5 downto 0) := "001000"; -- 08
   constant LUI  : std_logic_vector(5 downto 0) := "001111"; -- 0f
+  constant SRLr : std_logic_vector(5 downto 0) := "000010"; -- 02
+  constant SLLr : std_logic_vector(5 downto 0) := "000000"; -- 00
   -- Outputs
   constant ANDctrl : std_logic_vector(3 downto 0) := "0000";
   constant ORctrl  : std_logic_vector(3 downto 0) := "0001";
@@ -61,5 +63,7 @@ architecture comportamento of controlUnitALU is
             ADDctrl when (mux_out = JAL ) else -- it doesn't matter
             ADDctrl when (mux_out = JR  ) else -- it doesn't matter
             ADDctrl when (mux_out = LUI ) else -- it doesn't matter
+            ADDctrl when (mux_out = SRLr) else -- it doesn't matter
+            ADDctrl when (mux_out = SLLr) else -- it doesn't matter
             ADDctrl; -- it doesn't matter (unindentified instruction)
 end architecture;

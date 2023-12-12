@@ -42,8 +42,10 @@ architecture arch_name of topLevel is
         alias immediate         : std_logic_vector(15 downto 0) is rom_out(15 downto  0);
         alias jmp_address       : std_logic_vector(25 downto 0) is rom_out(25 downto  0);
         alias funct             : std_logic_vector(5  downto 0) is rom_out(5  downto  0);
-    signal r31                  : std_logic_vector(4  downto 0);
-    signal control_word         : std_logic_vector(13 downto 0);
+        alias shamt             : std_logic_vector(4  downto 0) is rom_out(10 downto  6);
+    signal r31                  : std_logic_vector(4 downto 0);
+    signal control_word         : std_logic_vector(15 downto 0);
+        alias sel_mux_lui_sr_sl : std_logic_vector(1 downto 0) is control_word(15 downto 14);
         alias jr                : std_logic is control_word(13);
         alias sel_mux_pc4_jmp   : std_logic is control_word(12);
         alias sel_mux_rt_rd     : std_logic_vector(1 downto 0) is control_word(11 downto 10);
@@ -67,13 +69,16 @@ architecture arch_name of topLevel is
     signal mux_beq_out          : std_logic;
     signal ram_out              : std_logic_vector(data_width - 1 downto 0);
     signal lui_out              : std_logic_vector(data_width - 1 downto 0);
+    signal sr_out               : std_logic_vector(data_width - 1 downto 0);
+    signal sl_out               : std_logic_vector(data_width - 1 downto 0);
+    signal mux_lui_sr_sl_out    : std_logic_vector(data_width - 1 downto 0);
     signal mux_alu_ram_out      : std_logic_vector(data_width - 1 downto 0);
     signal im_extend_sl2        : std_logic_vector(data_width - 1 downto 0);
 	signal adder_out            : std_logic_vector(data_width - 1 downto 0);
     signal mux_pc4_imm_out      : std_logic_vector(data_width - 1 downto 0);
     signal mux_jmp_out          : std_logic_vector(data_width - 1 downto 0);
 	signal mux_prox_pc_out      : std_logic_vector(data_width - 1 downto 0);
-    signal mux_hex_out        : std_logic_vector(data_width - 1 downto 0);
+    signal mux_hex_out          : std_logic_vector(data_width - 1 downto 0);
     signal display_hex_0        : std_logic_vector(6 downto 0);
     signal display_hex_1        : std_logic_vector(6 downto 0);
     signal display_hex_2        : std_logic_vector(6 downto 0);
@@ -121,7 +126,13 @@ architecture arch_name of topLevel is
 
     LUI           : entity work.LUI port map (input => immediate, output => lui_out);
 
-    MUX_ALU_MEM   : entity work.mux_4x1 port map (A => alu_out, B => ram_out, C => pc_out4, D => lui_out, sel => sel_mux_alu_ram, output => mux_alu_ram_out);
+    SR            : entity work.shiftRight port map (input => rt_data, shamt => shamt, output => sr_out);
+
+    SL            : entity work.shiftLeft port map (input => rt_data, shamt => shamt, output => sl_out);
+
+    MUX_LUI_SR_SL : entity work.mux_3x1 port map (A => lui_out, B => sr_out, C => sl_out, sel => sel_mux_lui_sr_sl, output => mux_lui_sr_sl_out);
+
+    MUX_ALU_MEM   : entity work.mux_4x1 port map (A => alu_out, B => ram_out, C => pc_out4, D => mux_lui_sr_sl_out, sel => sel_mux_alu_ram, output => mux_alu_ram_out);
 
     SHIFT_LEFT_2  : entity work.shiftLeft2 port map (input => im_extend, output => im_extend_sl2);
 
