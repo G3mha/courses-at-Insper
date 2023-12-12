@@ -22,8 +22,8 @@
 | 13     | 0x34   | 0x00000017 | add $t0 $t0 $t2     | $t0 := 0x00000017  |
 | 14     | 0x38   | 0x0000000B | beq $t0 $t3 0xFFFE  | pc := 0x3C         |
 | 15     | 0x3C   | 0xXXXXXXXX | jal 0x00001F        | pc := #31          |
-| 31     | ----   | 0xXXXXXXXX | sll $t7 $t6 0x3     | $t6 := 0x00000009 e $t7 := 0x00000048 |
-| 32     | ----   | 0xXXXXXXXX | jr $t7              | pc := #18          |
-| 18     | ----   | 0xXXXXXXXX | j 0x000022          | pc := #34          |
-| 34     | ----   | 0xXXXXXXXX | srl $t7 $t6 0x4     | $t6 := 0x00000009 e $t7 := 0x00000000 |
-| 35     | ----   | 0xXXXXXXXX | jr $t7              | Volta ao começo    |
+| 31     | 0x7C   | 0xXXXXXXXX | sll $t7 $t6 0x3     | $t6 := 0x00000009 e $t7 := 0x00000048 |
+| 32     | 0x80   | 0xXXXXXXXX | jr $t7              | pc := #18          |
+| 18     | 0x48   | 0xXXXXXXXX | j 0x000022          | pc := #34          |
+| 34     | 0x88   | 0xXXXXXXXX | srl $t7 $t6 0x4     | $t6 := 0x00000009 e $t7 := 0x00000000 |
+| 35     | 0x8C   | 0xXXXXXXXX | jr $t7              | Volta ao começo    |
