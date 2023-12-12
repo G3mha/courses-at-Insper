@@ -147,11 +147,38 @@ architecture arch_name of topLevel is
 
 	DEC_HEX5     : entity work.hexTo7seg port map (dadoHex => mux_hex_out(23 downto 20), apaga => '0', negativo => '0', overFlow => '0', saida7seg => display_hex_5);
 
-    LEDR(9 downto 0) <= pc_out(9 downto 0);
     HEX0 <= display_hex_0;
     HEX1 <= display_hex_1;
     HEX2 <= display_hex_2;
     HEX3 <= display_hex_3;
 	HEX4 <= display_hex_4;
 	HEX5 <= display_hex_5;
+    LEDR(3 downto 0) <= mux_hex_out(27 downto 24);
+    LEDR(7 downto 4) <= mux_hex_out(31 downto 28);
+
+    -- monitor: work.debugMonitor
+    --   port map(PC => pc_out,                         -- Saida o PC: entrada de endereco da ROM
+    --         Instrucao => rom_out,   -- Saida de dados da ROM
+    --         LeituraRS => rs_data,        -- Saida do Banco de Registradores: leitura de RS
+    --         LeituraRT => rt_data,        -- Saida do Banco de Registradores: leitura de RT
+    --         EscritaRD => WB_dadoEscritaC_DEC_DadoEscritaC,      -- Entrada do Banco de Registradores (C)
+    --         EntradaB_ULA => mux_rt_imm_out,             -- Entrada B da ULA: saida do MUX RT/ImediatoEstendido
+    --         imediatoEstendido => im_extend,  -- ImediatoEstendido: entrada do MUX RT/ImediatoEstendido
+    --         saidaULA => alu_out,        -- Saida da ULA: entrada do MUX ULA/MEM
+    --         dadoLido_RAM => ram_out,     -- Saida da RAM: entrada do MUX ULA/MEM
+    --         proxPC => mux_prox_pc_out,    -- Entrada do PC ou saida do MUX ProxPC
+    --         MUXProxPCEntradaA => mux_jmp_out,   -- Entrada do MUX ProxPC: vinda MUX PC+4/BEQ
+    --         MUXProxPCEntradaB => rs_data,   -- Entrada do MUX ProxPC: vinda da montagem do endereco de Jump
+    --         ULActrl => control_word_alu,                      -- Entrada do ULActrl na ULA: pode ser necessario concatenar 1 bit '0': '0' & ULActrl
+    --         zeroFLAG => flag_zero,                        -- Saida do Flag da ULA e entrada da porta AND
+    --         escreveC => Decode_escreveC_Decode,       -- Entrada do Banco de Registradores: sinal de habilita escrita no terceiro endereco (RD ou RT)
+    --         MUXPCBEQJUMP => MUX_PC_BEQ_JUMP,          -- Selecao do MUX do proxPC: vem da unidade de controle
+    --         MUXRTRD => MUX_RT_RD,                     -- Selecao do MUX RT/RD: vem da unidade de controle
+    --         MUXRTIMED => MUX_RT_IMED,                 -- Selecao do MUX RT/Imediato: vem da unidade de controle
+    --         MUXULAMEM => sel_mux_alu_ram,                 -- Selecao do MUX ULA/MEM: vem da unidade de controle
+    --         iBEQ => beq,                              -- Indicador de instrucao BEQ: vem da unidade de controle
+    --         WR => enable_ram_wr,                    -- Habilita escrita na RAM: vem da unidade de controle
+    --         RD => enable_ram_rd,                    -- Habilita leitura da RAM: vem da unidade de controle
+    --         --Output
+    --         clkTCL => clk_TCL);                       -- Sem uso: conectar com open
 end architecture;
