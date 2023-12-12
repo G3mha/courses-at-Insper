@@ -144,7 +144,7 @@ architecture arch_name of topLevel is
 
     MUX_PROX_PC   : entity work.mux_2x1 port map (A => mux_jmp_out, B => rs_data, sel => jr, output => mux_prox_pc_out);
 
-    MUX_HEX       : entity work.mux_4x1 port map (A => pc_out, B => alu_out, C => rs_data, D => rt_data, sel => (SW(1) & SW(0)), output => mux_hex_out);    
+    MUX_HEX       : entity work.mux_4x1 port map (A => pc_out, B => alu_out, C => sl_out, D => sr_out, sel => (SW(1) & SW(0)), output => mux_hex_out);    
 
     DEC_HEX0     : entity work.hexTo7seg port map (dadoHex => mux_hex_out(3  downto  0), apaga => '0', negativo => '0', overFlow => '0', saida7seg => display_hex_0);
 

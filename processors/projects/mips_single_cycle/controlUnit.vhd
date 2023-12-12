@@ -52,8 +52,8 @@ architecture comportamento of controlUnit is
   sel_mux_alu_ram <= "01" when (opcode = opcode_LW)  else
                      "10" when (opcode = opcode_JAL) else
                      "11" when (opcode = opcode_LUI) or
-                               (opcode = opcode_R and funct_SLL) or
-                               (opcode = opcode_R and funct_SRL) else
+                               (opcode = opcode_R and funct = funct_SLL) or
+                               (opcode = opcode_R and funct = funct_SRL) else
                      "00";
   sel_type_r      <= '1'  when (opcode = opcode_R) else '0';
   sel_mux_rt_imm  <= '0'  when (opcode = opcode_R)   or
@@ -80,7 +80,7 @@ architecture comportamento of controlUnit is
   jr              <= '1'  when (opcode = opcode_R and funct = funct_JR) else
                      '0';
   sel_mux_lui_sr_sl <= "00" when (opcode = opcode_LUI) else
-                       "01" when (opcode = opcode_SRL) else
-                       "10" when (opcode = opcode_SLL) else
+                       "01" when (opcode = opcode_R and funct = funct_SRL) else
+                       "10" when (opcode = opcode_R and funct = funct_SLL) else
                        "00";
 end architecture;

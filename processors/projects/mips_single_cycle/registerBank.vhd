@@ -37,15 +37,14 @@ function initMemory
   begin
         -- Inicializa os endereços:
         tmp(0)  := x"AAAAAAAA";  -- Nao deve ter efeito.
-        tmp(8)  := 32x"02";  -- $t0 = 0x02
         tmp(8)  := 32x"00"; -- $t0 = 0x00
         tmp(9)  := 32x"0A"; -- $t1 = 0x0A
         tmp(10) := 32x"0B"; -- $t2 = 0x0B
         tmp(11) := 32x"0C"; -- $t3 = 0x0C
         tmp(12) := 32x"0D"; -- $t4 = 0x0D
         tmp(13) := 32x"16"; -- $t5 = 0x16
-        tmp(14) := x"AAAAAAAA"; -- $t6 = 101010 ... 10
-        tmp(15) := x"55555555"; -- $t7 = 010101 ... 01
+        tmp(14) := 32x"09"; -- $t6 = 0x09
+        tmp(15) := x"55555551"; -- $t7 = 010101 ... 01
         return tmp;
     end initMemory;
 
