@@ -1,0 +1,6 @@
+ipykernel
+qiskit==0.46.1
+matplotlib
+ipywidgets
+qiskit-aer
+pylatexenc
