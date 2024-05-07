@@ -4,3 +4,4 @@ matplotlib
 ipywidgets
 qiskit-aer
 pylatexenc
+qiskit-aer
