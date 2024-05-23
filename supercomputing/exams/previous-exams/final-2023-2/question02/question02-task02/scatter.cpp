@@ -6,7 +6,6 @@
 
 void timestamp();
 
-
 int main(int argc, char* argv[]) {
   int rank, size;
   MPI_Init(&argc, &argv);
@@ -19,11 +18,11 @@ int main(int argc, char* argv[]) {
 
   if (rank == 0) { // Manager
     srand(static_cast<unsigned>(time(nullptr)));
-    
+
     timestamp();
-    std::cout << "SEARCH - Serial version\n"
+    std::cout << "SEARCH - MPI version\n"
               << "An example program to search an array.\n";
-    
+
     // Define amount of vector's elements
     array_size = 1000 + (rand() % 151);
     std::cout << "The number of data items is " << array_size << ".\n";
@@ -31,7 +30,7 @@ int main(int argc, char* argv[]) {
     // Fill the array with random values between 0 and 1000
     array.resize(array_size);
     for (int& value : array) {
-      value = rand() % 1001;
+        value = rand() % 1001;
     }
 
     // Select the target value to search
@@ -42,8 +41,17 @@ int main(int argc, char* argv[]) {
     portion_size = array_size / size;
   }
 
+  // Broadcast array size and portion size to all processes
+  MPI_Bcast(&array_size, 1, MPI_INT, 0, MPI_COMM_WORLD);
+  MPI_Bcast(&portion_size, 1, MPI_INT, 0, MPI_COMM_WORLD);
+
   // Broadcast target to all processes
   MPI_Bcast(&target, 1, MPI_INT, 0, MPI_COMM_WORLD);
+
+  // Resize array for non-zero processes
+  if (rank != 0) {
+    array.resize(array_size);
+  }
 
   // Scatter array portions to all processes
   local_array.resize(portion_size);
@@ -57,7 +65,7 @@ int main(int argc, char* argv[]) {
     }
   }
 
-  // Send local count to rank 0
+  // Reduce local counts to rank 0
   int total_count = 0;
   MPI_Reduce(&local_count, &total_count, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
 
@@ -69,7 +77,6 @@ int main(int argc, char* argv[]) {
   MPI_Finalize();
   return 0;
 }
-
 
 void timestamp() {
   char time_buffer[40];

@@ -6,7 +6,6 @@
 
 void timestamp();
 
-
 int main(int argc, char* argv[]) {
   int rank, size;
   MPI_Init(&argc, &argv);
@@ -19,11 +18,11 @@ int main(int argc, char* argv[]) {
 
   if (rank == 0) { // Manager
     srand(static_cast<unsigned>(time(nullptr)));
-    
+
     timestamp();
-    std::cout << "SEARCH - Serial version\n"
+    std::cout << "SEARCH - MPI version\n"
               << "An example program to search an array.\n";
-    
+
     // Define amount of vector's elements
     array_size = 1000 + (rand() % 151);
     std::cout << "The number of data items is " << array_size << ".\n";
@@ -42,6 +41,10 @@ int main(int argc, char* argv[]) {
     portion_size = array_size / size;
   }
 
+  // Broadcast array size and portion size to all processes
+  MPI_Bcast(&array_size, 1, MPI_INT, 0, MPI_COMM_WORLD);
+  MPI_Bcast(&portion_size, 1, MPI_INT, 0, MPI_COMM_WORLD);
+
   // Broadcast target to all processes
   MPI_Bcast(&target, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
@@ -49,27 +52,49 @@ int main(int argc, char* argv[]) {
   local_array.resize(portion_size);
   MPI_Scatter(array.data(), portion_size, MPI_INT, local_array.data(), portion_size, MPI_INT, 0, MPI_COMM_WORLD);
 
-  // Perform local search
+  // Perform local search and collect indices
   int local_count = 0;
+  std::vector<int> local_indices;
   for (int i = 0; i < portion_size; ++i) {
     if (local_array[i] == target) {
+      local_indices.push_back(i + rank * portion_size);
       local_count++;
     }
   }
 
-  // Send local count to rank 0
+  // Gather all counts and indices at rank 0
+  std::vector<int> all_counts(size);
+  MPI_Gather(&local_count, 1, MPI_INT, all_counts.data(), 1, MPI_INT, 0, MPI_COMM_WORLD);
+
+  // Calculate the total number of occurrences and prepare to receive all indices
+  std::vector<int> recv_counts(size);
+  std::vector<int> displs(size);
   int total_count = 0;
-  MPI_Reduce(&local_count, &total_count, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
 
   if (rank == 0) {
-    // Print the total count
-    std::cout << "Number " << target << " occurs " << total_count << " times\n";
+    for (int i = 0; i < size; ++i) {
+      total_count += all_counts[i];
+      recv_counts[i] = all_counts[i];
+      displs[i] = (i == 0) ? 0 : displs[i - 1] + recv_counts[i - 1];
+    }
+  }
+
+  // Gather all indices at rank 0
+  std::vector<int> all_indices(total_count);
+  MPI_Gatherv(local_indices.data(), local_count, MPI_INT, all_indices.data(), recv_counts.data(), displs.data(), MPI_INT, 0, MPI_COMM_WORLD);
+
+  if (rank == 0) {
+    // Print the total count and indices
+    std::cout << "Number " << target << " occurs " << total_count << " times at indices: ";
+    for (int index : all_indices) {
+      std::cout << index << " ";
+    }
+    std::cout << std::endl;
   }
 
   MPI_Finalize();
   return 0;
 }
-
 
 void timestamp() {
   char time_buffer[40];
