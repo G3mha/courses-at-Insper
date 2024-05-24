@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# install the correct dependecies
+sudo apt-get update
+sudo apt-get install -y python3.10 ec2-instance-connect awscli authbind git python3.10-venv
+# remove the default environment file
+git clone https://github.com/G3mha/simple_python_crud.git /home/ubuntu/simple_python_crud
+cd /home/ubuntu/simple_python_crud
+
+# install all required Python packages
+python3.10 -m pip --version
+python3.10 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+# set the refreshed environment variables
+export DB_ENDPOINT=$(aws rds describe-db-instances --region eu-west-1 --query 'DBInstances[0].Endpoint.Address' --output text)
+export DB_HOST=$(dig +short $DB_ENDPOINT)
+export DB_USER=${db_username}
+export DB_PASS=${db_password}
+export DB_NAME=${db_name}
+export INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+
+aws logs create-log-stream --log-group-name "/enricco-fastapi/logs" --log-stream-name "$INSTANCE_ID" --region eu-west-1
+
+# bind the port 80 to the app
+sudo touch /etc/authbind/byport/80
+sudo chmod 500 /etc/authbind/byport/80
+sudo chown ubuntu /etc/authbind/byport/80
+
+# run the app
+authbind --deep uvicorn main:app --host 0.0.0.0 --port 80 --timeout-keep-alive 31536000
