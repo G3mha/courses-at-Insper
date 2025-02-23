@@ -1,0 +1,99 @@
+site_name: 5s - Labs de C - Insper Comp.
+
+theme:
+  name: active-handout
+  language: pt
+  features:
+    - navigation.tabs
+    - header.autohide
+
+docs_dir: docs-src
+site_dir: docs
+
+copyright: 'Copyright &copy; 2021 / Marcelo Hashimoto, Igor Montagner, Rafael Corsi, Eduardo Marossi'
+
+site_url: https://insper.github.io/Labs-de-C/
+
+repo_name: 'Insper/Labs-de-C'
+repo_url: 'https://github.com/Insper/Labs-de-C/'
+edit_url: 'https://github.com/Insper/Labs-de-C/edit/master/docs-src/'
+
+
+# Extensions
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - https://cdn.jsdelivr.net/gh/insper-education/active-handout-plugins-js@main/package/plugin-bundle.js
+
+extra:
+  ihandout_config:
+    mount-point: /DevLife/
+    calendar: /DevLife/calendar.yml
+    counter:
+      - question
+      - tip
+      - exercise
+      - example
+    report:
+      api-base: https://devlife.insper-comp.com.br/api/offerings/1/
+      url: https://devlife.insper-comp.com.br/api/offerings/1/exercises/
+
+plugins:
+  - git-revision-date-localized:
+      fallback_to_build_date: true
+  - dev-environment
+  - active-exercises:
+      offering_id: 1
+  - contributors
+  - search
+
+
+markdown_extensions:
+  - markdown.extensions.attr_list
+  - markdown.extensions.admonition
+  - markdown.extensions.codehilite:
+      guess_lang: false
+  - markdown.extensions.def_list
+  - markdown.extensions.footnotes
+  - markdown.extensions.meta
+  - markdown.extensions.toc:
+      permalink: true
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: squidfunk
+      repo: mkdocs-material
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+nav:
+- Home: index.md
+#- Sobre-Curso.md
+#- Sobre-Ferramental.md
+- 'Mutirão':
+    - 'about-mutirao.md'
+    - 'Lab1.md'
+    - 'Lab2.md'
+    - 'Lab3.md'
+    - 'Lab4.md'
+    - 'Lab5.md'
+    - 'Lab6.md'
+    - 'Lab7.md'
+#
+#- 'Labs extras':
+#    - labs-extras/lab7.md
+#    - labs-extras/lab8.md
