@@ -1,0 +1,13 @@
+1) Sua primeira tarefa é explicar o motivo pelo qual a função getStatus está retornando zero. Tente solucionar
+o problema.
+
+    Tem um delay entre o Tx enviar a mensagem e o getStatus conseguir obter a quantidade bites a ser enviado.
+
+2) Na classe física no arquivo interfaceFisica há uma propriedade chamada self.baudrate que está definida
+como 115200. Se a alterar para 9600, qual deverá ser o efeito?
+
+    O efeito será a diminuição da velocidade (taxa de transmissão) do microprocessador.
+
+3) Você saberia explicar a diferença entre as funções getBuffer e getAllBuffer?
+
+    O getBuffer é somente para pegar uma faixa de bites e o getAllBuffer pega toda a informação da imagem
